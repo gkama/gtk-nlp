@@ -4,7 +4,7 @@ using System.Text;
 
 namespace nlp.services
 {
-    public interface INlpRepository
+    public interface INlpRepository<T>
     {
     }
 }

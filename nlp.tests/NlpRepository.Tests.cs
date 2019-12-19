@@ -15,11 +15,11 @@ namespace nlp.tests
 {
     public class NlpRepositoryTests
     {
-        private readonly ILogger<NlpRepository> _mockLogger;
+        private readonly ILogger<NlpRepository<Model>> _mockLogger;
 
         public NlpRepositoryTests()
         {
-            _mockLogger = Mock.Of<ILogger<NlpRepository>>();
+            _mockLogger = Mock.Of<ILogger<NlpRepository<Model>>>();
         }
     }
 }

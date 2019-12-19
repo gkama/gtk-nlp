@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
+using nlp.data;
 using nlp.services;
 
 namespace nlp.core.Controllers
@@ -14,9 +15,9 @@ namespace nlp.core.Controllers
     [Route("[controller]")]
     public class NlpController : ControllerBase
     {
-        private readonly INlpRepository _repo; 
+        private readonly INlpRepository<Model> _repo; 
 
-        public NlpController(INlpRepository repo)
+        public NlpController(INlpRepository<Model> repo)
         {
             _repo = repo;
         }
