@@ -6,13 +6,14 @@ namespace nlp.data
 {
     public class Model : IModel<Model>
     {
-        public string id { get; set; }
-        public string name { get; set; }
-        public string details { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Details { get; set; }
+        public Guid PublicKey => Guid.NewGuid();
 
         [JsonIgnore]
-        public IEnumerable<string> details_split => details?.Split('|');
+        public IEnumerable<string> DetailsSplit => Details?.Split('|');
 
-        public ICollection<Model> children { get; set; } = new List<Model>();
+        public ICollection<Model> Children { get; set; } = new List<Model>();
     }
 }

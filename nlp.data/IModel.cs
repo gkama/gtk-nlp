@@ -7,9 +7,10 @@ namespace nlp.data
     public interface IModel<T>
         where T : class
     {
-        string id { get; set; }
-        string name { get; set; }
-        string details { get; set; }
-        ICollection<T> children { get; set; }
+        string Id { get; set; }
+        string Name { get; set; }
+        string Details { get; set; }
+        public Guid PublicKey { get; }
+        ICollection<T> Children { get; set; }
     }
 }
