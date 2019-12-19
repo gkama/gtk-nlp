@@ -9,5 +9,7 @@ namespace nlp.data
     {
         public string[] StopWords { get; set; }
         public char[] Delimiters { get; set; }
+        public int? StopWordsLength { get; }
+        public Guid PublicKey { get; }
     }
 }

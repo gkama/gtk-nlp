@@ -11,5 +11,6 @@ namespace nlp.data
         public char[] Delimiters { get; set; }
 
         public int? StopWordsLength => StopWords?.Sum(x => x.Length);
+        public Guid PublicKey => Guid.NewGuid();
     }
 }
