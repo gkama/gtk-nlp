@@ -22,6 +22,13 @@ namespace nlp.core.Controllers
             _repo = repo;
         }
 
+        [HttpPost]
+        [Route("categorize")]
+        public JsonResult Categorize([FromBody]string Json)
+        {
+            return new JsonResult(_repo.Categorize());
+        }
+
         [HttpGet]
         public string Get()
         {

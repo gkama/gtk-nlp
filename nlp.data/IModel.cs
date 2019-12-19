@@ -5,7 +5,6 @@ using System.Text;
 namespace nlp.data
 {
     public interface IModel<T>
-        where T : class
     {
         string Id { get; set; }
         string Name { get; set; }
