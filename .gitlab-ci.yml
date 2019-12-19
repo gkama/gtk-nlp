@@ -8,7 +8,7 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
-  DOCKER_MAGE: gkama/gtk-survey:latest
+  DOCKER_MAGE: gkama/gtk-nlp:latest
 
 docker build and push:
   stage: docker build and push
