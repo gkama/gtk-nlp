@@ -2,7 +2,7 @@
 
 namespace nlp.data
 {
-    public class Class1
+    public class Model
     {
     }
 }
