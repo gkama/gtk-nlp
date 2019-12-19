@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 
 namespace nlp.data
 {
-    public class ModelSettings<T> : IModelSettings<T>
+    public interface IModelSettings<T>
         where T : class
     {
         public string[] StopWords { get; set; }
         public char[] Delimiters { get; set; }
-
-        public int? StopWordsLength => StopWords?.Sum(x => x.Length);
     }
 }
