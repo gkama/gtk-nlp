@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Text.Json;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +15,7 @@ namespace nlp.core.Controllers
     [Route("[controller]")]
     public class NlpController : ControllerBase
     {
-        private readonly INlpRepository<Model> _repo; 
+        private readonly INlpRepository<Model> _repo;
 
         public NlpController(INlpRepository<Model> repo)
         {
@@ -24,9 +24,9 @@ namespace nlp.core.Controllers
 
         [HttpPost]
         [Route("categorize")]
-        public JsonResult Categorize([FromBody]string Json)
+        public JsonResult Categorize([FromBody]dynamic Request)
         {
-            return new JsonResult(_repo.Categorize());
+            return new JsonResult(_repo.Parse(Request));
         }
 
         [HttpGet]

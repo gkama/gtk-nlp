@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Text.Json;
 
 using nlp.data;
 
@@ -9,5 +9,6 @@ namespace nlp.services
     public interface INlpRepository<T>
     {
         string Categorize();
+        object Parse(dynamic Request);
     }
 }

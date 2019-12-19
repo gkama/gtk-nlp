@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+using System.Linq;
 
 using Microsoft.Extensions.Logging;
 
@@ -19,6 +23,13 @@ namespace nlp.services
         public string Categorize()
         {
             return "";
+        }
+
+        public object Parse(dynamic Request)
+        {
+            var jsonElement = (JsonElement)Request;
+
+            return jsonElement;
         }
     }
 }
