@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Net;
 
 using Microsoft.Extensions.Logging;
 
@@ -17,7 +18,7 @@ namespace nlp.services
 
         public NlpRepository(ILogger<NlpRepository<T>> logger)
         {
-            _logger = logger;
+            _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
         }
 
         public string Categorize()

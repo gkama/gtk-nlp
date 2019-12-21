@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -19,7 +20,7 @@ namespace nlp.core.Controllers
 
         public NlpController(INlpRepository<Model> repo)
         {
-            _repo = repo;
+            _repo = repo ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(repo));
         }
 
         [HttpPost]

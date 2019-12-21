@@ -51,6 +51,8 @@ namespace nlp.core
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseNlpException();
+
             app.UseRouting();
 
             app.UseAuthorization();
