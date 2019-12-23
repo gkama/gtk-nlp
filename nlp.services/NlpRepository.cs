@@ -26,9 +26,7 @@ namespace nlp.services
         {
             if (Parse(Request))
             {
-                var d = ((JsonElement)Request)
-                  .GetProperty("details")
-                  .GetString();
+                Console.WriteLine("Passed");
             }
 
             return "";
@@ -36,22 +34,22 @@ namespace nlp.services
 
         public bool Parse(dynamic Request)
         {
-            var jsonRequest = (JsonElement)Request;
+            var jRequest = (JsonElement)Request;
             try
             {
-                var delimiter = jsonRequest.GetProperty("delimiter").GetString();
-                var details = jsonRequest.GetProperty("details").GetString();
-                var stopWords = jsonRequest.GetProperty("stopWords");
+                var model = jRequest.GetProperty("model").ToObject<Model>();
+                var delimiters = jRequest.GetProperty("delimiters").ToObject<string[]>();
+                var stopWords = jRequest.GetProperty("stopWords").ToObject<string[]>();
             }
             catch (KeyNotFoundException)
             {
                 throw new NlpException(HttpStatusCode.InternalServerError,
-                    $"`details`, `stopWords` and `delimiter` keys are required. please include them in your JSON payload");
+                    $"`model`, `stopWords` and `delimiter` keys are required. please include them in your JSON payload");
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new NlpException(HttpStatusCode.InternalServerError,
-                    $"couldn't parse the dynamic request");
+                    $"couldn't parse the dynamic request. error={e.Message}");
             }
 
             return true;
