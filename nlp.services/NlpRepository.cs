@@ -34,7 +34,7 @@ namespace nlp.services
             return "";
         }
 
-        private bool Parse(dynamic Request)
+        public bool Parse(dynamic Request)
         {
             var jsonRequest = (JsonElement)Request;
             try
