@@ -24,35 +24,64 @@ namespace nlp.services
 
         public string Categorize(dynamic Request)
         {
-            if (Parse(Request))
+            var model = Parse(Request);
+
+            if (model != null)
             {
-                Console.WriteLine("Passed");
+                return JsonSerializer.Serialize(model);
             }
 
-            return "";
+            return null;
         }
 
-        public bool Parse(dynamic Request)
+        public IModel<Model> Parse(dynamic Request)
         {
             var jRequest = (JsonElement)Request;
+
             try
             {
-                var model = jRequest.GetProperty("model").ToObject<Model>();
                 var delimiters = jRequest.GetProperty("delimiters").ToObject<string[]>();
                 var stopWords = jRequest.GetProperty("stopWords").ToObject<string[]>();
+
+                var model = new JsonElement();
+                var modelId = new JsonElement();
+                var modelName = new JsonElement();
+                var modelDetails = new JsonElement();
+
+                jRequest.TryGetProperty("model", out model);
+                jRequest.TryGetProperty("modelId", out modelId);
+                jRequest.TryGetProperty("modelName", out modelName);
+                jRequest.TryGetProperty("modelDetails", out modelDetails);
+
+                if (model.ValueKind != JsonValueKind.Undefined)
+                {
+                    return model.ToObject<Model>();
+                }
+                else if (modelId.ValueKind != JsonValueKind.Undefined
+                    && modelName.ValueKind != JsonValueKind.Undefined
+                    && modelDetails.ValueKind != JsonValueKind.Undefined)
+                {
+                    return new Model()
+                    {
+                        Id = modelId.GetString(),
+                        Name = modelName.GetString(),
+                        Details = modelDetails.GetString()
+                    };
+                }
+                else
+                    throw new NlpException(HttpStatusCode.BadRequest,
+                        $"not enough information given in the JSON payload");
             }
             catch (KeyNotFoundException)
             {
                 throw new NlpException(HttpStatusCode.InternalServerError,
-                    $"`model`, `stopWords` and `delimiter` keys are required. please include them in your JSON payload");
+                    $"``stopWords` and `delimiter` keys are required. please include them in your JSON payload");
             }
             catch (Exception e)
             {
                 throw new NlpException(HttpStatusCode.InternalServerError,
                     $"couldn't parse the dynamic request. error={e.Message}");
             }
-
-            return true;
         }
     }
 }
