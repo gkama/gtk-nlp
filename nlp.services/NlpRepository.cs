@@ -68,6 +68,11 @@ namespace nlp.services
                         Details = modelDetails.GetString()
                     };
                 }
+                else if (modelId.ValueKind != JsonValueKind.Undefined)
+                {
+                    //Find a Model from the static models
+                    return new Model();
+                }
                 else
                     throw new NlpException(HttpStatusCode.BadRequest,
                         $"not enough information given in the JSON payload");
