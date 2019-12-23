@@ -30,9 +30,6 @@ namespace nlp.services
         {
             var jsonElement = (JsonElement)Request;
 
-            if (jsonElement["details"].ToString() != "")
-                var details = jsonElement["details"]
-
             return jsonElement;
         }
     }
