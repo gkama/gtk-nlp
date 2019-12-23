@@ -27,7 +27,7 @@ namespace nlp.core.Controllers
         [Route("categorize")]
         public JsonResult Categorize([FromBody]dynamic Request)
         {
-            return new JsonResult(_repo.Categorize(Request));
+            return new JsonResult(_repo.Parse(Request));
         }
 
         [HttpGet]
