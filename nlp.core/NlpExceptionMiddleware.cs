@@ -48,7 +48,7 @@ namespace nlp.core
                     ? Guid.NewGuid().ToString()
                     : httpContext.TraceIdentifier;
 
-                _log.LogError(e, "an exception was thrown during the request. {exceptionId}", id);
+                _log.LogError(e, $"an exception was thrown during the request. {id}");
 
                 await WriteExceptionResponseAsync(httpContext, e, id);
             }
