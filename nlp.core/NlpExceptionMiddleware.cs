@@ -67,7 +67,7 @@ namespace nlp.core
                 Detail = canViewSensitiveInfo
                     ? e.Demystify().ToString()
                     : null,
-                Instance = $"survey:error:{id}"
+                Instance = $"nlp:error:{id}"
             };
 
             if (e is NlpException ne)
