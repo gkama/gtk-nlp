@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -29,6 +29,9 @@ namespace nlp.services
         public object Parse(dynamic Request)
         {
             var jsonElement = (JsonElement)Request;
+
+            if (jsonElement["details"].ToString() != "")
+                var details = jsonElement["details"]
 
             return jsonElement;
         }
