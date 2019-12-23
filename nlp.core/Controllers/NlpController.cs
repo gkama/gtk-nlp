@@ -29,11 +29,5 @@ namespace nlp.core.Controllers
         {
             return new JsonResult(_repo.Categorize(Request));
         }
-
-        [HttpGet]
-        public string Get()
-        {
-            return "here";
-        }
     }
 }
