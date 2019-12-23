@@ -55,10 +55,10 @@ namespace nlp.core
 
             app.UseNlpException();
 
+            app.UseHealthChecks("/ping");
+
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
