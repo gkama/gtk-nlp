@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Builder;
@@ -40,6 +41,7 @@ namespace nlp.core
                 {
                     o.JsonSerializerOptions.IgnoreNullValues = true;
                     o.JsonSerializerOptions.WriteIndented = true;
+                    o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 });
         }
 
