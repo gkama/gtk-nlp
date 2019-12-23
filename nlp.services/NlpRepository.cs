@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -21,16 +22,39 @@ namespace nlp.services
             _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
         }
 
-        public string Categorize()
+        public string Categorize(dynamic Request)
         {
+            if (Parse(Request))
+            {
+                var d = ((JsonElement)Request)
+                  .GetProperty("details")
+                  .GetString();
+            }
+
             return "";
         }
 
-        public object Parse(dynamic Request)
+        private bool Parse(dynamic Request)
         {
-            var jsonElement = (JsonElement)Request;
+            var jsonRequest = (JsonElement)Request;
+            try
+            {
+                var delimiter = jsonRequest.GetProperty("delimiter").GetString();
+                var details = jsonRequest.GetProperty("details").GetString();
+                var stopWords = jsonRequest.GetProperty("stopWords");               
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new NlpException(HttpStatusCode.InternalServerError,
+                    $"`details`, `stopWords` and `delimiter` keys are required. please include them in your JSON payload");
+            }
+            catch (Exception)
+            {
+                throw new NlpException(HttpStatusCode.InternalServerError,
+                    $"couldn't parse the dynamic request");
+            }
 
-            return jsonElement;
+            return true;         
         }
     }
 }

@@ -8,7 +8,6 @@ namespace nlp.services
 {
     public interface INlpRepository<T>
     {
-        string Categorize();
-        object Parse(dynamic Request);
+        string Categorize(dynamic Request);
     }
 }
