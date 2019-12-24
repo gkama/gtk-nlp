@@ -13,7 +13,7 @@ using nlp.data;
 namespace nlp.services
 {
     public class NlpRepository<T> : INlpRepository<T>
-        where T : IModel<T>
+        where T : IModel<T>, new()
     {
         private readonly ILogger<NlpRepository<T>> _logger;
 
@@ -34,7 +34,7 @@ namespace nlp.services
             return null;
         }
 
-        public IModelSettings<Model> Parse(dynamic Request)
+        public IModelSettings<T> Parse(dynamic Request)
         {
             var jRequest = (JsonElement)Request;
 
@@ -55,24 +55,24 @@ namespace nlp.services
 
                 if (model.ValueKind != JsonValueKind.Undefined)
                 {
-                    return new ModelSettings<Model>()
+                    return new ModelSettings<T>()
                     {
                         Id = Guid.NewGuid().ToString(),
                         StopWords = stopWords,
                         Delimiters = delimiters,
-                        Model = model.ToObject<Model>()
+                        Model = model.ToObject<T>()
                     };
                 }
                 else if (modelId.ValueKind != JsonValueKind.Undefined
                     && modelName.ValueKind != JsonValueKind.Undefined
                     && modelDetails.ValueKind != JsonValueKind.Undefined)
                 {
-                    return new ModelSettings<Model>()
+                    return new ModelSettings<T>()
                     {
                         Id = Guid.NewGuid().ToString(),
                         StopWords = stopWords,
                         Delimiters = delimiters,
-                        Model = new Model()
+                        Model = new T()
                         {
                             Id = modelId.GetString(),
                             Name = modelName.GetString(),
@@ -100,14 +100,14 @@ namespace nlp.services
             }
         }
 
-        public IEnumerable<IModelSettings<Model>> GetModels()
+        public IEnumerable<IModelSettings<T>> GetModels()
         {
-            return Models.All;
+            return null;//Models.All;
         }
-        public IModelSettings<Model> GetModel(string Id)
+        public IModelSettings<T> GetModel(string Id)
         {
-            return Models.All
-                .FirstOrDefault(x => x.Model.Id == Id);
+            return null; //Models.All
+                //.FirstOrDefault(x => x.Model.Id == Id);
         }
     }
 }
