@@ -101,6 +101,10 @@ namespace nlp.services
             }
         }
 
+        public IEnumerable<IModelSettings<Model>> GetModels()
+        {
+            return Models.All;
+        }
         public IModelSettings<Model> GetModel(string Id)
         {
             return Models.VanguardSettings;

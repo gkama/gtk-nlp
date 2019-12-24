@@ -31,7 +31,14 @@ namespace nlp.core.Controllers
         }
 
         [HttpGet]
-        [Route("get/{id}")]
+        [Route("models")]
+        public JsonResult GetModels()
+        {
+            return new JsonResult(_repo.GetModels());
+        }
+
+        [HttpGet]
+        [Route("model/{id}")]
         public JsonResult GetModel([FromRoute]string id)
         {
             return new JsonResult(_repo.GetModel(id));

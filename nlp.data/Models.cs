@@ -44,5 +44,10 @@ namespace nlp.data
                 },
                 Model = (Model)Vanguard
             };
+
+        public static IEnumerable<IModelSettings<Model>> All => new IModelSettings<Model>[]
+        {
+            VanguardSettings
+        };
     }
 }
