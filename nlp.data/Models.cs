@@ -25,7 +25,6 @@ namespace nlp.data
             new ModelSettings<Model>()
             {
                 Id = "007781f0-6094-413a-b776-64f6de77949c",
-                ModelId = "984ce69d-de79-478b-9223-ff6349514e19",
                 StopWords = new string[]
                 {
                     "ourselves", "hers", "between", "yourself", "but", "again", "there", "about", "once", "during",

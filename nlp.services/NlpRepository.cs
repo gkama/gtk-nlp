@@ -34,7 +34,7 @@ namespace nlp.services
             return null;
         }
 
-        public IModel<Model> Parse(dynamic Request)
+        public IModelSettings<Model> Parse(dynamic Request)
         {
             var jRequest = (JsonElement)Request;
 
@@ -55,27 +55,39 @@ namespace nlp.services
 
                 if (model.ValueKind != JsonValueKind.Undefined)
                 {
-                    return model.ToObject<Model>();
+                    return new ModelSettings<Model>()
+                    {
+                        Id = "1",
+                        StopWords = stopWords,
+                        Delimiters = delimiters,
+                        Model = model.ToObject<Model>()
+                    };
                 }
                 else if (modelId.ValueKind != JsonValueKind.Undefined
                     && modelName.ValueKind != JsonValueKind.Undefined
                     && modelDetails.ValueKind != JsonValueKind.Undefined)
                 {
-                    return new Model()
+                    return new ModelSettings<Model>()
                     {
-                        Id = modelId.GetString(),
-                        Name = modelName.GetString(),
-                        Details = modelDetails.GetString()
+                        Id = "1",
+                        StopWords = stopWords,
+                        Delimiters = delimiters,
+                        Model = new Model()
+                        {
+                            Id = modelId.GetString(),
+                            Name = modelName.GetString(),
+                            Details = modelDetails.GetString()
+                        }
                     };
                 }
                 else if (modelId.ValueKind != JsonValueKind.Undefined)
                 {
                     //Find a Model from the static models
-                    return new Model();
+                    return new ModelSettings<Model>();
                 }
                 else
                     throw new NlpException(HttpStatusCode.BadRequest,
-                        $"not enough information given in the JSON payload");
+                        $"not enough information given to parse the JSON payload");
             }
             catch (KeyNotFoundException)
             {
@@ -87,6 +99,11 @@ namespace nlp.services
                 throw new NlpException(HttpStatusCode.InternalServerError,
                     $"couldn't parse the dynamic request. error={e.Message}");
             }
+        }
+
+        public IModel<Model> GetModel(string Id)
+        {
+            return Models.Vanguard;
         }
     }
 }

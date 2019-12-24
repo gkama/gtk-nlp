@@ -9,6 +9,6 @@ namespace nlp.services
     public interface INlpRepository<T>
     {
         string Categorize(dynamic Request);
-        IModel<Model> Parse(dynamic Request);
+        IModelSettings<Model> Parse(dynamic Request);
     }
 }
