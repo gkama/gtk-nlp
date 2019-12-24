@@ -5,7 +5,7 @@ using System.Linq;
 namespace nlp.data
 {
     public class ModelSettings<T> : IModelSettings<T>
-        where T : class
+        where T : IModel<T>
     {
         public string Id { get; set; }
         public T Model { get; set; }     
