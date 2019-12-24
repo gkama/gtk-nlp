@@ -114,9 +114,12 @@ namespace nlp.services
         }
         public IModel<T> GetModel(string Id)
         {
-            return _models.All
-                .FirstOrDefault(x => x.Model.Id == Id)
-                .Model;
+            var modelSetting = _models.All
+                .FirstOrDefault(x => x.Id == Id);
+
+            if (modelSetting == null) return null;
+
+            return modelSetting.Model;
         }
         public IEnumerable<IModelSettings<T>> GetModelsSettings()
         {
