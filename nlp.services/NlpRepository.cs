@@ -16,10 +16,12 @@ namespace nlp.services
         where T : IModel<T>, new()
     {
         private readonly ILogger<NlpRepository<T>> _logger;
+        private readonly Models<T> _models;
 
-        public NlpRepository(ILogger<NlpRepository<T>> logger)
+        public NlpRepository(ILogger<NlpRepository<T>> logger, Models<T> models)
         {
             _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
+            _models = models ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(models));
         }
 
         public string Categorize(dynamic Request)
@@ -82,7 +84,7 @@ namespace nlp.services
                 }
                 else if (modelId.ValueKind != JsonValueKind.Undefined)
                 {
-                    return GetModel(modelId.GetString());
+                    return GetModelSettings(modelId.GetString());
                 }
                 else
                     throw new NlpException(HttpStatusCode.BadRequest,
@@ -100,14 +102,25 @@ namespace nlp.services
             }
         }
 
-        public IEnumerable<IModelSettings<T>> GetModels()
+        public IModel<T> GetModel(string Id)
         {
-            return null;//Models.All;
+            return _models.All
+                .FirstOrDefault(x => x.Model.Id == Id)
+                .Model;
         }
-        public IModelSettings<T> GetModel(string Id)
+        public IEnumerable<T> GetModels()
         {
-            return null; //Models.All
-                //.FirstOrDefault(x => x.Model.Id == Id);
+            return _models.All
+                .Select(x => x.Model);
+        }
+        public IEnumerable<IModelSettings<T>> GetModelsSettings()
+        {
+            return _models.All;
+        }
+        public IModelSettings<T> GetModelSettings(string Id)
+        {
+            return _models.All
+                .FirstOrDefault(x => x.Id == Id);
         }
     }
 }

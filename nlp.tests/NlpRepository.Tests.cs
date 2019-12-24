@@ -21,7 +21,7 @@ namespace nlp.tests
         public NlpRepositoryTests()
         {
             _mockLogger = Mock.Of<ILogger<NlpRepository<Model>>>();
-            _repo = new NlpRepository<Model>(_mockLogger);
+            _repo = new NlpRepository<Model>(_mockLogger, new Models<Model>());
         }
     }
 }

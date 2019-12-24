@@ -30,6 +30,7 @@ namespace nlp.core
         {
             //DI
             services.AddScoped<INlpRepository<Model>, NlpRepository<Model>>();
+            services.AddScoped<Models<Model>>();
 
             services.AddLogging();
             services.AddHealthChecks();

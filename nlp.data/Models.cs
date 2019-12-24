@@ -4,15 +4,16 @@ using System.Text;
 
 namespace nlp.data
 {
-    public static class Models
+    public class Models<T>
+        where T : IModel<T>, new()
     {
-        public static IModel<Model> Vanguard =>
-            new Model()
+        public T Vanguard =>
+            new T()
             {
                 Id = "984ce69d-de79-478b-9223-ff6349514e19",
                 Name = "Vanguard",
                 Children = {
-                    new Model()
+                    new T()
                     {
                         Id = "5ec6957d-4de7-4199-9373-d4a7fb59d6e1",
                         Name = "Index Funds",
@@ -21,8 +22,8 @@ namespace nlp.data
                 }
             };
 
-        public static IModelSettings<Model> VanguardSettings =>
-            new ModelSettings<Model>()
+        public IModelSettings<T> VanguardSettings =>
+            new ModelSettings<T>()
             {
                 Id = "007781f0-6094-413a-b776-64f6de77949c",
                 StopWords = new string[]
@@ -42,10 +43,10 @@ namespace nlp.data
                 {
                     " ", ",", ";", "!", "."
                 },
-                Model = (Model)Vanguard
+                Model = Vanguard
             };
 
-        public static IEnumerable<IModelSettings<Model>> All => new IModelSettings<Model>[]
+        public IEnumerable<IModelSettings<T>> All => new IModelSettings<T>[]
         {
             VanguardSettings
         };

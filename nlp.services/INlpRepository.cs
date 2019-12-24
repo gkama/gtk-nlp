@@ -10,7 +10,9 @@ namespace nlp.services
     {
         public string Categorize(dynamic Request);
         public IModelSettings<T> Parse(dynamic Request);
-        public IEnumerable<IModelSettings<T>> GetModels();
-        public IModelSettings<T> GetModel(string Id);
+        public IEnumerable<T> GetModels();
+        public IModel<T> GetModel(string Id);
+        public IEnumerable<IModelSettings<T>> GetModelsSettings();
+        public IModelSettings<T> GetModelSettings(string Id);
     }
 }
