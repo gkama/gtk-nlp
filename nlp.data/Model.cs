@@ -10,8 +10,6 @@ namespace nlp.data
         public string Name { get; set; }
         public string Details { get; set; }
         public Guid PublicKey => Guid.NewGuid();
-        [JsonIgnore]
-        public IEnumerable<string> DetailsSplit => Details?.Split('|');
         public ICollection<Model> Children { get; set; } = new List<Model>();
     }
 }

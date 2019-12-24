@@ -26,14 +26,16 @@ namespace nlp.services
 
         public string Categorize(dynamic Request)
         {
-            var m = Parse(Request);
+            var modelSettings = (IModelSettings<T>)Parse(Request);
+            var content = ((JsonElement)Request)
+                .GetProperty("content")
+                .GetString();
 
-            if (m != null)
-            {
-                return JsonSerializer.Serialize(m);
-            }
+            //TODO: chage model settings delimiters to char[]
+            var detailsSplit = modelSettings.Model.Details
+                .Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-            return null;
+            return JsonSerializer.Serialize(modelSettings);
         }
 
         public IModelSettings<T> Parse(dynamic Request)
