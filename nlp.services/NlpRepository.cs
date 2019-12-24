@@ -107,7 +107,8 @@ namespace nlp.services
         }
         public IModelSettings<Model> GetModel(string Id)
         {
-            return Models.VanguardSettings;
+            return Models.All
+                .FirstOrDefault(x => x.Model.Id == Id);
         }
     }
 }
