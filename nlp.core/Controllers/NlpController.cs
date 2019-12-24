@@ -25,37 +25,37 @@ namespace nlp.core.Controllers
 
         [HttpPost]
         [Route("categorize")]
-        public JsonResult Categorize([FromBody]dynamic Request)
+        public IActionResult Categorize([FromBody]dynamic Request)
         {
-            return new JsonResult(_repo.Categorize(Request));
+            return Ok(_repo.Categorize(Request));
         }
 
         [HttpGet]
         [Route("models")]
-        public JsonResult GetModels()
+        public IActionResult GetModels()
         {
-            return new JsonResult(_repo.GetModels());
+            return Ok(_repo.GetModels());
         }
 
         [HttpGet]
         [Route("model/{id}")]
-        public JsonResult GetModel([FromRoute]string id)
+        public IActionResult GetModel([FromRoute]string id)
         {
-            return new JsonResult(_repo.GetModel(id));
+            return Ok(_repo.GetModel(id));
         }
 
         [HttpGet]
         [Route("models/settings")]
-        public JsonResult GetModelsSettings()
+        public IActionResult GetModelsSettings()
         {
-            return new JsonResult(_repo.GetModelsSettings());
+            return Ok(_repo.GetModelsSettings());
         }
 
         [HttpGet]
         [Route("model/settings/{id}")]
-        public JsonResult GetModelSettings([FromRoute]string id)
+        public IActionResult GetModelSettings([FromRoute]string id)
         {
-            return new JsonResult(_repo.GetModelSettings(id));
+            return Ok(_repo.GetModelSettings(id));
         }
     }
 }
