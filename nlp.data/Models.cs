@@ -39,9 +39,9 @@ namespace nlp.data
                     "i", "after", "few", "whom", "t", "being", "if", "theirs", "my", "against", "a", "by", "doing", "it", "how",
                     "further", "was", "here", "than"
                 },
-                Delimiters = new string[]
+                Delimiters = new char[]
                 {
-                    " ", ",", ";", "!", "."
+                    ' ', ',', ';', '!', '.'
                 },
                 Model = Vanguard
             };

@@ -18,7 +18,7 @@ namespace nlp.data
         public int? StopWordsLength { get; }
 
         [JsonPropertyName("delimiters")]
-        public string[] Delimiters { get; set; }
+        public char[] Delimiters { get; set; }
 
         [JsonPropertyName("publickey")]
         public Guid PublicKey { get; }

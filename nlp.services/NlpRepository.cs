@@ -31,9 +31,8 @@ namespace nlp.services
                 .GetProperty("content")
                 .GetString();
 
-            //TODO: chage model settings delimiters to char[]
             var detailsSplit = modelSettings.Model.Details
-                .Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                ?.Split(modelSettings.Delimiters, StringSplitOptions.RemoveEmptyEntries);
 
             return JsonSerializer.Serialize(modelSettings);
         }
@@ -68,8 +67,8 @@ namespace nlp.services
                     {
                         Id = Guid.NewGuid().ToString(),
                         StopWords = stopWords,
-                        Delimiters = delimiters,
-                        Model = model.ToObject<T>()
+                        Delimiters = delimiters.Select(char.Parse).ToArray(),
+                        Model = model.ToObject<T>() //TODO: cast ToObject<T> fails
                     };
                 }
                 else if (modelId.ValueKind != JsonValueKind.Undefined
@@ -80,7 +79,7 @@ namespace nlp.services
                     {
                         Id = Guid.NewGuid().ToString(),
                         StopWords = stopWords,
-                        Delimiters = delimiters,
+                        Delimiters = delimiters.Select(char.Parse).ToArray(),
                         Model = new T()
                         {
                             Id = modelId.GetString(),
