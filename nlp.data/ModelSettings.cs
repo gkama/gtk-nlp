@@ -8,10 +8,10 @@ namespace nlp.data
         where T : class
     {
         public string Id { get; set; }
+        public T Model { get; set; }     
         public string[] StopWords { get; set; }
-        public string[] Delimiters { get; set; }
-        public T Model { get; set; }
         public int? StopWordsLength => StopWords?.Sum(x => x.Length);
+        public string[] Delimiters { get; set; }
         public Guid PublicKey => Guid.NewGuid();
     }
 }

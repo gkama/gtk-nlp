@@ -29,5 +29,12 @@ namespace nlp.core.Controllers
         {
             return new JsonResult(_repo.Categorize(Request));
         }
+
+        [HttpGet]
+        [Route("get/{id}")]
+        public JsonResult GetModel([FromRoute]string id)
+        {
+            return new JsonResult(_repo.GetModel(id));
+        }
     }
 }

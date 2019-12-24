@@ -41,7 +41,8 @@ namespace nlp.data
                 Delimiters = new string[]
                 {
                     " ", ",", ";", "!", "."
-                }
+                },
+                Model = (Model)Vanguard
             };
     }
 }

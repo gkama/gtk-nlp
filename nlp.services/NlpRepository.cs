@@ -57,7 +57,7 @@ namespace nlp.services
                 {
                     return new ModelSettings<Model>()
                     {
-                        Id = "1",
+                        Id = Guid.NewGuid().ToString(),
                         StopWords = stopWords,
                         Delimiters = delimiters,
                         Model = model.ToObject<Model>()
@@ -69,7 +69,7 @@ namespace nlp.services
                 {
                     return new ModelSettings<Model>()
                     {
-                        Id = "1",
+                        Id = Guid.NewGuid().ToString(),
                         StopWords = stopWords,
                         Delimiters = delimiters,
                         Model = new Model()
@@ -101,9 +101,9 @@ namespace nlp.services
             }
         }
 
-        public IModel<Model> GetModel(string Id)
+        public IModelSettings<Model> GetModel(string Id)
         {
-            return Models.Vanguard;
+            return Models.VanguardSettings;
         }
     }
 }
