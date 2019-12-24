@@ -26,11 +26,11 @@ namespace nlp.services
 
         public string Categorize(dynamic Request)
         {
-            var model = Parse(Request);
+            var m = Parse(Request);
 
-            if (model != null)
+            if (m != null)
             {
-                return JsonSerializer.Serialize(model);
+                return JsonSerializer.Serialize(m);
             }
 
             return null;
@@ -44,6 +44,11 @@ namespace nlp.services
             {
                 var delimiters = jRequest.GetProperty("delimiters").ToObject<string[]>();
                 var stopWords = jRequest.GetProperty("stopWords").ToObject<string[]>();
+                var content = jRequest.GetProperty("content").GetString();
+
+                if (content.Length > 10000)
+                    throw new NlpException(HttpStatusCode.BadRequest,
+                        $"'content' length={content.Length} is too big. it must be less than 10,000 characters");
 
                 var model = new JsonElement();
                 var modelId = new JsonElement();
@@ -93,7 +98,7 @@ namespace nlp.services
             catch (KeyNotFoundException)
             {
                 throw new NlpException(HttpStatusCode.InternalServerError,
-                    $"``stopWords` and `delimiter` keys are required. please include them in your JSON payload");
+                    $"'content', 'stopWords' and 'delimiters' keys are required. please include them in your JSON payload");
             }
             catch (Exception e)
             {
