@@ -82,8 +82,7 @@ namespace nlp.services
                 }
                 else if (modelId.ValueKind != JsonValueKind.Undefined)
                 {
-                    //Find a Model from the static models
-                    return new ModelSettings<Model>();
+                    return GetModel(modelId.GetString());
                 }
                 else
                     throw new NlpException(HttpStatusCode.BadRequest,
