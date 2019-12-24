@@ -10,6 +10,7 @@ namespace nlp.data
         public string ModelId { get; set; }
         public string[] StopWords { get; set; }
         public string[] Delimiters { get; set; }
+        public T Model { get; set; }
         public int? StopWordsLength { get; }
         public Guid PublicKey { get; }
     }
