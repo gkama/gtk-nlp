@@ -36,6 +36,7 @@ namespace nlp.core
 
             services.AddControllers();
             services.AddMvcCore()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddJsonOptions(o =>
                 {
                     o.JsonSerializerOptions.IgnoreNullValues = true;
