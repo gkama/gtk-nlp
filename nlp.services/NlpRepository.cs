@@ -102,16 +102,16 @@ namespace nlp.services
             }
         }
 
+        public IEnumerable<T> GetModels()
+        {
+            return _models.All
+                .Select(x => x.Model);
+        }
         public IModel<T> GetModel(string Id)
         {
             return _models.All
                 .FirstOrDefault(x => x.Model.Id == Id)
                 .Model;
-        }
-        public IEnumerable<T> GetModels()
-        {
-            return _models.All
-                .Select(x => x.Model);
         }
         public IEnumerable<IModelSettings<T>> GetModelsSettings()
         {

@@ -43,5 +43,19 @@ namespace nlp.core.Controllers
         {
             return new JsonResult(_repo.GetModel(id));
         }
+
+        [HttpGet]
+        [Route("models/settings")]
+        public JsonResult GetModelsSettings()
+        {
+            return new JsonResult(_repo.GetModelsSettings());
+        }
+
+        [HttpGet]
+        [Route("model/settings/{id}")]
+        public JsonResult GetModelSettings([FromRoute]string id)
+        {
+            return new JsonResult(_repo.GetModelSettings(id));
+        }
     }
 }
