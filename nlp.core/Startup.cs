@@ -29,7 +29,7 @@ namespace nlp.core
         public void ConfigureServices(IServiceCollection services)
         {
             //DI
-            services.AddScoped<INlpRepository<Model>, NlpRepository<Model>>();
+            services.AddScoped(typeof(INlpRepository<>), typeof(NlpRepository<>));
             services.AddScoped<Models<Model>>();
 
             services.AddLogging();

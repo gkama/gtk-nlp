@@ -116,7 +116,7 @@ namespace nlp.services
         public IModel<T> GetModel(string Id)
         {
             var modelSetting = _models.All
-                .FirstOrDefault(x => x.Id == Id);
+                .FirstOrDefault(x => x.Model.Id == Id);
 
             if (modelSetting == null) return null;
 
