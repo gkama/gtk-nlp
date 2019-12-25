@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Text.Json.Serialization;
 
 namespace nlp.data
 {
@@ -10,6 +10,7 @@ namespace nlp.data
         public string Name { get; set; }
         public string Details { get; set; }
         public string TestMethod => "Test";
+        [JsonIgnore] public string TestMethod2 => "Test 2";
         public Guid PublicKey => Guid.NewGuid();
         public ICollection<TestModel> Children { get; set; } = new List<TestModel>();
     }
