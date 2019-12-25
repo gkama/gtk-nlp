@@ -68,7 +68,13 @@ namespace nlp.services
                         Id = Guid.NewGuid().ToString(),
                         StopWords = stopWords,
                         Delimiters = delimiters.Select(char.Parse).ToArray(),
-                        Model = model.ToObject<T>() //TODO: cast ToObject<T> fails
+                        Model = new T()
+                        {
+                            Id = model.GetProperty("id").GetString(),
+                            Name = model.GetProperty("name").GetString(),
+                            Details = model.GetProperty("details").GetString(),
+                            Children = model.GetProperty("children").ToObject<List<T>>()
+                        }
                     };
                 }
                 else if (modelId.ValueKind != JsonValueKind.Undefined
