@@ -24,7 +24,7 @@ namespace nlp.services
             _models = models ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(models));
         }
 
-        public string Categorize(dynamic Request)
+        public object Categorize(dynamic Request)
         {
             var modelSettings = (IModelSettings<T>)Parse(Request);
             var content = ((JsonElement)Request)
@@ -34,7 +34,7 @@ namespace nlp.services
             var detailsSplit = modelSettings.Model.Details
                 ?.Split(modelSettings.Delimiters, StringSplitOptions.RemoveEmptyEntries);
 
-            return JsonSerializer.Serialize(modelSettings);
+            return modelSettings;
         }
 
         public IModelSettings<T> Parse(dynamic Request)
