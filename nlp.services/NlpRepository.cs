@@ -68,7 +68,7 @@ namespace nlp.services
                         Id = Guid.NewGuid().ToString(),
                         StopWords = stopWords,
                         Delimiters = delimiters.Select(char.Parse).ToArray(),
-                        Model = SerializeModel(model)
+                        Model = model.SerializeModel<T>()
                     };
                 }
                 else if (modelId.ValueKind != JsonValueKind.Undefined
@@ -106,43 +106,6 @@ namespace nlp.services
                 throw new NlpException(HttpStatusCode.InternalServerError,
                     $"couldn't parse the dynamic request. error={e.Message}");
             }
-        }
-
-        public T SerializeModel(JsonElement Model)
-        {
-            var model = new T()
-            {
-                Id = Model.GetProperty("id").GetString(),
-                Name = Model.GetProperty("name").GetString(),
-                Details = Model.GetProperty("details").GetString(),
-            };
-
-            var baseModelChildren = Model.GetProperty("children");
-            var childrenList = new List<JsonElement>();
-            for (int i = 0; i < baseModelChildren.GetArrayLength(); i++)
-                childrenList.Add(baseModelChildren[i]);
-
-            var stack = new Stack<JsonElement>(childrenList);
-            while (stack.Any())
-            {
-                var child = stack.Pop();
-
-                model.Children.Add(new T()
-                {
-                    Id = child.GetProperty("id").GetString(),
-                    Name = child.GetProperty("name").GetString(),
-                    Details = child.GetProperty("details").GetString(),
-                });
-
-                if (child.GetProperty("children").GetArrayLength() > 0)
-                {
-                    var childModels = child.GetProperty("children");
-                    for (int i = 0; i < childModels.GetArrayLength(); i++)
-                        stack.Push(childModels[i]);
-                }
-            }
-
-            return model;
         }
 
         public IEnumerable<T> GetModels()
