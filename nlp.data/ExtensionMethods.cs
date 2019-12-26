@@ -13,7 +13,7 @@ namespace nlp.data
             return JsonSerializer.Deserialize<T>(element.GetRawText());
         }
 
-        public static T SerializeModel<T>(this JsonElement Model) where T : IModel<T>, new()
+        public static T ToModel<T>(this JsonElement Model) where T : IModel<T>, new()
         {
             var model = new T()
             {

@@ -21,14 +21,19 @@ namespace nlp.tests
 
         }
 
-        [Fact]
-        public void ToObjectT_Valid()
+        [Theory]
+        [InlineData("1")]
+        [InlineData("2")]
+        [InlineData("3")]
+        [InlineData("4")]
+        [InlineData("5")]
+        public void ToObjectT_Valid(string id)
         {
-            var jsonStr = "{ \"id\": \"1\", \"name\": \"test\", \"details\": \"test,1,2,3\", \"children\": [] }";
+            var jsonStr = "{ \"id\": \"{id}\", \"name\": \"test\", \"details\": \"test,1,2,3\", \"children\": [] }".Replace("{id}", id);
             var json = JsonDocument.Parse(jsonStr).RootElement;
 
             //Asserts
-            Assert.NotNull(json.ToObject<Model>());
+            Assert.True(json.ToModel<Model>().Id == id);
         }
     }
 }

@@ -68,7 +68,7 @@ namespace nlp.services
                         Id = Guid.NewGuid().ToString(),
                         StopWords = stopWords,
                         Delimiters = delimiters.Select(char.Parse).ToArray(),
-                        Model = model.SerializeModel<T>()
+                        Model = model.ToModel<T>()
                     };
                 }
                 else if (modelId.ValueKind != JsonValueKind.Undefined
