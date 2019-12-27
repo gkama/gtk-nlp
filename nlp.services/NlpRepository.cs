@@ -31,6 +31,11 @@ namespace nlp.services
                 .GetProperty("content")
                 .GetString();
 
+            if (content.Length > modelSettings.StopWordsLength)
+                Console.WriteLine("tokenize");
+            else
+                Console.WriteLine("don't tokenize");
+
             var detailsSplit = modelSettings.Model.Details
                 ?.Split(modelSettings.Delimiters, StringSplitOptions.RemoveEmptyEntries);
 
