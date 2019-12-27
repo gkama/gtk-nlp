@@ -27,13 +27,26 @@ namespace nlp.tests
         [InlineData("3")]
         [InlineData("4")]
         [InlineData("5")]
+        public void ToObjectT_Valid(string id)
+        {
+            var jsonStr = "{ \"id\": \"{id}\" }".Replace("{id}", id);
+            var json = JsonDocument.Parse(jsonStr).RootElement;
+
+            Assert.Equal(id, json.GetProperty("id").ToObject<string>());
+        }
+
+        [Theory]
+        [InlineData("1")]
+        [InlineData("2")]
+        [InlineData("3")]
+        [InlineData("4")]
+        [InlineData("5")]
         public void ToModelT_Valid(string id)
         {
             var jsonStr = "{ \"id\": \"{id}\", \"name\": \"test\", \"details\": \"test,1,2,3\", \"children\": [] }".Replace("{id}", id);
             var json = JsonDocument.Parse(jsonStr).RootElement;
 
-            //Asserts
-            Assert.True(json.ToModel<Model>().Id == id);
+            Assert.Equal(id, json.ToModel<Model>().Id);
         }
     }
 }
