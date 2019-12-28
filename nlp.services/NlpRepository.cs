@@ -118,10 +118,7 @@ namespace nlp.services
             if (string.IsNullOrWhiteSpace(Content)) return Enumerable.Empty<string>();
 
             var delimiters = Settings.Delimiters
-                .ToList();
-
-            if (!delimiters.Contains(' '))
-                delimiters.Add(' ');
+                .Union(_models.DefaultDelimiters);
 
             var words = Content.Split(delimiters.ToArray(),  
                 StringSplitOptions.RemoveEmptyEntries)
