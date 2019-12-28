@@ -46,6 +46,12 @@ namespace nlp.data
                 Model = Vanguard
             };
 
+        public char[] DefaultDelimiters =>
+            new char[]
+            {
+                ' ', ',', ';', '?', '!', '.', '`', '-', '(', ')', '[', ']', '|'
+            };
+
         public IEnumerable<IModelSettings<T>> All => new IModelSettings<T>[]
         {
             VanguardSettings
