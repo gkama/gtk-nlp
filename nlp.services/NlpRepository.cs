@@ -32,12 +32,12 @@ namespace nlp.services
                 .GetString();
 
             if (content.Length > modelSettings.StopWordsLength)
+            {
                 Console.WriteLine("tokenize");
+                return Tokenize(content, modelSettings);
+            }
             else
                 Console.WriteLine("don't tokenize");
-
-            var detailsSplit = modelSettings.Model.Details
-                ?.Split(modelSettings.Delimiters, StringSplitOptions.RemoveEmptyEntries);
 
             return modelSettings;
         }
@@ -111,6 +111,33 @@ namespace nlp.services
                 throw new NlpException(HttpStatusCode.InternalServerError,
                     $"couldn't parse the dynamic request. error={e.Message}");
             }
+        }
+
+        public IEnumerable<string> Tokenize(string Content, IModelSettings<T> Settings)
+        {
+            if (string.IsNullOrWhiteSpace(Content)) return Enumerable.Empty<string>();
+
+            var delimiters = Settings.Delimiters
+                .ToList();
+
+            if (!delimiters.Contains(' '))
+                delimiters.Add(' ');
+
+            var words = Content.Split(delimiters.ToArray(),  
+                StringSplitOptions.RemoveEmptyEntries)
+                .ToList();
+
+            var found = new List<string>();
+
+            words.ForEach(x =>
+            {
+                var xLower = x.ToLower();
+
+                if (!Settings.StopWords.Contains(xLower))
+                    found.Add(x);
+            });
+
+            return found.AsEnumerable();
         }
 
         public IEnumerable<T> GetModels()
