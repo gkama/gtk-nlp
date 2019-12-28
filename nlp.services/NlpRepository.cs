@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 
@@ -17,6 +16,8 @@ namespace nlp.services
     {
         private readonly ILogger<NlpRepository<T>> _logger;
         private readonly Models<T> _models;
+
+        public ICollection<object> _categories { get; set; } = new List<object>();
 
         public NlpRepository(ILogger<NlpRepository<T>> logger, Models<T> models)
         {
@@ -33,8 +34,35 @@ namespace nlp.services
 
             if (content.Length > modelSettings.StopWordsLength)
             {
-                Console.WriteLine("tokenize");
-                return Tokenize(content, modelSettings);
+                //Create the stack of model's details
+                var models = new Stack<T>(new List<T>() { modelSettings.Model });
+                var delimiters = modelSettings.Delimiters
+                    .Union(_models.DefaultDelimiters)
+                    .ToArray();
+                var sw = new Stopwatch();
+
+                sw.Start();
+                while (models.Any())
+                {
+                    var model = models.Pop() as IModel<T>;
+
+                    Tokenize(content, modelSettings)
+                        .ToList()
+                        .ForEach(x =>
+                        {
+                            BinarySearchDetails(x, delimiters, model);
+                        });
+
+                    if (model.Children.Any())
+                        model.Children.ToList().ForEach(x =>
+                        {
+                            models.Push(x);
+                        });
+                }
+                sw.Stop();
+                _logger.LogInformation($"categorization algorithm took {sw.Elapsed.TotalMilliseconds * 1000} (microseconds)");
+
+                return _categories;
             }
             else
                 Console.WriteLine("don't tokenize");
@@ -118,9 +146,10 @@ namespace nlp.services
             if (string.IsNullOrWhiteSpace(Content)) return Enumerable.Empty<string>();
 
             var delimiters = Settings.Delimiters
-                .Union(_models.DefaultDelimiters);
+                .Union(_models.DefaultDelimiters)
+                .ToArray();
 
-            var words = Content.Split(delimiters.ToArray(),  
+            var words = Content.Split(delimiters,
                 StringSplitOptions.RemoveEmptyEntries)
                 .ToList();
 
@@ -135,6 +164,34 @@ namespace nlp.services
             });
 
             return found.AsEnumerable();
+        }
+
+        private void BinarySearchDetails(string Value, char[] Delimiters, IModel<T> Model)
+        {
+            var low = 0;
+            var mid = 0;
+            var detailsArray = Model.Details.Split(Delimiters) as string[];
+            Array.Sort(detailsArray);
+            var high = detailsArray.Count() - 1;
+
+            while (low <= high)
+            {
+                mid = (low + high) / 2;
+
+                if (string.Compare(Value, detailsArray[mid], StringComparison.OrdinalIgnoreCase) < 0)
+                    high = mid - 1;
+                else if (string.Compare(Value, detailsArray[mid], StringComparison.OrdinalIgnoreCase) > 0)
+                    low = mid + 1;
+                else
+                {
+                    _categories.Add(new
+                    {
+                        name = Model.Name,
+                        value = Value
+                    });
+                    break;
+                }
+            }
         }
 
         public IEnumerable<T> GetModels()
