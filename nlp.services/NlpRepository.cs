@@ -42,29 +42,33 @@ namespace nlp.services
             while (models.Any())
             {
                 var model = models.Pop() as IModel<T>;
-                var detailsArray = model.Details.Split(delimiters);
+                var detailsArray = model.Details?.Split(delimiters);
 
-                Tokenize(content, modelSettings)
-                    .ToList()
-                    .ForEach(x =>
-                    {
-                        BinarySearchDetails(x, detailsArray, delimiters, model);
-                    });
+                if (detailsArray != null)
+                {
+                    Tokenize(content, delimiters, modelSettings.StopWords)
+                        .ToList()
+                        .ForEach(x =>
+                        {
+                            BinarySearchDetails(x, detailsArray, delimiters, model);
+                        });
 
-                detailsArray
-                    .Where(x => x.Contains(' '))
-                    .ToList()
-                    .ForEach(x =>
-                    {
-                        if (content.Contains(x))
-                            _categories.AddCategory(model.Name, x);
-                    });
+                    detailsArray.Where(x => x.Contains(' '))
+                        .ToList()
+                        .ForEach(x =>
+                        {
+                            if (content.Contains(x))
+                                _categories.AddCategory(model.Name, x);
+                        });
+                }
 
                 if (model.Children.Any())
-                    model.Children.ToList().ForEach(x =>
-                    {
-                        models.Push(x);
-                    });
+                    model.Children
+                        .ToList()
+                        .ForEach(x =>
+                        {
+                            models.Push(x);
+                        });
             }
             sw.Stop();
             _logger.LogInformation($"categorization algorithm took {sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
@@ -143,15 +147,11 @@ namespace nlp.services
             }
         }
 
-        public IEnumerable<string> Tokenize(string Content, IModelSettings<T> Settings)
+        public IEnumerable<string> Tokenize(string Content, char[] Delimiters, string[] StopWords)
         {
             if (string.IsNullOrWhiteSpace(Content)) return Enumerable.Empty<string>();
 
-            var delimiters = Settings.Delimiters
-                .Union(_models.DefaultDelimiters)
-                .ToArray();
-
-            var words = Content.Split(delimiters,
+            var words = Content.Split(Delimiters,
                 StringSplitOptions.RemoveEmptyEntries)
                 .ToList();
 
@@ -159,9 +159,7 @@ namespace nlp.services
 
             words.ForEach(x =>
             {
-                var xLower = x.ToLower();
-
-                if (!Settings.StopWords.Contains(xLower))
+                if (!StopWords.Contains(x.ToLower()))
                     found.Add(x);
             });
 
