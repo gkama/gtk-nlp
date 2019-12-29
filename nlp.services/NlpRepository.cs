@@ -17,7 +17,7 @@ namespace nlp.services
         private readonly ILogger<NlpRepository<T>> _logger;
         private readonly Models<T> _models;
 
-        public ICollection<object> _categories { get; set; } = new List<object>();
+        public ICollection<ICategory> _categories { get; set; } = new List<ICategory>();
 
         public NlpRepository(ILogger<NlpRepository<T>> logger, Models<T> models)
         {
@@ -59,11 +59,7 @@ namespace nlp.services
                         .ForEach(x =>
                         {
                             if (content.Contains(x))
-                                _categories.Add(new
-                                {
-                                    name = model.Name,
-                                    value = x
-                                });
+                                _categories.AddCategory(model.Name, x);
                         });
 
                     if (model.Children.Any())
@@ -196,11 +192,7 @@ namespace nlp.services
                     low = mid + 1;
                 else
                 {
-                    _categories.Add(new
-                    {
-                        name = Model.Name,
-                        value = Value
-                    });
+                    _categories.AddCategory(Model.Name, Value);
                     break;
                 }
             }
