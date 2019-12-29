@@ -8,17 +8,17 @@ namespace nlp.data
 {
     public static class ExtensionMethods
     {
+        /// <summary>
+        /// Converts a <see cref="JsonElement"/> object to <see cref="{T}"/>
+        /// </summary>
         public static T ToObject<T>(this JsonElement element)
         {
             return JsonSerializer.Deserialize<T>(element.GetRawText());
         }
 
         /// <summary>
-        /// 
+        /// Converts a <see cref="JsonElement"/> object to <see cref="IModel{T}"/>
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Model"></param>
-        /// <returns></returns>
         public static T ToModel<T>(this JsonElement Model)
             where T : IModel<T>, new()
         {
