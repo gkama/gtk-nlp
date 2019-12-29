@@ -8,7 +8,7 @@ namespace nlp.services
 {
     public interface INlpRepository<T>
     {
-        public object Categorize(dynamic Request);
+        public ICollection<ICategory> Categorize(dynamic Request);
         public IModelSettings<T> Parse(dynamic Request);
         public IEnumerable<T> GetModels();
         public IModel<T> GetModel(string Id);

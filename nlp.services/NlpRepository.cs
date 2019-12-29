@@ -25,58 +25,51 @@ namespace nlp.services
             _models = models ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(models));
         }
 
-        public object Categorize(dynamic Request)
+        public ICollection<ICategory> Categorize(dynamic Request)
         {
             var modelSettings = (IModelSettings<T>)Parse(Request);
             var content = ((JsonElement)Request)
                 .GetProperty("content")
                 .GetString();
 
-            if (content.Length > modelSettings.StopWordsLength)
+            var models = new Stack<T>(new List<T>() { modelSettings.Model });
+            var delimiters = modelSettings.Delimiters
+                .Union(_models.DefaultDelimiters)
+                .ToArray();
+            var sw = new Stopwatch();
+
+            sw.Start();
+            while (models.Any())
             {
-                var models = new Stack<T>(new List<T>() { modelSettings.Model });
-                var delimiters = modelSettings.Delimiters
-                    .Union(_models.DefaultDelimiters)
-                    .ToArray();
-                var sw = new Stopwatch();
+                var model = models.Pop() as IModel<T>;
+                var detailsArray = model.Details.Split(delimiters);
 
-                sw.Start();
-                while (models.Any())
-                {
-                    var model = models.Pop() as IModel<T>;
-                    var detailsArray = model.Details.Split(delimiters);
+                Tokenize(content, modelSettings)
+                    .ToList()
+                    .ForEach(x =>
+                    {
+                        BinarySearchDetails(x, detailsArray, delimiters, model);
+                    });
 
-                    Tokenize(content, modelSettings)
-                        .ToList()
-                        .ForEach(x =>
-                        {
-                            BinarySearchDetails(x, detailsArray, delimiters, model);
-                        });
-               
-                    detailsArray
-                        .Where(x => x.Contains(' '))
-                        .ToList()
-                        .ForEach(x =>
-                        {
-                            if (content.Contains(x))
-                                _categories.AddCategory(model.Name, x);
-                        });
+                detailsArray
+                    .Where(x => x.Contains(' '))
+                    .ToList()
+                    .ForEach(x =>
+                    {
+                        if (content.Contains(x))
+                            _categories.AddCategory(model.Name, x);
+                    });
 
-                    if (model.Children.Any())
-                        model.Children.ToList().ForEach(x =>
-                        {
-                            models.Push(x);
-                        });
-                }
-                sw.Stop();
-                _logger.LogInformation($"categorization algorithm took {sw.Elapsed.TotalMilliseconds * 1000} (microseconds)");
-
-                return _categories;
+                if (model.Children.Any())
+                    model.Children.ToList().ForEach(x =>
+                    {
+                        models.Push(x);
+                    });
             }
-            else
-                Console.WriteLine("don't tokenize");
+            sw.Stop();
+            _logger.LogInformation($"categorization algorithm took {sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
 
-            return modelSettings;
+            return _categories;
         }
 
         public IModelSettings<T> Parse(dynamic Request)
