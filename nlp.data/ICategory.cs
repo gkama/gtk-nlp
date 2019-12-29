@@ -6,7 +6,7 @@ namespace nlp.data
 {
     public interface ICategory
     {
-        public string Mame { get; set; }
+        public string Name { get; set; }
         public int TotalWeight { get; }
         public ICollection<IMatched> Matched { get; set; }
     }
