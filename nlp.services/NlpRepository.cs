@@ -44,18 +44,15 @@ namespace nlp.services
                 while (models.Any())
                 {
                     var model = models.Pop() as IModel<T>;
+                    var detailsArray = model.Details.Split(delimiters);
 
                     Tokenize(content, modelSettings)
                         .ToList()
                         .ForEach(x =>
                         {
-                            BinarySearchDetails(x, delimiters, model);
+                            BinarySearchDetails(x, detailsArray, delimiters, model);
                         });
-
-                    //categorization of phrases
-                    //grab all details that contain spaces and add it to the categories
-                    var detailsArray = model.Details.Split(delimiters)
-                        .ToList();
+               
                     detailsArray
                         .Where(x => x.Contains(' '))
                         .ToList()
@@ -182,21 +179,20 @@ namespace nlp.services
             return found.AsEnumerable();
         }
 
-        private void BinarySearchDetails(string Value, char[] Delimiters, IModel<T> Model)
+        private void BinarySearchDetails(string Value, string[] DetailsArray, char[] Delimiters, IModel<T> Model)
         {
             var low = 0;
             var mid = 0;
-            var detailsArray = Model.Details.Split(Delimiters) as string[];
-            Array.Sort(detailsArray);
-            var high = detailsArray.Count() - 1;
+            //Array.Sort(DetailsArray);
+            var high = DetailsArray.Count() - 1;
 
             while (low <= high)
             {
                 mid = (low + high) / 2;
 
-                if (string.Compare(Value, detailsArray[mid], StringComparison.OrdinalIgnoreCase) < 0)
+                if (string.Compare(Value, DetailsArray[mid], StringComparison.OrdinalIgnoreCase) < 0)
                     high = mid - 1;
-                else if (string.Compare(Value, detailsArray[mid], StringComparison.OrdinalIgnoreCase) > 0)
+                else if (string.Compare(Value, DetailsArray[mid], StringComparison.OrdinalIgnoreCase) > 0)
                     low = mid + 1;
                 else
                 {
