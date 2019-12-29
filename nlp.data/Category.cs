@@ -15,6 +15,6 @@ namespace nlp.data
     public class Matched : IMatched
     {
         public string Value { get; set; }
-        public int Weight { get; set; } = 0;
+        public int Weight { get; set; } = 1;
     }
 }

@@ -13,6 +13,12 @@ namespace nlp.data
             return JsonSerializer.Deserialize<T>(element.GetRawText());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Model"></param>
+        /// <returns></returns>
         public static T ToModel<T>(this JsonElement Model)
             where T : IModel<T>, new()
         {
@@ -74,19 +80,21 @@ namespace nlp.data
                 && category.Matched
                     .Any(x => string.Compare(x.Value, Value, StringComparison.OrdinalIgnoreCase) != 0))
             {
-                var newMatched = new Matched() { Value = Value };
-
-                newMatched.Weight++;
                 category.Matched
-                    .Add(newMatched);
+                    .Add(new Matched()
+                    {
+                        Value = Value
+                    });
             }
             else
             {
                 var newCategory = new Category() { Name = ModelName };
-                var newMatched = new Matched() { Value = Value };
 
-                newMatched.Weight++;
-                newCategory.Matched.Add(newMatched);
+                newCategory.Matched
+                    .Add(new Matched()
+                    {
+                        Value = Value
+                    });
 
                 Categories.Add(newCategory);
             }
