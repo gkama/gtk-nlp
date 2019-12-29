@@ -25,7 +25,7 @@ namespace nlp.services
             _models = models ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(models));
         }
 
-        public ICollection<ICategory> Categorize(dynamic Request)
+        public IEnumerable<ICategory> Categorize(dynamic Request)
         {
             var modelSettings = (IModelSettings<T>)Parse(Request);
             var content = ((JsonElement)Request)
