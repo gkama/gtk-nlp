@@ -127,10 +127,6 @@ namespace nlp.services
                         }
                     };
                 }
-                else if (modelId.ValueKind != JsonValueKind.Undefined)
-                {
-                    return GetModelSettings(modelId.GetString());
-                }
                 else
                     throw new NlpException(HttpStatusCode.BadRequest,
                         $"not enough information given to parse the JSON payload");
