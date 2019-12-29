@@ -208,5 +208,10 @@ namespace nlp.services
             return _models.All
                 .FirstOrDefault(x => x.Id == Id);
         }
+        public IModelSettings<T> GetModelSettingsByModelId(string Id)
+        {
+            return _models.All
+                .FirstOrDefault(x => x.Model.Id == Id);
+        }
     }
 }
