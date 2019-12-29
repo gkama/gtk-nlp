@@ -50,5 +50,46 @@ namespace nlp.data
 
             return model;
         }
+
+        /// <summary>
+        /// If a <see cref="ICategory"/> exists in the <paramref name="Categories"/> then it either adds the <paramref name="Value"/>
+        /// to the <see cref="ICategory.Matched"/> list of it updates the <see cref="IMatched.Weight"/> and <seealso cref="ICategory.TotalWeight"/> accordingly.
+        /// If a <see cref="ICategory"/> doesn't exist, then it simply adds it to the list. The majority of the work is done if a <see cref="ICategory"/>
+        /// already exists and it needs to be updated accordingly
+        /// </summary>
+        public static void AddCategory(this ICollection<ICategory> Categories, string ModelName, string Value)
+        {
+            var category = Categories
+                .FirstOrDefault(x => x.Name == ModelName);
+
+            if (category != null
+                && category.Matched
+                    .Any(x => string.Compare(x.Value, Value, StringComparison.OrdinalIgnoreCase) == 0))
+            {
+                category.Matched
+                    .FirstOrDefault(x => string.Compare(x.Value, Value, StringComparison.OrdinalIgnoreCase) == 0)
+                    .Weight++;
+            }
+            else if (category != null
+                && category.Matched
+                    .Any(x => string.Compare(x.Value, Value, StringComparison.OrdinalIgnoreCase) != 0))
+            {
+                var newMatched = new Matched() { Value = Value };
+
+                newMatched.Weight++;
+                category.Matched
+                    .Add(newMatched);
+            }
+            else
+            {
+                var newCategory = new Category() { Name = ModelName };
+                var newMatched = new Matched() { Value = Value };
+
+                newMatched.Weight++;
+                newCategory.Matched.Add(newMatched);
+
+                Categories.Add(newCategory);
+            }
+        }
     }
 }
