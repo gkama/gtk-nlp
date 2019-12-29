@@ -34,7 +34,6 @@ namespace nlp.services
 
             if (content.Length > modelSettings.StopWordsLength)
             {
-                //Create the stack of model's details
                 var models = new Stack<T>(new List<T>() { modelSettings.Model });
                 var delimiters = modelSettings.Delimiters
                     .Union(_models.DefaultDelimiters)
@@ -51,6 +50,23 @@ namespace nlp.services
                         .ForEach(x =>
                         {
                             BinarySearchDetails(x, delimiters, model);
+                        });
+
+                    //categorization of phrases
+                    //grab all details that contain spaces and add it to the categories
+                    var detailsArray = model.Details.Split(delimiters)
+                        .ToList();
+                    detailsArray
+                        .Where(x => x.Contains(' '))
+                        .ToList()
+                        .ForEach(x =>
+                        {
+                            if (content.Contains(x))
+                                _categories.Add(new
+                                {
+                                    name = model.Name,
+                                    value = x
+                                });
                         });
 
                     if (model.Children.Any())
