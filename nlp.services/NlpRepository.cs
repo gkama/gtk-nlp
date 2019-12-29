@@ -183,7 +183,7 @@ namespace nlp.services
         {
             var low = 0;
             var mid = 0;
-            //Array.Sort(DetailsArray);
+            DetailsArray.OrderBy(x => x);
             var high = DetailsArray.Count() - 1;
 
             while (low <= high)
