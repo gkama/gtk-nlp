@@ -29,12 +29,15 @@ namespace nlp.data
 
             Text.ToList().ForEach(x =>
             {
-                if (x.EndsWith("ed"))
+                if (x.EndsWith("'"))
+                    TextToReturn.Add(x.RemoveLast(1));
+                else if (x.EndsWith("ed")
+                    || x.EndsWith("ly")
+                    || x.EndsWith("'s"))
                     TextToReturn.Add(x.RemoveLast(2));
-                else if (x.EndsWith("ing"))
+                else if (x.EndsWith("ing")
+                    || x.EndsWith("'s'"))
                     TextToReturn.Add(x.RemoveLast(3));
-                else if (x.EndsWith("ly"))
-                    TextToReturn.Add(x.RemoveLast(2));
                 else
                     TextToReturn.Add(x);
             });
@@ -46,5 +49,44 @@ namespace nlp.data
         {
             return Str.Remove(Str.Length - Characters);
         }
+
+
+        public static string[] Vowels =>
+            new string[]
+            {
+                "a",
+                "e",
+                "i",
+                "o",
+                "u",
+                "y"
+            };
+        public static string[] DoubleConsonants =>
+            new string[]
+            {
+                "bb",
+                "dd",
+                "ff",
+                "gg",
+                "mm",
+                "nn",
+                "pp",
+                "rr",
+                "tt"
+            };
+        public static string[] LiEnding =>
+            new string[]
+            {
+                "c",
+                "d",
+                "e",
+                "g",
+                "h",
+                "k",
+                "m",
+                "n",
+                "r",
+                "t"
+            };
     }
 }
