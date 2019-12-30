@@ -42,7 +42,8 @@ namespace nlp.services
             while (models.Any())
             {
                 var model = models.Pop() as IModel<T>;
-                var detailsArray = model.Details?.Split(delimiters);
+                var detailsArray = model.Details
+                    ?.Split(delimiters);
 
                 if (detailsArray != null)
                 {
