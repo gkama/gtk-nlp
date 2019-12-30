@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Extensions.Logging;
@@ -22,8 +23,12 @@ namespace nlp.services
 
         public object Mine(string Content)
         {
+            var sw = new Stopwatch();
             var wordCount = new Dictionary<string, int>();
+
+            sw.Start();
             Content.Split(_models.DefaultDelimiters)
+                .Where(x => !_models.DetaulfStopWords.Contains(x))
                 .ToList()
                 .ForEach(x =>
                 {
@@ -32,6 +37,9 @@ namespace nlp.services
                     else if (wordCount.ContainsKey(x))
                         wordCount[x]++;
                 });
+            sw.Stop();
+
+            _logger.LogInformation($"text mining algorithm took {sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
 
             return wordCount;
         }

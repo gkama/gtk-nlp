@@ -51,6 +51,11 @@ namespace nlp.data
             {
                 ' ', ',', ';', '?', '!', '.', '`', '-', '(', ')', '[', ']', '|'
             };
+        public string[] DetaulfStopWords =>
+            new string[]
+            {
+                "the", "a", "and", "i", "am"
+            };
 
         public IEnumerable<IModelSettings<T>> All => new IModelSettings<T>[]
         {
