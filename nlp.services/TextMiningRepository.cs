@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 using Microsoft.Extensions.Logging;
 
@@ -18,6 +18,22 @@ namespace nlp.services
         {
             _logger = logger;
             _models = models;
+        }
+
+        public object Mine(string Content)
+        {
+            var wordCount = new Dictionary<string, int>();
+            Content.Split(_models.DefaultDelimiters)
+                .ToList()
+                .ForEach(x =>
+                {
+                    if (!wordCount.ContainsKey(x))
+                        wordCount.Add(x, 1);
+                    else if (wordCount.ContainsKey(x))
+                        wordCount[x]++;
+                });
+
+            return wordCount;
         }
     }
 }
