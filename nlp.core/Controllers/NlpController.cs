@@ -25,16 +25,16 @@ namespace nlp.core.Controllers
 
         [HttpPost]
         [Route("categorize")]
-        public IActionResult Categorize([FromBody]dynamic Request)
+        public IActionResult Categorize([FromBody]dynamic request)
         {
-            return Ok(_repo.Categorize(Request));
+            return Ok(_repo.Categorize(request));
         }
 
         [HttpPost]
         [Route("categorize/{id}")]
-        public IActionResult CategorizeWithModelId([FromRoute]string id, [FromBody]dynamic Request)
+        public IActionResult CategorizeWithModelId([FromRoute]string id, [FromBody]dynamic request)
         {
-            return Ok("here");
+            return Ok(_repo.Categorize(request, id));
         }
 
         [HttpGet]

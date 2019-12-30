@@ -25,9 +25,9 @@ namespace nlp.services
             _models = models ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(models));
         }
 
-        public IEnumerable<ICategory> Categorize(dynamic Request)
+        public IEnumerable<ICategory> Categorize(dynamic Request, string Id = null)
         {
-            var modelSettings = (IModelSettings<T>)Parse(Request);
+            var modelSettings = (IModelSettings<T>)Parse(Request, Id);
             var content = ((JsonElement)Request)
                 .GetProperty("content")
                 .GetString();
@@ -76,15 +76,19 @@ namespace nlp.services
             return _categories;
         }
 
-        public IModelSettings<T> Parse(dynamic Request)
+        public IModelSettings<T> Parse(dynamic Request, string Id = null)
         {
             var jRequest = (JsonElement)Request;
 
             try
             {
-                var delimiters = jRequest.GetProperty("delimiters").ToObject<string[]>();
-                var stopWords = jRequest.GetProperty("stopWords").ToObject<string[]>();
                 var content = jRequest.GetProperty("content").GetString();
+
+                if (Id != null)
+                    return GetModelSettingsByModelId(Id);
+
+                var delimiters = jRequest.GetProperty("delimiters").ToObject<string[]>();
+                var stopWords = jRequest.GetProperty("stopWords").ToObject<string[]>();               
 
                 if (content.Length > 10000)
                     throw new NlpException(HttpStatusCode.BadRequest,
