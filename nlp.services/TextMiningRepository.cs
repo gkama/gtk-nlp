@@ -30,6 +30,7 @@ namespace nlp.services
             Content.Split(_models.DefaultDelimiters)
                 .Where(x => !_models.DetaulfStopWords.Contains(x))
                 .ToList()
+                .Stem()
                 .ForEach(x =>
                 {
                     if (!wordCount.ContainsKey(x))
