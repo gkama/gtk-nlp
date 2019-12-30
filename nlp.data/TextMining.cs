@@ -14,6 +14,7 @@ namespace nlp.data
         /// different grammatical forms or declinations of verbs are identified and indexed (counted) as the same word. 
         /// For example, stemming will ensure that both "travel" and "traveled" will be recognized by the program as the same word. 
         /// For more information, see Manning and Schütze (2002).
+        /// https://en.wikipedia.org/wiki/Stemming
         /// </summary>
         public static List<string> Stem(this List<string> Text)
         {
