@@ -88,7 +88,8 @@ namespace nlp.data
 
         public IEnumerable<IModelSettings<T>> All => new IModelSettings<T>[]
         {
-            VanguardSettings
+            VanguardSettings,
+            BulgarianSettings
         };
     }
 }
