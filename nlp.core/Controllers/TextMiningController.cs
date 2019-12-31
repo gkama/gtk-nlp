@@ -27,5 +27,12 @@ namespace nlp.core.Controllers
         {
             return Ok(_repo.Mine(((JsonElement)Request).GetProperty("content").GetString()));
         }
+
+        [HttpPost]
+        [Route("stem")]
+        public IActionResult Stem([FromBody]dynamic Request)
+        {
+            return Ok(_repo.Stem(((JsonElement)Request).GetProperty("content").GetString()));
+        }
     }
 }
