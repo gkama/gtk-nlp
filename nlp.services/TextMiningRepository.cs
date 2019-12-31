@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 
 using Microsoft.Extensions.Logging;
 
@@ -17,8 +18,8 @@ namespace nlp.services
 
         public TextMiningRepository(ILogger<TextMiningRepository<T>> logger, Models<T> models)
         {
-            _logger = logger;
-            _models = models;
+            _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
+            _models = models ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(models));
         }
 
         public object Mine(string Content)
