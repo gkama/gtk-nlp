@@ -21,7 +21,6 @@ namespace nlp.data
                     }
                 }
             };
-
         public IModelSettings<T> VanguardSettings =>
             new ModelSettings<T>()
             {
@@ -44,6 +43,36 @@ namespace nlp.data
                     ' ', ',', ';', '!', '.'
                 },
                 Model = Vanguard
+            };
+
+        public T Bulgarian =>
+            new T()
+            {
+                Id = "5d9fd0f0-187a-456d-8798-c682c8f32d5f",
+                Name = "Български Модел",
+                Children =
+                {
+                    new T()
+                    {
+                        Id = "85da6c24-363d-47b2-a120-9934849372fe",
+                        Name = "Oбщ",
+                        Details = "аз|съм|година"
+                    }
+                }
+            };
+        public IModelSettings<T> BulgarianSettings =>
+            new ModelSettings<T>()
+            {
+                Id = "b5a6138c-c36c-448a-ba01-5f1fb1dd3694",
+                StopWords = new string[]
+                {
+
+                },
+                Delimiters = new char[]
+                {
+                    ' ', '|'
+                },
+                Model = Bulgarian
             };
 
         public char[] DefaultDelimiters =>
