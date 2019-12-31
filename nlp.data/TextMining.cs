@@ -90,6 +90,20 @@ namespace nlp.data
             return Word;
         }
 
+        public static Dictionary<string, int> WordCount(this IEnumerable<string> ContentList)
+        {
+            var wordCount = new Dictionary<string, int>();
+
+            foreach (var word in ContentList)
+            {
+                var wordLower = word.ToLower();
+                if (!wordCount.ContainsKey(wordLower)) wordCount.Add(wordLower, 1);
+                else wordCount[wordLower]++;
+            }
+
+            return wordCount;
+        }
+
         public static string RemoveLast(this string Str, int Characters)
         {
             return Str.Remove(Str.Length - Characters);
