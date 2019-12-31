@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
@@ -19,7 +20,7 @@ namespace nlp.core.Controllers
 
         public BulgarianController(INlpRepository<BulgarianModel> repo)
         {
-            _repo = repo;
+            _repo = repo ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(repo));
         }
 
         [HttpPost]

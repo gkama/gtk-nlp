@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ using nlp.services;
 
 namespace nlp.core.Controllers
 {
-    [Route("text/mine")]
+    [Route("nlp/mine")]
     [ApiController]
     public class TextMiningController : ControllerBase
     {
@@ -19,7 +20,7 @@ namespace nlp.core.Controllers
 
         public TextMiningController(ITextMiningRepository<Model> repo)
         {
-            _repo = repo;
+            _repo = repo ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(repo));
         }
 
         [HttpPost]
