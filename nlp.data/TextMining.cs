@@ -27,20 +27,47 @@ namespace nlp.data
             */
             var TextToReturn = new List<string>();
 
-            Text.ToList().ForEach(x =>
+            foreach (var word in Text)
             {
-                if (x.EndsWith("'"))
-                    TextToReturn.Add(x.RemoveLast(1));
-                else if (x.EndsWith("ed")
-                    || x.EndsWith("ly")
-                    || x.EndsWith("'s"))
-                    TextToReturn.Add(x.RemoveLast(2));
-                else if (x.EndsWith("ing")
-                    || x.EndsWith("'s'"))
-                    TextToReturn.Add(x.RemoveLast(3));
-                else
-                    TextToReturn.Add(x);
-            });
+                if (string.IsNullOrWhiteSpace(word) || word.Length <= 2)
+                { TextToReturn.Add(word); continue; }
+
+                //Step 1: get rid of plurals and -ed or -ing
+                if (word.EndsWith("'"))
+                { TextToReturn.Add(word.RemoveLast(1)); continue; }
+                else if (word.EndsWith("ies")
+                    || word.EndsWith("sses")
+                    || word.EndsWith("ed")
+                    || word.EndsWith("ly")
+                    || word.EndsWith("'s"))
+                { TextToReturn.Add(word.RemoveLast(2)); continue; }
+                else if (word.EndsWith("ing")
+                    || word.EndsWith("'s'"))
+                { TextToReturn.Add(word.RemoveLast(3)); continue; }
+
+                //Step 4: deals with -ic-, -full, -ness etc. similar strategy to step3
+                switch (word.LastLetter())
+                {
+                    case 'e':
+                        if (word.EndsWith("icate")) { TextToReturn.Add(word.ReplaceEndIndex(5, "ic")); break; }
+                        if (word.EndsWith("ative")) { TextToReturn.Add(word.ReplaceEndIndex(5, "")); break; }
+                        if (word.EndsWith("alize")) { TextToReturn.Add(word.ReplaceEndIndex(5, "al")); }
+                        break;
+                    case 'i':
+                        if (word.EndsWith("iciti")) { TextToReturn.Add(word.ReplaceEndIndex(5, "ic")); }
+                        break;
+                    case 'l':
+                        if (word.EndsWith("ical")) { TextToReturn.Add(word.ReplaceEndIndex(4, "ic")); break; }
+                        if (word.EndsWith("ful")) { TextToReturn.Add(word.ReplaceEndIndex(3, "")); }
+                        break;
+                    case 's':
+                        if (word.EndsWith("ness")) { TextToReturn.Add(word.ReplaceEndIndex(4, "")); }
+                        break;
+                }
+
+                //If all passes, then simply add the word
+                TextToReturn.Add(word);
+            };
 
             return TextToReturn;
         }
@@ -49,7 +76,20 @@ namespace nlp.data
         {
             return Str.Remove(Str.Length - Characters);
         }
+        public static char LastLetter(this string Str)
+        {
+            return Str[Str.Length - 1];
+        }
 
+        public static string ReplaceEndIndex(this string Str, int EndIndex, string Replacement)
+        {
+            return $"{Str.Substring(0, Str.Length - EndIndex)}{Replacement}";
+        }
+
+        public static bool IsConsonant(char Letter)
+        {
+            return !Vowels.Contains(Letter.ToString());
+        }
 
         public static string[] Vowels =>
             new string[]
