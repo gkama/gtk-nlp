@@ -45,7 +45,7 @@ namespace nlp.data
                 //Step3: maps double suffices to single ones. so -ization ( = -ize plus
                 //-ation) maps to -ize etc. note that the string before the suffix must give m() > 0.
                 if (word.EndsWith("ational")) { TextToReturn.Add(word.ReplaceEndIndex(7, "ate")); continue; }
-                if (word.EndsWith("tional")) { TextToReturn.Add(word.ReplaceEndIndex(6, "tion")); }
+                if (word.EndsWith("tional")) { TextToReturn.Add(word.ReplaceEndIndex(6, "tion")); continue; }
                 if (word.EndsWith("enci")) { TextToReturn.Add(word.ReplaceEndIndex(4, "ence")); continue; }
                 if (word.EndsWith("anci")) { TextToReturn.Add(word.ReplaceEndIndex(4, "ance")); continue; }
                 if (word.EndsWith("izer")) { TextToReturn.Add(word.ReplaceEndIndex(4, "ize")); continue; }
@@ -75,7 +75,23 @@ namespace nlp.data
                 if (word.EndsWith("ful")) { TextToReturn.Add(word.ReplaceEndIndex(3, "")); continue; }
                 if (word.EndsWith("ness")) { TextToReturn.Add(word.ReplaceEndIndex(4, "")); continue; }
 
-                //Step 5: if all passes, then simply add the word
+                //Step 5:
+                if (word.EndsWith("ence")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ence", ""); continue; }
+                if (word.EndsWith("er")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "er", ""); continue; }
+                if (word.EndsWith("ic")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ic", ""); continue; }
+                if (word.EndsWith("able")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "able", ""); continue; }
+                if (word.EndsWith("ant")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ant", ""); continue; }
+                if (word.EndsWith("ement")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ement", ""); continue; }
+                if (word.EndsWith("ent")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ent", ""); continue; }
+                if (word.EndsWith("ou")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ou", ""); continue; }
+                if (word.EndsWith("ism")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ism", ""); continue; }
+                if (word.EndsWith("ate")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ate", ""); continue; }
+                if (word.EndsWith("iti")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "iti", ""); continue; }
+                if (word.EndsWith("ous")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ous", ""); continue; }
+                if (word.EndsWith("ive")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ive", ""); continue; }
+                if (word.EndsWith("ize")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ize", ""); continue; }
+
+                //Step 6: if all passes, then simply add the word
                 TextToReturn.Add(word);
             };
 
@@ -90,6 +106,12 @@ namespace nlp.data
         public static string ReplaceEndIndex(this string Str, int EndIndex, string Replacement)
         {
             return $"{Str.Substring(0, Str.Length - EndIndex)}{Replacement}";
+        }
+
+        public static void ReplaceAndAddIfEndsWith(this List<string> Text, string Word, string EndsWith, string Replacement)
+        {
+            if (Word.EndsWith(EndsWith))
+                Text.Add(Word.ReplaceEndIndex(EndsWith.Length, Replacement));
         }
 
         public static bool IsConsonant(char Letter)
