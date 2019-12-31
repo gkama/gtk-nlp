@@ -72,20 +72,20 @@ namespace nlp.data
             if (Word.EndsWith("ness")) return Word.ReplaceEndIndex(4, "");
 
             //Step 5:
-            //if (Word.EndsWith("ence")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ence", ""); continue; }
-            //if (Word.EndsWith("er")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "er", ""); continue; }
-            //if (Word.EndsWith("ic")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ic", ""); continue; }
-            //if (Word.EndsWith("able")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "able", ""); continue; }
-            //if (Word.EndsWith("ant")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ant", ""); continue; }
-            //if (Word.EndsWith("ement")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ement", ""); continue; }
-            //if (Word.EndsWith("ent")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ent", ""); continue; }
-            //if (Word.EndsWith("ou")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ou", ""); continue; }
-            //if (Word.EndsWith("ism")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ism", ""); continue; }
-            //if (Word.EndsWith("ate")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ate", ""); continue; }
-            //if (Word.EndsWith("iti")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "iti", ""); continue; }
-            //if (Word.EndsWith("ous")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ous", ""); continue; }
-            //if (Word.EndsWith("ive")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ive", ""); continue; }
-            //if (Word.EndsWith("ize")) { TextToReturn.ReplaceAndAddIfEndsWith(word, "ize", ""); continue; }
+            if (Word.EndsWith("ence")) return Word.ReplaceEndIndex(4, "");
+            if (Word.EndsWith("er")) return Word.ReplaceEndIndex(2, "");
+            if (Word.EndsWith("ic")) return Word.ReplaceEndIndex(2, "");
+            if (Word.EndsWith("able")) return Word.ReplaceEndIndex(4, "");
+            if (Word.EndsWith("ant")) return Word.ReplaceEndIndex(3, "");
+            if (Word.EndsWith("ement")) return Word.ReplaceEndIndex(5, "");
+            if (Word.EndsWith("ent")) return Word.ReplaceEndIndex(3, "");
+            if (Word.EndsWith("ou")) return Word.ReplaceEndIndex(2, "");
+            if (Word.EndsWith("ism")) return Word.ReplaceEndIndex(3, "");
+            if (Word.EndsWith("ate")) return Word.ReplaceEndIndex(3, "");
+            if (Word.EndsWith("iti")) return Word.ReplaceEndIndex(3, "");
+            if (Word.EndsWith("ous")) return Word.ReplaceEndIndex(3, "");
+            if (Word.EndsWith("ive")) return Word.ReplaceEndIndex(3, "");
+            if (Word.EndsWith("ize")) return Word.ReplaceEndIndex(3, "");
 
             return Word;
         }
