@@ -15,6 +15,8 @@ namespace nlp.data
         /// For example, stemming will ensure that both "travel" and "traveled" will be recognized by the program as the same word. 
         /// For more information, see Manning and Schütze (2002).
         /// https://en.wikipedia.org/wiki/Stemming
+        /// 
+        /// Porter's algorithm: https://pdfs.semanticscholar.org/a651/bb7cc7fc68ece0cc66ab921486d163373385.pdf
         /// </summary>
         public static string Stem(this string Word)
         {
@@ -38,8 +40,14 @@ namespace nlp.data
             if (Word.EndsWith("ing")
                 || Word.EndsWith("'s'")) return Word.RemoveLast(3);
 
+            //Step2: turns terminal y to i when there is another vowel in the stem
+            if (Word.EndsWith("y")
+                && Word[Word.Length - 2].IsVowel())
+                return Word.ReplaceEndIndex(1, "i");
+
+
             //Step3: maps double suffices to single ones. so -ization ( = -ize plus
-            //-ation) maps to -ize etc. note that the string before the suffix must give m() > 0.
+            //-ation) maps to -ize etc. note that the string before the suffix must give m() > 0
             if (Word.EndsWith("ational")) return Word.ReplaceEndIndex(7, "ate");
             if (Word.EndsWith("tional")) return Word.ReplaceEndIndex(6, "tion");
             if (Word.EndsWith("enci")) return Word.ReplaceEndIndex(4, "ence");
@@ -114,20 +122,24 @@ namespace nlp.data
             return $"{Str.Substring(0, Str.Length - EndIndex)}{Replacement}";
         }
 
-        public static bool IsConsonant(char Letter)
+        public static bool IsVowel(this char Letter)
         {
-            return !Vowels.Contains(Letter.ToString());
+            return Vowels.Contains(Letter);
+        }
+        public static bool IsConsonant(this char Letter)
+        {
+            return !Vowels.Contains(Letter);
         }
 
-        public static string[] Vowels =>
-            new string[]
+        public static char[] Vowels =>
+            new char[]
             {
-                "a",
-                "e",
-                "i",
-                "o",
-                "u",
-                "y"
+                'a',
+                'e',
+                'i',
+                'o',
+                'u',
+                'y'
             };
         public static string[] DoubleConsonants =>
             new string[]
@@ -142,19 +154,19 @@ namespace nlp.data
                 "rr",
                 "tt"
             };
-        public static string[] LiEnding =>
-            new string[]
+        public static char[] LiEnding =>
+            new char[]
             {
-                "c",
-                "d",
-                "e",
-                "g",
-                "h",
-                "k",
-                "m",
-                "n",
-                "r",
-                "t"
+                'c',
+                'd',
+                'e',
+                'g',
+                'h',
+                'k',
+                'm',
+                'n',
+                'r',
+                't'
             };
     }
 }
