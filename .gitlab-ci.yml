@@ -5,26 +5,26 @@ services:
 
 stages:
   - docker build and push
-  - azure push
+  - azure build and push
 
 variables:
   DOCKER_DRIVER: overlay2
-  DOCKER_IMAGE: gkama/gtk-nlp:latest
-  DOCKER_AZURE_SERVER: gkama.azurecr.io
-  DOCKER_AZURE_IMAGE: $DOCKER_AZURE_SERVER/gtk-nlp:latest
+  DOCKER_IMAGE: gtk-nlp:latest
 
 docker build and push:
   stage: docker build and push
   script:
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - docker build -t $DOCKER_USER/$DOCKER_IMAGE .
+    - docker push $DOCKER_USER/$DOCKER_IMAGE
+  only:
+    - master
+
+azure build and push:
+  stage: azure build and push
+  script:
+    - docker login $DOCKER_AZURE_SERVER -u $DOCKER_AZURE_USER -p $DOCKER_AZURE_PASSWORD
     - docker build -t $DOCKER_IMAGE .
     - docker push $DOCKER_IMAGE
   only:
     - master
-
-azure push:
-  stage: azure push
-  script:
-    - docker login $DOCKER_AZURE_SERVER -u $DOCKER_AZURE_USER -p $DOCKER_AZURE_PASSWORD
-    - docker build -t $DOCKER_AZURE_IMAGE .
-    - docker push $DOCKER_AZURE_IMAGE
