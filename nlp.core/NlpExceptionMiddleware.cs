@@ -21,7 +21,7 @@ namespace nlp.core
         private readonly ILogger _log;
         private readonly IWebHostEnvironment _env;
 
-        private const string default_message = "An unexpected error has occurred.";
+        private const string _defaultMessage = "An unexpected error has occurred.";
 
         public NlpExceptionMiddleware(RequestDelegate next, ILogger<NlpExceptionMiddleware> log, IWebHostEnvironment env)
         {
@@ -63,7 +63,7 @@ namespace nlp.core
             {
                 Title = canViewSensitiveInfo
                     ? e.Message
-                    : default_message,
+                    : _defaultMessage,
                 Detail = canViewSensitiveInfo
                     ? e.Demystify().ToString()
                     : null,
@@ -81,11 +81,11 @@ namespace nlp.core
             httpContext.Response.StatusCode = problem.Status ?? StatusCodes.Status500InternalServerError;
             httpContext.Response.ContentType = "application/problem+json";
 
-            await httpContext.Response.WriteAsync(problemjson);
+            await httpContext.Response
+                .WriteAsync(problemjson);
         }
     }
 
-    // Extension method used to add the middleware to the HTTP request pipeline.
     public static class HttpStatusCodeExceptionMiddlewareExtensions
     {
         public static IApplicationBuilder UseNlpException(this IApplicationBuilder builder)
