@@ -13,12 +13,12 @@ using nlp.services;
 
 namespace nlp.tests
 {
-    public class NlpRepositoryTests
+    public class NlpRepositoryModelTests
     {
         private readonly ILogger<NlpRepository<Model>> _mockLogger;
         private readonly INlpRepository<Model> _repo;
 
-        public NlpRepositoryTests()
+        public NlpRepositoryModelTests()
         {
             _mockLogger = Mock.Of<ILogger<NlpRepository<Model>>>();
             _repo = new NlpRepository<Model>(_mockLogger, new Models<Model>());
