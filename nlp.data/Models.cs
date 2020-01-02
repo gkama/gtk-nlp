@@ -106,7 +106,7 @@ namespace nlp.data
         public char[] DefaultDelimiters =>
             new char[]
             {
-                ' ', ',', ';', '?', '!', '.', '`', '-', '(', ')', '[', ']', '|'
+                ' ', ',', ';', '?', '!', '.', '`', '-', '(', ')', '[', ']', '|', '$'
             };
         public string[] DetaulfStopWords =>
             new string[]
