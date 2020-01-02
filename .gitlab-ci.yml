@@ -24,7 +24,7 @@ azure build and push:
   stage: azure build and push
   script:
     - docker login $DOCKER_AZURE_SERVER -u $DOCKER_AZURE_USER -p $DOCKER_AZURE_PASSWORD
-    - docker build -t $DOCKER_IMAGE .
-    - docker push $DOCKER_IMAGE
+    - docker build -t $DOCKER_AZURE_SERVER/$DOCKER_IMAGE .
+    - docker push $DOCKER_AZURE_SERVER/$DOCKER_IMAGE
   only:
     - master
