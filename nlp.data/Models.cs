@@ -12,6 +12,7 @@ namespace nlp.data
             {
                 Id = "984ce69d-de79-478b-9223-ff6349514e19",
                 Name = "Vanguard",
+                Details = "vanguard|vanguard group|the vanguard group",
                 Children = {
                     new T()
                     {
@@ -50,6 +51,7 @@ namespace nlp.data
             {
                 Id = "5d9fd0f0-187a-456d-8798-c682c8f32d5f",
                 Name = "Български Модел",
+                Details = "българия|български",
                 Children =
                 {
                     new T()
