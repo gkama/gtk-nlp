@@ -88,8 +88,8 @@ namespace nlp.data
                 "the", "a", "and", "i", "am"
             };
 
-        public IEnumerable<IModel<T>> All =>
-            new IModel<T>[]
+        public IEnumerable<T> All =>
+            new T[]
             {
                 Vanguard,
                 Bulgarian
