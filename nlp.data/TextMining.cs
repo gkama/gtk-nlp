@@ -122,13 +122,22 @@ namespace nlp.data
             return $"{Str.Substring(0, Str.Length - EndIndex)}{Replacement}";
         }
 
-        public static bool IsVowel(this char Letter)
+        private static bool SuffixInR1(this string word, int r1, string suffix)
         {
-            return Vowels.Contains(Letter);
+            return r1 <= word.Length - suffix.Length;
         }
-        public static bool IsConsonant(this char Letter)
+        private static bool SuffixInR2(this string word, int r2, string suffix)
         {
-            return !Vowels.Contains(Letter);
+            return r2 <= word.Length - suffix.Length;
+        }
+
+        public static bool IsVowel(this char C)
+        {
+            return Vowels.Contains(C);
+        }
+        public static bool IsConsonant(this char C)
+        {
+            return !Vowels.Contains(C);
         }
 
         public static char[] Vowels =>
