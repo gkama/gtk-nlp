@@ -15,6 +15,7 @@ namespace nlp.data
                 Details = "financial|finance",
                 Children =
                 {
+                    Vanguard,
                     new T()
                     {
                         Id = "5582adee-5aa5-430c-8ef6-7797d907fa2f",
