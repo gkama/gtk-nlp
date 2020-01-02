@@ -14,11 +14,13 @@ namespace nlp.services
         where T : IModel<T>, new()
     {
         private readonly ILogger<TextMiningRepository<T>> _logger;
+        private readonly IStemmer _stemmer;
         private readonly Models<T> _models;
 
-        public TextMiningRepository(ILogger<TextMiningRepository<T>> logger, Models<T> models)
+        public TextMiningRepository(ILogger<TextMiningRepository<T>> logger, IStemmer stemmer, Models<T> models)
         {
             _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
+            _stemmer = stemmer ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(stemmer));
             _models = models ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(models));
         }
 
@@ -48,7 +50,7 @@ namespace nlp.services
         public object Stem(string Content)
         {
             var sw = new Stopwatch();
-            var stems = new List<StemInfo>();
+            var stems = new List<IStemmedWord>();
 
             sw.Start();
             Content.Split(_models.DefaultDelimiters)
@@ -56,33 +58,15 @@ namespace nlp.services
                 .ToList()
                 .ForEach(x =>
                 {
-                    var xStem = x.Stem();
-                    var xLower = x.ToLower();
-                    var stem = stems.FirstOrDefault(x => x.Stem == xLower);
-
-                    if (stem == null)
-                        stems.Add(new StemInfo()
-                        {
-                            Stem = xStem,
-                            Originals = new List<string>() { xLower }
-                        });
-                    else
-                    {
-                        if (!stem.Originals.Contains(xLower))
-                            stem.Originals.Add(xLower);
-                    }
+                    var stemmed = _stemmer.Stem(x);
+                    if (!stems.Contains(stemmed))
+                        stems.Add(stemmed);
                 });
             sw.Stop();
 
             _logger.LogInformation($"stemming algorithm took {sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
 
             return stems;
-        }
-
-        private class StemInfo
-        {
-            public string Stem { get; set; }
-            public ICollection<string> Originals { get; set; } = new List<string>();
         }
     }
 }
