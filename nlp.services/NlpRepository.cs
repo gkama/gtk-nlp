@@ -17,7 +17,7 @@ namespace nlp.services
         private readonly ILogger<NlpRepository<T>> _logger;
         private readonly Models<T> _models;
 
-        public ICollection<ICategory> _categories { get; set; } = new List<ICategory>();
+        private ICollection<ICategory> _categories { get; set; } = new List<ICategory>();
 
         public NlpRepository(ILogger<NlpRepository<T>> logger, Models<T> models)
         {
@@ -72,6 +72,7 @@ namespace nlp.services
                         });
             }
             sw.Stop();
+
             _logger.LogInformation($"categorization algorithm took {sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
 
             return _categories;
@@ -91,9 +92,9 @@ namespace nlp.services
                 var delimiters = jRequest.GetProperty("delimiters").ToObject<string[]>();
                 var stopWords = jRequest.GetProperty("stopWords").ToObject<string[]>();               
 
-                if (content.Length > 10000)
+                if (content.Length > 100000)
                     throw new NlpException(HttpStatusCode.BadRequest,
-                        $"'content' length={content.Length} is too big. it must be less than 10,000 characters");
+                        $"'content' length={content.Length} is too big. it must be less than 100,000 characters");
 
                 var model = new JsonElement();
                 var modelId = new JsonElement();
