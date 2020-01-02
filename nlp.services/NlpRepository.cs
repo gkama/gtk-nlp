@@ -192,17 +192,33 @@ namespace nlp.services
 
         public IEnumerable<T> GetModels()
         {
-            return _models.Settings
-                .Select(x => x.Model);
+            return _models.All;
         }
         public IModel<T> GetModel(string Id)
         {
-            var modelSetting = _models.Settings
-                .FirstOrDefault(x => x.Model.Id == Id);
+            return _models.All
+                .FirstOrDefault(x => x.Id == Id);
+        }
+        public IModel<T> GetAnyModel(string Id)
+        {
+            var models = new Stack<T>(_models.All);
 
-            if (modelSetting == null) return null;
+            while (models.Any())
+            {
+                var model = models.Pop() as IModel<T>;
 
-            return modelSetting.Model;
+                if (model.Id == Id) return model;
+
+                if (model.Children.Any())
+                    model.Children
+                        .ToList()
+                        .ForEach(x =>
+                        {
+                            models.Push(x);
+                        });
+            }
+
+            return null;
         }
         public IEnumerable<IModelSettings<T>> GetModelsSettings()
         {
