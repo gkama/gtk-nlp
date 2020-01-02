@@ -57,17 +57,20 @@ namespace nlp.services
                 .ForEach(x =>
                 {
                     var xStem = x.Stem();
-                    var stem = stems.FirstOrDefault(x => x.Stem == xStem);
+                    var xLower = x.ToLower();
+                    var stem = stems.FirstOrDefault(x => x.Stem == xLower);
 
                     if (stem == null)
                         stems.Add(new StemInfo()
                         {
                             Stem = xStem,
-                            Originals = new List<string>() { x }
+                            Originals = new List<string>() { xLower }
                         });
                     else
-                        stem.Originals.Add(x);
-
+                    {
+                        if (!stem.Originals.Contains(xLower))
+                            stem.Originals.Add(xLower);
+                    }
                 });
             sw.Stop();
 
