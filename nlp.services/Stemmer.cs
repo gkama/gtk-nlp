@@ -13,15 +13,16 @@ namespace nlp.services
     /// </summary>
     public class Stemmer : IStemmer
     {
-        public char[] Alphabet { get; } = Enumerable
+        public char[] Alphabet => Enumerable
                 .Range('a', 'z' - 'a' + 1)
                 .Select(c => (char)c)
                 .Concat(new[] { '\'' }).ToArray();
-        public char[] Vowels { get; } = "aeiouy".ToArray();
-        public string[] Doubles { get; } = { "bb", "dd", "ff", "gg", "mm", "nn", "pp", "rr", "tt" };
-        public char[] LiEndings { get; } = "cdeghkmnrt".ToArray();
-        private readonly char[] _nonShortConsonants = "wxY".ToArray();
-        private readonly Dictionary<string, string> _exceptions = new Dictionary<string, string>
+        public char[] Vowels => "aeiouy".ToArray();
+        public string[] Doubles => new string[] { "bb", "dd", "ff", "gg", "mm", "nn", "pp", "rr", "tt" };
+        public char[] LiEndings => "cdeghkmnrt".ToArray();
+        private char[] _nonShortConsonants => "wxY".ToArray();
+        private Dictionary<string, string> _exceptions => 
+            new Dictionary<string, string>
             {
                 {"skis", "ski"},
                 {"skies", "sky"},
@@ -43,13 +44,15 @@ namespace nlp.services
                 {"andes", "andes"}
             };
 
-        private readonly string[] _exceptionsPart2 = new[]
+        private string[] _exceptionsPart2 => 
+            new string[]
             {
                 "inning", "outing", "canning", "herring", "earring",
                 "proceed", "exceed", "succeed"
             };
 
-        private readonly string[] _exceptionsRegion1 = new[]
+        private string[] _exceptionsRegion1 =>
+            new string[]
             {
                 "gener", "arsen", "commun"
             };
