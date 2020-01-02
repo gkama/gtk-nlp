@@ -88,7 +88,7 @@ namespace nlp.data
                 "the", "a", "and", "i", "am"
             };
 
-        public IEnumerable<IModelSettings<T>> All => new IModelSettings<T>[]
+        public IEnumerable<IModelSettings<T>> Settings => new IModelSettings<T>[]
         {
             VanguardSettings,
             BulgarianSettings

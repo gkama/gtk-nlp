@@ -192,12 +192,12 @@ namespace nlp.services
 
         public IEnumerable<T> GetModels()
         {
-            return _models.All
+            return _models.Settings
                 .Select(x => x.Model);
         }
         public IModel<T> GetModel(string Id)
         {
-            var modelSetting = _models.All
+            var modelSetting = _models.Settings
                 .FirstOrDefault(x => x.Model.Id == Id);
 
             if (modelSetting == null) return null;
@@ -206,16 +206,16 @@ namespace nlp.services
         }
         public IEnumerable<IModelSettings<T>> GetModelsSettings()
         {
-            return _models.All;
+            return _models.Settings;
         }
         public IModelSettings<T> GetModelSettings(string Id)
         {
-            return _models.All
+            return _models.Settings
                 .FirstOrDefault(x => x.Id == Id);
         }
         public IModelSettings<T> GetModelSettingsByModelId(string Id)
         {
-            return _models.All
+            return _models.Settings
                 .FirstOrDefault(x => x.Model.Id == Id);
         }
     }
