@@ -13,7 +13,7 @@ using nlp.services;
 namespace nlp.core.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("nlp")]
     public class NlpController : ControllerBase
     {
         private readonly INlpRepository<Model> _repo;
@@ -35,6 +35,13 @@ namespace nlp.core.Controllers
         public IActionResult CategorizeWithModelId([FromRoute]string id, [FromBody]dynamic request)
         {
             return Ok(_repo.Categorize(request, id));
+        }
+
+        [HttpGet]
+        [Route("categorize/sample")]
+        public IActionResult CategorizeSample()
+        {
+            return Ok(_repo.CategorizeSample());
         }
 
         [HttpGet]

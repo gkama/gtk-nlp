@@ -234,5 +234,14 @@ namespace nlp.services
             return _models.Settings
                 .FirstOrDefault(x => x.Model.Id == Id);
         }
+
+        public IEnumerable<ICategory> CategorizeSample()
+        {
+            var request = JsonDocument.Parse("{ \"content\": \"This is a sample content passed to the Categorize endpoint. What it'll try and match is the financial model. Specificall, the Vanguard index funds. Such index funds are VBMFX and VTSAX.\" }")
+                .RootElement;
+            var modelId = "0a1dfb9f-9b38-4af2-8cb7-252899ec8304";
+
+            return Categorize(request, modelId);
+        }
     }
 }
