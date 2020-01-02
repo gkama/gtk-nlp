@@ -152,17 +152,16 @@ namespace nlp.services
         {
             if (string.IsNullOrWhiteSpace(Content)) return Enumerable.Empty<string>();
 
-            var words = Content.Split(Delimiters,
-                StringSplitOptions.RemoveEmptyEntries)
-                .ToList();
+            var content = Content.Split(Delimiters,
+                StringSplitOptions.RemoveEmptyEntries);
 
             var found = new List<string>();
 
-            words.ForEach(x =>
+            foreach (var x in content)
             {
                 if (!StopWords.Contains(x.ToLower()))
                     found.Add(x);
-            });
+            };
 
             return found.AsEnumerable();
         }
