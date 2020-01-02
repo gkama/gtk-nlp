@@ -7,6 +7,29 @@ namespace nlp.data
     public class Models<T>
         where T : IModel<T>, new()
     {
+        public T Financial =>
+            new T()
+            {
+                Id = "0a1dfb9f-9b38-4af2-8cb7-252899ec8304",
+                Name = "Financial",
+                Details = "financial|finance",
+                Children =
+                {
+                    new T()
+                    {
+                        Id = "5582adee-5aa5-430c-8ef6-7797d907fa2f",
+                        Name = "Mortgage",
+                        Details = "mortgage|house mortgage|apartment mortgage|house pmi|pmi"
+                    },
+                    new T()
+                    {
+                        Id = "ab9f07d9-a77c-42d1-87f5-cb0c189ee9e7",
+                        Name = "Car Payment",
+                        Details = "car payment|car loan|car interest"
+                    }
+                }
+            };
+
         public T Vanguard =>
             new T()
             {
@@ -22,6 +45,49 @@ namespace nlp.data
                     }
                 }
             };
+
+        public T Bulgarian =>
+            new T()
+            {
+                Id = "5d9fd0f0-187a-456d-8798-c682c8f32d5f",
+                Name = "Български Модел",
+                Details = "българия|български",
+                Children =
+                {
+                    new T()
+                    {
+                        Id = "85da6c24-363d-47b2-a120-9934849372fe",
+                        Name = "Oбщ",
+                        Details = "аз|съм|година"
+                    }
+                }
+            };
+
+
+        public IModelSettings<T> FinancialSettings =>
+            new ModelSettings<T>()
+            {
+                Id = "dd8184ac-2144-47b5-b54f-988605a15682",
+                StopWords = new string[]
+                {
+                    "ourselves", "hers", "between", "yourself", "but", "again", "there", "about", "once", "during",
+                    "out", "very", "having", "with", "they", "own", "an", "be", "some", "for", "do", "its", "yours", "such",
+                    "into", "of", "most", "itself", "other", "off", "is", "s", "am", "or", "who", "as", "from", "him", "each",
+                    "the", "themselves", "until", "below", "are", "we", "these", "your", "his", "through", "don", "nor", "me",
+                    "were", "her", "more", "himself", "this", "down", "should", "our", "their", "while", "above", "both", "up",
+                    "to", "ours", "had", "she", "all", "no", "when", "at", "any", "before", "them", "same", "and", "been", "have",
+                    "in", "will", "on", "does", "yourselves", "then", "that", "because", "what", "over", "why", "so", "can", "did",
+                    "not", "now", "under", "he", "you", "herself", "has", "just", "where", "too", "only", "myself", "which", "those",
+                    "i", "after", "few", "whom", "t", "being", "if", "theirs", "my", "against", "a", "by", "doing", "it", "how",
+                    "further", "was", "here", "than"
+                },
+                Delimiters = new char[]
+                {
+                    ' ', '|'
+                },
+                Model = Financial
+            };
+
         public IModelSettings<T> VanguardSettings =>
             new ModelSettings<T>()
             {
@@ -46,22 +112,6 @@ namespace nlp.data
                 Model = Vanguard
             };
 
-        public T Bulgarian =>
-            new T()
-            {
-                Id = "5d9fd0f0-187a-456d-8798-c682c8f32d5f",
-                Name = "Български Модел",
-                Details = "българия|български",
-                Children =
-                {
-                    new T()
-                    {
-                        Id = "85da6c24-363d-47b2-a120-9934849372fe",
-                        Name = "Oбщ",
-                        Details = "аз|съм|година"
-                    }
-                }
-            };
         public IModelSettings<T> BulgarianSettings =>
             new ModelSettings<T>()
             {
@@ -91,6 +141,7 @@ namespace nlp.data
         public IEnumerable<T> All =>
             new T[]
             {
+                Financial,
                 Vanguard,
                 Bulgarian
             };
@@ -98,6 +149,7 @@ namespace nlp.data
         public IEnumerable<IModelSettings<T>> Settings =>
             new IModelSettings<T>[]
             {
+                FinancialSettings,
                 VanguardSettings,
                 BulgarianSettings
             };
