@@ -15,6 +15,7 @@ namespace nlp.services
         public IModel<T> GetAnyModel(string Id);
         public IEnumerable<IModelSettings<T>> GetModelsSettings();
         public IModelSettings<T> GetModelSettings(string Id);
+        IModelSettings<T> GetModelSettingsByModelId(string Id);
         public IEnumerable<ICategory> CategorizeSample();
     }
 }
