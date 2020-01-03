@@ -32,8 +32,20 @@ namespace nlp.tests
         {
             var model = _repo.GetModel(id);
 
-            //Asserts
             Assert.Null(model);
+        }
+
+        [Theory]
+        [InlineData("5582adee-5aa5-430c-8ef6-7797d907fa2f")]
+        [InlineData("ab9f07d9-a77c-42d1-87f5-cb0c189ee9e7")]
+        [InlineData("0a1dfb9f-9b38-4af2-8cb7-252899ec8304")]
+        public void GetAnyModel_Valid(string id)
+        {
+            var model = _repo.GetAnyModel(id);
+
+            Assert.NotNull(model);
+            Assert.NotNull(model.Name);
+            Assert.Equal(id, model.Id);
         }
     }
 }
