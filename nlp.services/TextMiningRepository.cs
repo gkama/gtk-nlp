@@ -47,14 +47,15 @@ namespace nlp.services
             return wordCount;
         }
 
-        public object Stem(string Content)
+        public IEnumerable<IStemmedWord> Stem(string Content)
         {
             var sw = new Stopwatch();
             var stems = new List<IStemmedWord>();
 
             sw.Start();
             Content.Split(_models.DefaultDelimiters)
-                .Where(x => !_models.DetaulfStopWords.Contains(x))
+                .Where(x => !_models.DetaulfStopWords.Contains(x)
+                    && !string.IsNullOrEmpty(x))
                 .ToList()
                 .ForEach(x =>
                 {
@@ -66,7 +67,7 @@ namespace nlp.services
 
             _logger.LogInformation($"stemming algorithm took {sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
 
-            return stems;
+            return stems.AsEnumerable();
         }
     }
 }
