@@ -46,7 +46,10 @@ namespace nlp.data
                     Details = child.GetProperty("details").GetString(),
                 });
 
-                if (child.GetProperty("children").GetArrayLength() > 0)
+                var children = new JsonElement();
+                child.TryGetProperty("children", out children);
+
+                if (children.ValueKind != JsonValueKind.Undefined)
                 {
                     var childModels = child.GetProperty("children");
                     for (int i = 0; i < childModels.GetArrayLength(); i++)
