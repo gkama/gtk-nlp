@@ -99,5 +99,13 @@ namespace nlp.tests
 
             Assert.True(models.Count() > 0);
         }
+
+        [Fact]
+        public void CategorizeSample_Valid()
+        {
+            var categories = _repo.CategorizeSample();
+
+            Assert.NotEmpty(categories);
+        }
     }
 }
