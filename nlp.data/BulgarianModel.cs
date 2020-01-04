@@ -8,7 +8,6 @@ namespace nlp.data
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public string FullName { get; set; }
         public string Language => "Български език";
         public string LanguageUs => "Bulgarian";
         public string Details { get; set; }
