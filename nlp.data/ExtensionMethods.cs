@@ -35,16 +35,19 @@ namespace nlp.data
                 childrenList.Add(baseModelChildren[i]);
 
             var stack = new Stack<JsonElement>(childrenList);
+            var parentModel = model;
             while (stack.Any())
             {
                 var child = stack.Pop();
-
-                model.Children.Add(new T()
+                var childModel = new T()
                 {
                     Id = child.GetProperty("id").GetString(),
                     Name = child.GetProperty("name").GetString(),
                     Details = child.GetProperty("details").GetString(),
-                });
+                };
+
+                parentModel.Children
+                    .Add(childModel);
 
                 var children = new JsonElement();
                 child.TryGetProperty("children", out children);
@@ -55,6 +58,8 @@ namespace nlp.data
                     for (int i = 0; i < childModels.GetArrayLength(); i++)
                         stack.Push(childModels[i]);
                 }
+
+                parentModel = childModel;
             }
 
             return model;
