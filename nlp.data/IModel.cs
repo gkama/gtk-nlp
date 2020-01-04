@@ -8,6 +8,7 @@ namespace nlp.data
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        [JsonIgnore] public string FullName { get; set; }
         public string Details { get; set; }
         public Guid PublicKey { get; }
         public ICollection<T> Children { get; set; }

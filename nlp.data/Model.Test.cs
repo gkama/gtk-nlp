@@ -8,6 +8,7 @@ namespace nlp.data
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string FullName { get; set; }
         public string Details { get; set; }
         public string TestMethod => "Test";
         [JsonIgnore] public string TestMethod2 => "Test 2";
