@@ -90,7 +90,7 @@ namespace nlp.data
                     {
                         Id = "d5881aeb-a962-4a4d-ab44-d4ac257099c2",
                         Name = "Пол",
-                        Details = "мъжки|женcки"
+                        Details = "мъжки|женcки|мъж|женa"
                     }
                 }
             };
