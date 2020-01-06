@@ -103,9 +103,9 @@ namespace nlp.tests
         [Fact]
         public void CategorizeSample_Valid()
         {
-            var categories = _repo.CategorizeSample();
+            var sample = _repo.CategorizeSample();
 
-            Assert.NotEmpty(categories);
+            Assert.NotNull(sample);
         }
     }
 }

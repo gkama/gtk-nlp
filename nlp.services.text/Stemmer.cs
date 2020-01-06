@@ -5,7 +5,7 @@ using System.Text;
 
 using nlp.data;
 
-namespace nlp.services
+namespace nlp.services.text
 {
     /// <summary>
     /// Based off of the improved Porter2 algorithm:

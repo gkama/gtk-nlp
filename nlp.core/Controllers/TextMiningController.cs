@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using nlp.data;
-using nlp.services;
+using nlp.services.text;
 
 namespace nlp.core.Controllers
 {

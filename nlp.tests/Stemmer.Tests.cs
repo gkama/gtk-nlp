@@ -6,7 +6,7 @@ using Xunit;
 using Moq;
 
 using nlp.data;
-using nlp.services;
+using nlp.services.text;
 
 namespace nlp.tests
 {

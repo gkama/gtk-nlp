@@ -4,7 +4,7 @@ using System.Text;
 
 using nlp.data;
 
-namespace nlp.services
+namespace nlp.services.text
 {
     public interface IStemmer
     {

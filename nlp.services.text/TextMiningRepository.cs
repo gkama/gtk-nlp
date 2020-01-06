@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 using nlp.data;
 
-namespace nlp.services
+namespace nlp.services.text
 {
     public class TextMiningRepository<T> : ITextMiningRepository<T>
         where T : IModel<T>, new()
