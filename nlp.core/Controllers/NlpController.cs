@@ -1,11 +1,6 @@
-﻿using System;
-using System.Text.Json;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
+﻿using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 using nlp.data;
 using nlp.services;
