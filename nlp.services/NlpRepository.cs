@@ -153,25 +153,17 @@ namespace nlp.services
         {
             if (string.IsNullOrWhiteSpace(Content)) return Enumerable.Empty<string>();
 
-            var content = Content.Split(Delimiters,
-                StringSplitOptions.RemoveEmptyEntries);
-
-            var found = new List<string>();
-
-            foreach (var x in content)
-            {
-                if (!StopWords.Contains(x.ToLower()))
-                    found.Add(x);
-            };
-
-            return found.AsEnumerable();
+            return Content.Split(Delimiters, StringSplitOptions.RemoveEmptyEntries)
+                .Except(StopWords, StringComparer.OrdinalIgnoreCase)
+                .AsEnumerable();
         }
 
         private void BinarySearchDetails(string Value, string[] DetailsArray, char[] Delimiters, IModel<T> Model)
         {
+            DetailsArray.OrderBy(x => x);
+
             var low = 0;
             var mid = 0;
-            DetailsArray.OrderBy(x => x);
             var high = DetailsArray.Count() - 1;
 
             while (low <= high)
