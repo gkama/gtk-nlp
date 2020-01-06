@@ -16,6 +16,7 @@ namespace nlp.data
                 Children =
                 {
                     Vanguard,
+                    Fidelity,
                     new T()
                     {
                         Id = "5582adee-5aa5-430c-8ef6-7797d907fa2f",
@@ -37,12 +38,30 @@ namespace nlp.data
                 Id = "984ce69d-de79-478b-9223-ff6349514e19",
                 Name = "Vanguard",
                 Details = "vanguard|vanguard group|the vanguard group",
-                Children = {
+                Children =
+                {
                     new T()
                     {
                         Id = "5ec6957d-4de7-4199-9373-d4a7fb59d6e1",
                         Name = "Index Funds",
                         Details = "vbiix|vbinx|vbisx|vbltx|vbmfx|vdaix|vdvix|veiex|veurx|vexmx|vfinx|vfsvx|vftsx|vfwix|vgovx|vgtsx|vhdyx|viaix|vigrx|vihix|vimsx|visgx|visvx|vivax|vlacx|vmgix|vmvix|vpacx|vtebx|vtibx|vtipx|vtsax|vtsmx|vtws"
+                    }
+                }
+            };
+
+        public T Fidelity =>
+            new T()
+            {
+                Id = "5362086a-300a-48aa-86b4-e9f0ed970e35",
+                Name = "Fidelity",
+                Details = "fidelity|fidelity investments|fidelity investments inc.|fidelity management",
+                Children =
+                {
+                    new T()
+                    {
+                        Id = "efac956d-e705-48fe-81b4-3254745c41c7",
+                        Name = "Index Funds",
+                        Details = "fsevx|fusvx|fsivx"
                     }
                 }
             };
@@ -69,7 +88,7 @@ namespace nlp.data
             new ModelSettings<T>()
             {
                 Id = "dd8184ac-2144-47b5-b54f-988605a15682",
-                StopWords = DetaulfStopWords,
+                StopWords = DetaultStopWords,
                 Delimiters = new char[]
                 {
                     ' ', '|'
@@ -81,12 +100,18 @@ namespace nlp.data
             new ModelSettings<T>()
             {
                 Id = "007781f0-6094-413a-b776-64f6de77949c",
-                StopWords = DetaulfStopWords,
-                Delimiters = new char[]
-                {
-                    ' ', ',', ';', '!', '.'
-                },
+                StopWords = DetaultStopWords,
+                Delimiters = DefaultDelimiters,
                 Model = Vanguard
+            };
+
+        public IModelSettings<T> FidelitySettings =>
+            new ModelSettings<T>()
+            {
+                Id = "ca9e47f9-f3bf-458d-b5ee-afeb61f9dffb",
+                StopWords = DetaultStopWords,
+                Delimiters = DefaultDelimiters,
+                Model = Fidelity
             };
 
         public IModelSettings<T> BulgarianSettings =>
@@ -109,7 +134,7 @@ namespace nlp.data
             {
                 ' ', ',', ';', '?', '!', '.', '`', '-', '(', ')', '[', ']', '|', '$'
             };
-        public string[] DetaulfStopWords =>
+        public string[] DetaultStopWords =>
             new string[]
             {
                 "ourselves", "hers", "between", "yourself", "but", "again", "there", "about", "once", "during",
