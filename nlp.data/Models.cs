@@ -160,6 +160,7 @@ namespace nlp.data
             {
                 Financial,
                 Vanguard,
+                Fidelity,
                 Bulgarian
             };
 
@@ -168,6 +169,7 @@ namespace nlp.data
             {
                 FinancialSettings,
                 VanguardSettings,
+                FidelitySettings,
                 BulgarianSettings
             };
     }
