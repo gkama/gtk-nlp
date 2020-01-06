@@ -31,7 +31,7 @@ namespace nlp.services
 
             sw.Start();
             Content.Split(_models.DefaultDelimiters)
-                .Where(x => !_models.DetaulfStopWords.Contains(x))
+                .Where(x => !_models.DetaultStopWords.Contains(x))
                 .ToList()
                 .ForEach(x =>
                 {
@@ -54,7 +54,7 @@ namespace nlp.services
 
             sw.Start();
             Content.Split(_models.DefaultDelimiters)
-                .Where(x => !_models.DetaulfStopWords.Contains(x)
+                .Where(x => !_models.DetaultStopWords.Contains(x)
                     && !string.IsNullOrEmpty(x))
                 .ToList()
                 .ForEach(x =>
