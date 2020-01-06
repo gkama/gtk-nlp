@@ -85,6 +85,12 @@ namespace nlp.data
                         Id = "85da6c24-363d-47b2-a120-9934849372fe",
                         Name = "Oбщ",
                         Details = "аз|съм|година"
+                    },
+                    new T()
+                    {
+                        Id = "d5881aeb-a962-4a4d-ab44-d4ac257099c2",
+                        Name = "Пол",
+                        Details = "мъжки|женcки"
                     }
                 }
             };
