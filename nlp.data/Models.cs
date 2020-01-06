@@ -62,6 +62,12 @@ namespace nlp.data
                         Id = "efac956d-e705-48fe-81b4-3254745c41c7",
                         Name = "Index Funds",
                         Details = "fsevx|fusvx|fsivx"
+                    },
+                    new T()
+                    {
+                        Id = "34cf611b-6aae-4df6-b0dc-b1820ce6656c",
+                        Name = "Exchange Tarded  Funds (ETFs)",
+                        Details = "fcpi|fsmd|fval|fidi|fdvv|fdlo|fdev|fdem|fldr|fdhy|fiva|fdmo|fqal"
                     }
                 }
             };
