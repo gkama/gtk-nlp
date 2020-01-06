@@ -235,8 +235,8 @@ namespace nlp.services
             return new
             {
                 content = requestContent,
-                modelId = _models.Financial.Id,
-                categorization = Categorize(request, _models.Financial.Id)
+                categorization = Categorize(request, _models.Financial.Id),
+                model = _models.Financial
             };
         }
     }
