@@ -28,7 +28,6 @@ namespace nlp.core
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //DI
             services.AddScoped(typeof(INlpRepository<>), typeof(NlpRepository<>));
             services.AddScoped(typeof(ITextMiningRepository<>), typeof(TextMiningRepository<>));
             services.AddScoped<IStemmer, Stemmer>();
