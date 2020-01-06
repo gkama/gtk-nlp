@@ -7,6 +7,8 @@ namespace nlp.data
     public class Models<T>
         where T : IModel<T>, new()
     {
+        public int DefaultCacheTimeSpan => 86400;
+
         public T Financial =>
             new T()
             {

@@ -31,6 +31,7 @@ namespace nlp.core
 
             services.AddLogging();
             services.AddHealthChecks();
+            services.AddMemoryCache();
 
             services.AddControllers();
             services.AddMvcCore()

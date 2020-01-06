@@ -4,8 +4,10 @@ using System.Text.Json;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Caching.Memory;
 
 using nlp.data;
 
@@ -15,13 +17,15 @@ namespace nlp.services
         where T : IModel<T>, new()
     {
         private readonly ILogger<NlpRepository<T>> _logger;
+        private readonly IMemoryCache _cache;
         private readonly Models<T> _models;
 
         private ICollection<ICategory> _categories { get; set; } = new List<ICategory>();
 
-        public NlpRepository(ILogger<NlpRepository<T>> logger, Models<T> models)
+        public NlpRepository(ILogger<NlpRepository<T>> logger, IMemoryCache cache, Models<T> models)
         {
             _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
+            _cache = cache ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(cache));
             _models = models ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(models));
         }
 
@@ -90,7 +94,7 @@ namespace nlp.services
                     return GetModelSettingsByModelId(Id);
 
                 var delimiters = jRequest.GetProperty("delimiters").ToObject<string[]>();
-                var stopWords = jRequest.GetProperty("stopWords").ToObject<string[]>();               
+                var stopWords = jRequest.GetProperty("stopWords").ToObject<string[]>();
 
                 if (content.Length > 100000)
                     throw new NlpException(HttpStatusCode.BadRequest,
@@ -184,47 +188,77 @@ namespace nlp.services
 
         public IEnumerable<T> GetModels()
         {
-            return _models.All;
+            return _cache.GetOrCreate(_models.All, e =>
+            {
+                e.SlidingExpiration = TimeSpan.FromSeconds(_models.DefaultCacheTimeSpan);
+
+                return _models.All;
+            });
         }
         public IModel<T> GetModel(string Id)
         {
-            return _models.All
-                .FirstOrDefault(x => x.Id == Id);
+            return _cache.GetOrCreate(Id, e =>
+            {
+                e.SlidingExpiration = TimeSpan.FromSeconds(_models.DefaultCacheTimeSpan);
+
+                return _models.All
+                    .FirstOrDefault(x => x.Id == Id);
+            });
         }
         public IModel<T> GetAnyModel(string Id)
         {
-            var models = new Stack<T>(_models.All);
-
-            while (models.Any())
+            return _cache.GetOrCreate(Id, e =>
             {
-                var model = models.Pop() as IModel<T>;
+                e.SlidingExpiration = TimeSpan.FromSeconds(_models.DefaultCacheTimeSpan);
 
-                if (model.Id == Id) return model;
+                var models = new Stack<T>(_models.All);
 
-                if (model.Children.Any())
-                    model.Children
-                        .ToList()
-                        .ForEach(x =>
-                        {
-                            models.Push(x);
-                        });
-            }
+                while (models.Any())
+                {
+                    var model = models.Pop() as IModel<T>;
 
-            return null;
+                    if (model.Id == Id) return model;
+
+                    if (model.Children.Any())
+                        model.Children
+                            .ToList()
+                            .ForEach(x =>
+                            {
+                                models.Push(x);
+                            });
+                }
+
+                return null;
+            });
         }
         public IEnumerable<IModelSettings<T>> GetModelsSettings()
         {
-            return _models.Settings;
+            return _cache.GetOrCreate(_models.Settings, e =>
+            {
+                e.SlidingExpiration = TimeSpan.FromSeconds(_models.DefaultCacheTimeSpan);
+
+                return _models.Settings;
+            });
         }
         public IModelSettings<T> GetModelSettings(string Id)
         {
-            return _models.Settings
-                .FirstOrDefault(x => x.Id == Id);
+            return _cache.GetOrCreate(Id, e =>
+            {
+                e.SlidingExpiration = TimeSpan.FromSeconds(_models.DefaultCacheTimeSpan);
+
+                return _models.Settings
+                    .FirstOrDefault(x => x.Id == Id);
+            });
         }
         public IModelSettings<T> GetModelSettingsByModelId(string Id)
         {
-            return _models.Settings
-                .FirstOrDefault(x => x.Model.Id == Id);
+            return _cache.GetOrCreate(Id, e =>
+            {
+                e.SlidingExpiration = TimeSpan.FromSeconds(_models.DefaultCacheTimeSpan);
+
+                return _models.Settings
+                    .FirstOrDefault(x => x.Model.Id == Id);
+            });
         }
 
         public object CategorizeSample()
@@ -232,12 +266,17 @@ namespace nlp.services
             var requestContent = "This is a sample content passed to the Categorize endpoint. What it'll try and match is the financial model. Specificall, the Vanguard index funds. Such index funds are VBMFX and VTSAX.";
             var request = JsonDocument.Parse("{ \"content\": \"{content}\" }".Replace("{content}", requestContent)).RootElement;
 
-            return new
+            return _cache.GetOrCreate(requestContent, e =>
             {
-                content = requestContent,
-                categorization = Categorize(request, _models.Financial.Id),
-                model = _models.Financial
-            };
+                e.SlidingExpiration = TimeSpan.FromSeconds(_models.DefaultCacheTimeSpan);
+
+                return new
+                {
+                    content = requestContent,
+                    categorization = Categorize(request, _models.Financial.Id),
+                    model = _models.Financial
+                };
+            });
         }
     }
 }
