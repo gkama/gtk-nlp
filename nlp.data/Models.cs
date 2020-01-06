@@ -66,7 +66,7 @@ namespace nlp.data
                     new T()
                     {
                         Id = "34cf611b-6aae-4df6-b0dc-b1820ce6656c",
-                        Name = "Exchange Tarded  Funds (ETFs)",
+                        Name = "Exchange Tarded Funds (ETFs)",
                         Details = "fcpi|fsmd|fval|fidi|fdvv|fdlo|fdev|fdem|fldr|fdhy|fiva|fdmo|fqal"
                     }
                 }
