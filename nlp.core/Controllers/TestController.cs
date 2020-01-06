@@ -12,7 +12,7 @@ using nlp.services;
 namespace nlp.core.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("nlp/test")]
     public class TestController : ControllerBase
     {
         private readonly INlpRepository<TestModel> _repo;
