@@ -9,6 +9,7 @@ WORKDIR /src
 COPY ["nlp.core/nlp.core.csproj", "nlp.core/"]
 COPY ["nlp.data/nlp.data.csproj", "nlp.data/"]
 COPY ["nlp.services/nlp.services.csproj", "nlp.services/"]
+COPY ["nlp.services/nlp.services.text.csproj", "nlp.services.text/"]
 RUN dotnet restore "nlp.core/nlp.core.csproj"
 COPY . .
 WORKDIR "/src/nlp.core"
