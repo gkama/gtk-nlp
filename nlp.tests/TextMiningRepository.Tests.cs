@@ -39,8 +39,33 @@ namespace nlp.tests
             {
                 Assert.Equal("One sentence", sentences[0]);
                 Assert.Equal("Two sentences", sentences[1]);
-                Assert.Equal("And a ", sentences[2]);
+                Assert.Equal("And a  ", sentences[2]);
             }
+        }
+
+        [Theory]
+        [InlineData("Julie loves me more than Linda loves me", "Jane likes me more than Julie loves me")]
+        [InlineData("This is another test", "Let's test another similarity")]
+        public void SentenceSimilarity_Similar(string Sentence1, string Sentence2)
+        {
+            var similarity = _repo.SentenceSimilarity(Sentence1, Sentence2);
+
+            Assert.True(similarity > 0);
+        }
+
+        [Theory]
+        [InlineData(1, 2, 0, 1, 0, 0)]
+        [InlineData(1, 1, 1, 0, 0, 0, 0, 1)]
+        [InlineData(1, 2, 3, 1, 2, 3)]
+        [InlineData(1, 1, 1, 1, 1, 1)]
+        public void CosineDistance_Valid(params int[] Vector)
+        {
+            var vector1 = Vector.Take(Vector.Length / 2).ToArray();
+            var vector2 = Vector.Skip(Vector.Length / 2).ToArray();
+
+            var cosineDistance = _repo.CosineDistance(vector1, vector2);
+
+            Assert.True(cosineDistance > 0);
         }
     }
 }
