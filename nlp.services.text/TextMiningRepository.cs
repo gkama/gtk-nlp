@@ -98,7 +98,26 @@ namespace nlp.services.text
             return newSentences;
         }
 
-        public double SentenceSimilarity(string Sentence1, string Sentence2, string[] StopWords = null)
+        public double[,] BuildSimilarityMatrix(IEnumerable<string> Sentences, IEnumerable<string> StopWords = null)
+        {
+            var similarityMatrix = new double[Sentences.Count(), Sentences.Count()];
+            var sentencesArray = Sentences.ToArray();
+
+            for (int idx1 = 0; idx1 < Sentences.Count(); idx1++)
+            {
+                for (int idx2 = 0; idx2 < Sentences.Count(); idx2++)
+                {
+                    if (idx1 == idx2)
+                        continue;
+
+                    similarityMatrix[idx1, idx2] = SentenceSimilarity(sentencesArray[idx1], sentencesArray[idx2], StopWords);
+                }
+            }
+
+            return similarityMatrix;
+        }
+
+        public double SentenceSimilarity(string Sentence1, string Sentence2, IEnumerable<string> StopWords = null)
         {
             if (string.IsNullOrWhiteSpace(Sentence1)
                 || Sentence1.Contains(".")) throw new NlpException(HttpStatusCode.BadRequest, $"'sentence1' is not a sentence");
