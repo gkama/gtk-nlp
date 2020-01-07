@@ -102,7 +102,7 @@ namespace nlp.data
             new ModelSettings<T>()
             {
                 Id = "dd8184ac-2144-47b5-b54f-988605a15682",
-                StopWords = DetaultStopWords,
+                StopWords = DefaultStopWords,
                 Delimiters = new char[]
                 {
                     ' ', '|'
@@ -114,7 +114,7 @@ namespace nlp.data
             new ModelSettings<T>()
             {
                 Id = "007781f0-6094-413a-b776-64f6de77949c",
-                StopWords = DetaultStopWords,
+                StopWords = DefaultStopWords,
                 Delimiters = DefaultDelimiters,
                 Model = Vanguard
             };
@@ -123,7 +123,7 @@ namespace nlp.data
             new ModelSettings<T>()
             {
                 Id = "ca9e47f9-f3bf-458d-b5ee-afeb61f9dffb",
-                StopWords = DetaultStopWords,
+                StopWords = DefaultStopWords,
                 Delimiters = DefaultDelimiters,
                 Model = Fidelity
             };
@@ -148,7 +148,7 @@ namespace nlp.data
             {
                 ' ', ',', ';', '?', '!', '.', '`', '-', '(', ')', '[', ']', '|', '$'
             };
-        public string[] DetaultStopWords =>
+        public string[] DefaultStopWords =>
             new string[]
             {
                 "ourselves", "hers", "between", "yourself", "but", "again", "there", "about", "once", "during",
