@@ -100,8 +100,11 @@ namespace nlp.services.text
 
         public double SentenceSimilarity(string Sentence1, string Sentence2, string[] StopWords = null)
         {
-            if (Sentence1.Contains(".")) throw new NlpException(HttpStatusCode.BadRequest, $"'sentence1' is not a sentence");
-            else if (Sentence2.Contains(".")) throw new NlpException(HttpStatusCode.BadRequest, $"'sentence2' is not a sentence");
+            if (string.IsNullOrWhiteSpace(Sentence1)
+                || Sentence1.Contains(".")) throw new NlpException(HttpStatusCode.BadRequest, $"'sentence1' is not a sentence");
+
+            if (string.IsNullOrWhiteSpace(Sentence2)
+                || Sentence2.Contains(".")) throw new NlpException(HttpStatusCode.BadRequest, $"'sentence2' is not a sentence");
 
             var s1Words = Sentence1.Split(" ")
                 .Select(x => x.ToLower());
@@ -111,8 +114,8 @@ namespace nlp.services.text
 
             var allWords = s1Words.Concat(s2Words);
 
-            var vector1 = new int[s1Words.Count()];
-            var vector2 = new int[s2Words.Count()];
+            var vector1 = new int[allWords.Count()];
+            var vector2 = new int[allWords.Count()];
 
             foreach (var w in s1Words)
             {
@@ -135,9 +138,10 @@ namespace nlp.services.text
 
         public double CosineDistance(int[] Vector1, int[] Vector2)
         {
-            double dotProduct = 0.0;
-            double normA = 0.0;
-            double normB = 0.0;
+            var dotProduct = 0.0;
+            var normA = 0.0;
+            var normB = 0.0;
+
             for (int i = 0; i < Vector1.Length; i++)
             {
                 dotProduct += Vector1[i] * Vector2[i];
