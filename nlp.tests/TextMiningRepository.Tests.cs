@@ -57,7 +57,7 @@ namespace nlp.tests
         [InlineData(1, 2, 0, 1, 0, 0)]
         [InlineData(1, 1, 1, 0, 0, 0, 0, 1)]
         [InlineData(1, 2, 3, 1, 2, 3)]
-        [InlineData(1, 1, 1, 1, 1, 1)]
+        [InlineData(1, 1, 1, 1, 1, 2)]
         public void CosineDistance_Valid(params int[] Vector)
         {
             var vector1 = Vector.Take(Vector.Length / 2).ToArray();
@@ -65,7 +65,7 @@ namespace nlp.tests
 
             var cosineDistance = _repo.CosineDistance(vector1, vector2);
 
-            Assert.True(cosineDistance > 0);
+            Assert.True(cosineDistance >= 0);
         }
     }
 }
