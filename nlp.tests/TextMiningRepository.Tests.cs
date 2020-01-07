@@ -58,7 +58,7 @@ namespace nlp.tests
         [InlineData(1, 1, 1, 0, 0, 0, 0, 1)]
         [InlineData(1, 2, 3, 1, 2, 3)]
         [InlineData(1, 1, 1, 1, 1, 2)]
-        public void CosineDistance_Valid(params int[] Vector)
+        public void CosineDistance_BiggerThanZero(params int[] Vector)
         {
             var vector1 = Vector.Take(Vector.Length / 2).ToArray();
             var vector2 = Vector.Skip(Vector.Length / 2).ToArray();
