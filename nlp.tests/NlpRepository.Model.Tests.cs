@@ -16,15 +16,15 @@ namespace nlp.tests
 {
     public class NlpRepositoryModelTests
     {
-        private readonly ILogger<NlpRepository<Model>> _mockLogger;
+        private readonly ILogger<NlpRepository<Model>> _logger;
         private readonly Models<Model> _models;
         private readonly INlpRepository<Model> _repo;
 
         public NlpRepositoryModelTests()
         {
-            _mockLogger = Mock.Of<ILogger<NlpRepository<Model>>>();
+            _logger = Mock.Of<ILogger<NlpRepository<Model>>>();
             _models = new Models<Model>();
-            _repo = new NlpRepository<Model>(_mockLogger, GetServiceProvider().GetService<IMemoryCache>(), _models);
+            _repo = new NlpRepository<Model>(_logger, GetServiceProvider().GetService<IMemoryCache>(), _models);
         }
 
         [Theory]
