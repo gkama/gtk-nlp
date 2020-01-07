@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 
 using Microsoft.Extensions.Logging;
 
@@ -31,7 +32,7 @@ namespace nlp.services.text
 
             sw.Start();
             Content.Split(_models.DefaultDelimiters)
-                .Where(x => !_models.DetaultStopWords.Contains(x))
+                .Where(x => !_models.DefaultStopWords.Contains(x))
                 .ToList()
                 .ForEach(x =>
                 {
@@ -54,7 +55,7 @@ namespace nlp.services.text
 
             sw.Start();
             Content.Split(_models.DefaultDelimiters)
-                .Where(x => !_models.DetaultStopWords.Contains(x) && !string.IsNullOrEmpty(x))
+                .Where(x => !_models.DefaultStopWords.Contains(x) && !string.IsNullOrEmpty(x))
                 .ToList()
                 .ForEach(x =>
                 {
@@ -67,6 +68,34 @@ namespace nlp.services.text
             _logger.LogInformation($"stemming algorithm took {sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
 
             return stems.AsEnumerable();
+        }
+
+        public void Summarize(string Content)
+        {
+            
+        }
+
+        public IEnumerable<string> ToSentences(string Content)
+        {
+            var nonWords = new Regex("[^a-zA-Z]");
+            var sentences = Content.Split(". ", StringSplitOptions.RemoveEmptyEntries)
+                .Except(_models.DefaultStopWords, StringComparer.OrdinalIgnoreCase)
+                .AsEnumerable<string>();
+            var newSentences = new List<string>();
+
+            foreach (var s in sentences)
+            {
+                var newS = s;
+                foreach (var ss in newS.Split(" "))
+                {
+                    if (!nonWords.IsMatch(ss))
+                        newS = newS.Replace(ss, " ");
+                }
+
+                newSentences.Add(newS);
+            }
+
+            return newSentences;
         }
     }
 }
