@@ -4,6 +4,7 @@ using System.Linq;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 
 using Xunit;
 using Moq;
@@ -18,14 +19,12 @@ namespace nlp.tests
         private readonly ILogger<NlpRepository<Model>> _mockLogger;
         private readonly Models<Model> _models;
         private readonly INlpRepository<Model> _repo;
-        private readonly INlpRepository<Model> _mockRepo;
 
         public NlpRepositoryModelTests()
         {
             _mockLogger = Mock.Of<ILogger<NlpRepository<Model>>>();
             _models = new Models<Model>();
-            _repo = new NlpRepository<Model>(_mockLogger, Mock.Of<IMemoryCache>(), _models);
-            _mockRepo = MockNlpRepo();
+            _repo = new NlpRepository<Model>(_mockLogger, GetMemoryCache(), _models);
         }
 
         [Theory]
@@ -34,7 +33,7 @@ namespace nlp.tests
         [InlineData("3")]
         public void GetModel_EqualsNull(string id)
         {
-            var model = _mockRepo.GetModel(id);
+            var model = _repo.GetModel(id);
 
             Assert.Null(model);
         }
@@ -45,7 +44,7 @@ namespace nlp.tests
         [InlineData("5d9fd0f0-187a-456d-8798-c682c8f32d5f")]
         public void GetModel_Valid(string id)
         {
-            var model = _mockRepo.GetModel(id);
+            var model = _repo.GetModel(id);
 
             Assert.NotNull(model);
             Assert.NotNull(model.Name);
@@ -68,7 +67,7 @@ namespace nlp.tests
         [Fact]
         public void GetModelsSettings_Valid()
         {
-            var modelS = _mockRepo.GetModelsSettings();
+            var modelS = _repo.GetModelsSettings();
 
             Assert.True(modelS.Count() > 0);
         }
@@ -102,7 +101,7 @@ namespace nlp.tests
         [Fact]
         public void GetModels_Valid()
         {
-            var models = _mockRepo.GetModels();
+            var models = _repo.GetModels();
 
             Assert.True(models.Count() > 0);
         }
@@ -110,32 +109,18 @@ namespace nlp.tests
         [Fact]
         public void CategorizeSample_Valid()
         {
-            var sample = _mockRepo.CategorizeSample();
+            var sample = _repo.CategorizeSample();
 
             Assert.NotNull(sample);
         }
 
-        private INlpRepository<Model> MockNlpRepo()
+        private IMemoryCache GetMemoryCache()
         {
-            var mockedNlpRepo = new Mock<INlpRepository<Model>>() { CallBase = true };
+            var services = new ServiceCollection();
+            services.AddMemoryCache();
+            var serviceProvider = services.BuildServiceProvider();
 
-            mockedNlpRepo.Setup(x => x.GetModels()).Returns(_models.All);
-            mockedNlpRepo.Setup(x => x.GetModel(It.IsAny<string>())).Returns(_models.All.First());
-            mockedNlpRepo.Setup(x => x.GetAnyModel(It.IsAny<string>())).Returns(_models.All.First());
-            mockedNlpRepo.Setup(x => x.GetModelsSettings()).Returns(_models.Settings);
-            mockedNlpRepo.Setup(x => x.GetModelSettings(It.IsAny<string>())).Returns(_models.Settings.First());
-            mockedNlpRepo.Setup(x => x.CategorizeSample())
-                .Returns(new { content = "test",
-                    categorization = new List<ICategory>()
-                    {
-                        new Category()
-                        {
-                            Name = "Financial"
-                        }
-                    },
-                    model = _models.All.First() });
-
-            return mockedNlpRepo.Object;
+            return serviceProvider.GetService<IMemoryCache>();
         }
     }
 }
