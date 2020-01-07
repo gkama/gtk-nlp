@@ -88,7 +88,7 @@ namespace nlp.services.text
                 var newS = s;
                 foreach (var ss in newS.Split(" "))
                 {
-                    if (!nonWords.IsMatch(ss))
+                    if (nonWords.IsMatch(ss))
                         newS = newS.Replace(ss, " ");
                 }
 
