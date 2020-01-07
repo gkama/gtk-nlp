@@ -11,5 +11,6 @@ namespace nlp.services.text
         public object Mine(string Content);
         public IEnumerable<IStemmedWord> Stem(string Content);
         public IEnumerable<string> ToSentences(string Content);
+        public double SentenceSimilarity(string Sentence1, string Sentence2, string[] StopWords = null);
     }
 }

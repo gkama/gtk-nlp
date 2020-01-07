@@ -97,5 +97,55 @@ namespace nlp.services.text
 
             return newSentences;
         }
+
+        public double SentenceSimilarity(string Sentence1, string Sentence2, string[] StopWords = null)
+        {
+            if (Sentence1.Contains(".")) throw new NlpException(HttpStatusCode.BadRequest, $"'sentence1' is not a sentence");
+            else if (Sentence2.Contains(".")) throw new NlpException(HttpStatusCode.BadRequest, $"'sentence2' is not a sentence");
+
+            var s1Words = Sentence1.Split(" ")
+                .Select(x => x.ToLower());
+
+            var s2Words = Sentence2.Split(" ")
+                .Select(x => x.ToLower());
+
+            var allWords = s1Words.Concat(s2Words);
+
+            var vector1 = new int[s1Words.Count()];
+            var vector2 = new int[s2Words.Count()];
+
+            foreach (var w in s1Words)
+            {
+                if (StopWords?.Contains(w) == true)
+                    continue;
+
+                vector1[allWords.ToList().IndexOf(w)] += 1;
+            }
+
+            foreach (var w in s2Words)
+            {
+                if (StopWords?.Contains(w) == true)
+                    continue;
+
+                vector2[allWords.ToList().IndexOf(w)] += 1;
+            }
+
+            return 1 - CosineDistance(vector1, vector2);
+        }
+
+        public double CosineDistance(int[] Vector1, int[] Vector2)
+        {
+            double dotProduct = 0.0;
+            double normA = 0.0;
+            double normB = 0.0;
+            for (int i = 0; i < Vector1.Length; i++)
+            {
+                dotProduct += Vector1[i] * Vector2[i];
+                normA += Math.Pow(Vector1[i], 2);
+                normB += Math.Pow(Vector2[i], 2);
+            }
+
+            return 1 - (dotProduct / (Math.Sqrt(normA) * Math.Sqrt(normB)));
+        }
     }
 }
