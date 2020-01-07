@@ -24,7 +24,7 @@ namespace nlp.tests
         {
             _mockLogger = Mock.Of<ILogger<NlpRepository<Model>>>();
             _models = new Models<Model>();
-            _repo = new NlpRepository<Model>(_mockLogger, GetMemoryCache(), _models);
+            _repo = new NlpRepository<Model>(_mockLogger, GetServiceProvider().GetService<IMemoryCache>(), _models);
         }
 
         [Theory]
@@ -114,13 +114,13 @@ namespace nlp.tests
             Assert.NotNull(sample);
         }
 
-        private IMemoryCache GetMemoryCache()
+        private IServiceProvider GetServiceProvider()
         {
             var services = new ServiceCollection();
             services.AddMemoryCache();
             var serviceProvider = services.BuildServiceProvider();
 
-            return serviceProvider.GetService<IMemoryCache>();
+            return serviceProvider;
         }
     }
 }
