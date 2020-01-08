@@ -6,6 +6,7 @@ namespace nlp.services.text
 {
     public interface ISummarizer
     {
+        public void Summarize(string Content, int N = 5, IEnumerable<string> StopWords = null);
         public IEnumerable<string> ToSentences(string Content, IEnumerable<string> StopWords = null);
         public double[,] BuildSimilarityMatrix(IEnumerable<string> Sentences, IEnumerable<string> StopWords = null);
         public double SentenceSimilarity(string Sentence1, string Sentence2, IEnumerable<string> StopWords = null);

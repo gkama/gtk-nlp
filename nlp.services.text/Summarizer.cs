@@ -24,6 +24,9 @@ namespace nlp.services.text
         {
             var sentences = ToSentences(Content, StopWords);
             var similarityMatrix = BuildSimilarityMatrix(sentences, StopWords);
+            var scores = PageRank(similarityMatrix);
+
+            var k = 1;
         }
 
         public IEnumerable<string> ToSentences(string Content, IEnumerable<string> StopWords = null)
@@ -58,34 +61,44 @@ namespace nlp.services.text
             var n = Matrix.GetLength(0);
             var ones = new int[n].Populate(1);
             var pp = new List<double>();
-            var m = Enumerable.Range(0, Matrix.GetLength(1))
-                .Select(x => Matrix[0, x])
-                .ToArray();
+            var tor = new List<List<double>>();
 
             foreach (var o in ones)
             {
                 pp.Add(o / n);
             }
-            
-            while (true)
+
+            for (int i = 0; i < Matrix.GetLength(0); i++)
             {
-                var newP = new List<double>();
-                var numerator = new List<double>();
-                var denominator = new List<double>();
+                var m = Enumerable.Range(0, Matrix.GetLength(0))
+                    .Select(x => Matrix[i, x])
+                    .ToArray();
 
-                foreach (var o in ones)
-                    numerator.Add(o * (1 - d));
-                foreach (var p in pp)
-                    denominator.Add(n + (d * m.Zip(pp, (d1, d2) => d1 * d2).Sum()));
-                newP = numerator.Zip(denominator, (a, b) => a / b).ToList();
+                while (true)
+                {
+                    var newP = new List<double>();
+                    var numerator = new List<double>();
+                    var denominator = new List<double>();
 
-                var delta = Math.Abs(newP.Minus(pp).Sum());
+                    foreach (var o in ones)
+                        numerator.Add(o * (1 - d));
+                    foreach (var p in pp)
+                        denominator.Add(n + (d * m.ToArray().DotProduct(pp.ToArray())));
+                    newP = numerator.Zip(denominator, (a, b) => a / b).ToList();
 
-                if (delta <= eps)
-                    return newP.AsEnumerable();
+                    var delta = Math.Abs(newP.Minus(pp).Sum());
 
-                pp = newP;
+                    if (delta <= eps)
+                    {
+                        tor.Add(newP);
+                        break;
+                    }
+
+                    pp = newP;
+                }
             }
+
+            return pp;
         }
 
         public double[,] BuildSimilarityMatrix(IEnumerable<string> Sentences, IEnumerable<string> StopWords = null)
