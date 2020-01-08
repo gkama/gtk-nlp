@@ -70,9 +70,10 @@ namespace nlp.services.text
             return stems.AsEnumerable();
         }
 
-        public void Summarize(string Content)
+        public void Summarize(string Content, IEnumerable<string> StopWords = null)
         {
-            
+            var sentences = ToSentences(Content);
+            var similarityMatrix = BuildSimilarityMatrix(sentences, StopWords);
         }
 
         public IEnumerable<string> ToSentences(string Content)
