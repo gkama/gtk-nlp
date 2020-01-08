@@ -4,12 +4,21 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 
+using Microsoft.Extensions.Logging;
+
 using nlp.data;
 
 namespace nlp.services.text
 {
     public class Summarizer : ISummarizer
     {
+        private readonly ILogger<Summarizer> _logger;
+
+        public Summarizer(ILogger<Summarizer> logger)
+        {
+            _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
+        }
+
         public void Summarize(string Content, int N = 5, IEnumerable<string> StopWords = null)
         {
             var sentences = ToSentences(Content);

@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net;
+
+using Microsoft.Extensions.Logging;
 
 using nlp.data;
 
 namespace nlp.services.text
 {
-    /// <summary>
-    /// Based off of the improved Porter2 algorithm:
-    /// http://snowball.tartarus.org/algorithms/english/stemmer.html
-    /// </summary>
     public class Stemmer : IStemmer
     {
+        private readonly ILogger<Stemmer> _logger;
+
+        public Stemmer(ILogger<Stemmer> logger)
+        {
+            _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
+        }
+
         public char[] Alphabet => Enumerable
                 .Range('a', 'z' - 'a' + 1)
                 .Select(c => (char)c)
