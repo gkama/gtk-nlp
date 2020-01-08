@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Numerics;
 using System.Text.RegularExpressions;
 
 using Microsoft.Extensions.Logging;
@@ -21,7 +22,7 @@ namespace nlp.services.text
 
         public void Summarize(string Content, int N = 5, IEnumerable<string> StopWords = null)
         {
-            var sentences = ToSentences(Content);
+            var sentences = ToSentences(Content, StopWords);
             var similarityMatrix = BuildSimilarityMatrix(sentences, StopWords);
         }
 
@@ -52,12 +53,39 @@ namespace nlp.services.text
             return newSentences;
         }
 
-        public void PageRank(double[,] Matrix, double eps = 0.0001, double d = 0.85)
+        public IEnumerable<double> PageRank(double[,] Matrix, double eps = 0.0001, double d = 0.85)
         {
-            var ones = new int[Matrix.GetLength(0)];
-            ones.Populate<int>(1);
+            var n = Matrix.GetLength(0);
+            var ones = new int[n].Populate(1);
+            var pp = new List<double>();
+            var m = Enumerable.Range(0, Matrix.GetLength(1))
+                .Select(x => Matrix[0, x])
+                .ToArray();
 
+            foreach (var o in ones)
+            {
+                pp.Add(o / n);
+            }
+            
+            while (true)
+            {
+                var newP = new List<double>();
+                var numerator = new List<double>();
+                var denominator = new List<double>();
 
+                foreach (var o in ones)
+                    numerator.Add(o * (1 - d));
+                foreach (var p in pp)
+                    denominator.Add(n + (d * m.Zip(pp, (d1, d2) => d1 * d2).Sum()));
+                newP = numerator.Zip(denominator, (a, b) => a / b).ToList();
+
+                var delta = Math.Abs(newP.Minus(pp).Sum());
+
+                if (delta <= eps)
+                    return newP.AsEnumerable();
+
+                pp = newP;
+            }
         }
 
         public double[,] BuildSimilarityMatrix(IEnumerable<string> Sentences, IEnumerable<string> StopWords = null)
