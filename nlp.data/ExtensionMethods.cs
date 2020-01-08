@@ -120,5 +120,19 @@ namespace nlp.data
 
             return arr;
         }
+
+        /// <summary>
+        /// Subtraction of two <see cref="IEnumerable{T}"/>
+        /// </summary>
+        public static IEnumerable<T> Minus<T>(this IEnumerable<T> orgList, IEnumerable<T> toRemove)
+        {
+            var list = orgList.OrderBy(x => x).ToList();
+            foreach (var x in toRemove)
+            {
+                var inx = list.BinarySearch(x);
+                if (inx >= 0) list.RemoveAt(inx);
+            }
+            return list;
+        }
     }
 }
