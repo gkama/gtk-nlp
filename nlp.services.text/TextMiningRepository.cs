@@ -99,6 +99,13 @@ namespace nlp.services.text
             return newSentences;
         }
 
+        public void PageRank(double[,] Matrix, double eps = 0.0001, double d = 0.85)
+        {
+            var ones = new int[Matrix.GetLength(0)];
+            ones.Populate<int>(1);
+            
+        }
+
         public double[,] BuildSimilarityMatrix(IEnumerable<string> Sentences, IEnumerable<string> StopWords = null)
         {
             var similarityMatrix = new double[Sentences.Count(), Sentences.Count()];
@@ -121,10 +128,12 @@ namespace nlp.services.text
         public double SentenceSimilarity(string Sentence1, string Sentence2, IEnumerable<string> StopWords = null)
         {
             if (string.IsNullOrWhiteSpace(Sentence1)
-                || Sentence1.Contains(".")) throw new NlpException(HttpStatusCode.BadRequest, $"'sentence1' is not a sentence");
+                || Sentence1.Contains("."))
+                throw new NlpException(HttpStatusCode.BadRequest, $"'sentence1' is not a sentence");
 
             if (string.IsNullOrWhiteSpace(Sentence2)
-                || Sentence2.Contains(".")) throw new NlpException(HttpStatusCode.BadRequest, $"'sentence2' is not a sentence");
+                || Sentence2.Contains("."))
+                throw new NlpException(HttpStatusCode.BadRequest, $"'sentence2' is not a sentence");
 
             var s1Words = Sentence1.Split(" ")
                 .Select(x => x.ToLower());
@@ -159,17 +168,17 @@ namespace nlp.services.text
         public double CosineDistance(int[] Vector1, int[] Vector2)
         {
             var dotProduct = 0.0;
-            var normA = 0.0;
-            var normB = 0.0;
+            var norm1 = 0.0;
+            var norm2 = 0.0;
 
             for (int i = 0; i < Vector1.Length; i++)
             {
                 dotProduct += Vector1[i] * Vector2[i];
-                normA += Math.Pow(Vector1[i], 2);
-                normB += Math.Pow(Vector2[i], 2);
+                norm1 += Math.Pow(Vector1[i], 2);
+                norm2 += Math.Pow(Vector2[i], 2);
             }
 
-            return 1 - (dotProduct / (Math.Sqrt(normA) * Math.Sqrt(normB)));
+            return 1 - (dotProduct / (Math.Sqrt(norm1) * Math.Sqrt(norm2)));
         }
     }
 }
