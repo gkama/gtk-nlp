@@ -5,6 +5,8 @@ using System.Text;
 using Xunit;
 using Moq;
 
+using Microsoft.Extensions.Logging;
+
 using nlp.data;
 using nlp.services.text;
 
@@ -12,11 +14,13 @@ namespace nlp.tests
 {
     public class StemmerTests
     {
+        private readonly ILogger<Stemmer> _logger;
         private readonly IStemmer _stemmer;
 
         public StemmerTests()
         {
-            _stemmer = new Stemmer();
+            _logger = Mock.Of<ILogger<Stemmer>>();
+            _stemmer = new Stemmer(_logger);
         }
 
         [Theory]

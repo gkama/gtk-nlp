@@ -15,11 +15,13 @@ namespace nlp.tests
 {
     public class SummarizerTests
     {
+        private readonly ILogger<Summarizer> _logger;
         private readonly ISummarizer _summarizer;
 
         public SummarizerTests()
         {
-            _summarizer = new Summarizer();
+            _logger = Mock.Of<ILogger<Summarizer>>();
+            _summarizer = new Summarizer(_logger);
         }
 
         [Theory]
