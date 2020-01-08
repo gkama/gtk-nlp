@@ -13,26 +13,20 @@ using nlp.services.text;
 
 namespace nlp.tests
 {
-    public class TextMiningRepositoryTests
+    public class SummarizerTests
     {
-        private readonly ILogger<TextMiningRepository<Model>> _logger;
-        private readonly IStemmer _stemmer;
-        private readonly Models<Model> _models;
-        private readonly ITextMiningRepository<Model> _repo;
+        private readonly ISummarizer _summarizer;
 
-        public TextMiningRepositoryTests()
+        public SummarizerTests()
         {
-            _logger = Mock.Of<ILogger<TextMiningRepository<Model>>>();
-            _stemmer = new Stemmer();
-            _models = new Models<Model>();
-            _repo = new TextMiningRepository<Model>(_logger, _stemmer, _models);
+            _summarizer = new Summarizer();
         }
 
         [Theory]
         [InlineData("One sentence. Two sentences. And a 3.")]
         public void ToSentences_Valid(string Content)
         {
-            var sentences = _repo.ToSentences(Content)
+            var sentences = _summarizer.ToSentences(Content)
                 .ToArray();
 
             if (Content == "One sentence. Two sentences. And a 3.")
@@ -48,7 +42,7 @@ namespace nlp.tests
         [InlineData("Test me", "Test me as well", "Test me as well please", "What about me?")]
         public void BuildSimilarityMatrix_Similar(params string[] Sentences)
         {
-            var matrix = _repo.BuildSimilarityMatrix(Sentences);
+            var matrix = _summarizer.BuildSimilarityMatrix(Sentences);
 
             Assert.NotNull(matrix);
             Assert.True(matrix[0, 1] > 0);
@@ -60,7 +54,7 @@ namespace nlp.tests
         [InlineData("This is another test", "Let's test another similarity")]
         public void SentenceSimilarity_Similar(string Sentence1, string Sentence2)
         {
-            var similarity = _repo.SentenceSimilarity(Sentence1, Sentence2);
+            var similarity = _summarizer.SentenceSimilarity(Sentence1, Sentence2);
 
             Assert.True(similarity > 0);
         }
@@ -75,7 +69,7 @@ namespace nlp.tests
             var vector1 = Vector.Take(Vector.Length / 2).ToArray();
             var vector2 = Vector.Skip(Vector.Length / 2).ToArray();
 
-            var cosineDistance = _repo.CosineDistance(vector1, vector2);
+            var cosineDistance = _summarizer.CosineDistance(vector1, vector2);
 
             Assert.True(cosineDistance >= 0);
         }
