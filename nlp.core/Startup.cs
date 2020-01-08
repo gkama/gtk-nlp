@@ -27,6 +27,7 @@ namespace nlp.core
             services.AddScoped(typeof(INlpRepository<>), typeof(NlpRepository<>));
             services.AddScoped(typeof(ITextMiningRepository<>), typeof(TextMiningRepository<>));
             services.AddScoped<IStemmer, Stemmer>();
+            services.AddScoped<ISummarizer, Summarizer>();
             services.AddSingleton(typeof(Models<>));
 
             services.AddLogging();
