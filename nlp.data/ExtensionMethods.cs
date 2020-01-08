@@ -134,5 +134,19 @@ namespace nlp.data
             }
             return list;
         }
+
+        /// <summary>
+        /// Dot product of two <see cref="double[]"/>
+        /// </summary>
+        public static double DotProduct(this double[] A, double[] B)
+        {
+            var dotProduct = 0.0;
+            for (int i = 0; i < A.Count(); i++)
+            {
+                dotProduct += A[i] * B[i];
+            }
+
+            return dotProduct;
+        }
     }
 }
