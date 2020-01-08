@@ -27,9 +27,13 @@ namespace nlp.services.text
 
         public IEnumerable<string> ToSentences(string Content, IEnumerable<string> StopWords = null)
         {
+            var stopWords = StopWords == null
+                ? Enumerable.Empty<string>()
+                : StopWords;
+
             var nonWords = new Regex("[^a-zA-Z]");
             var sentences = Content.Split(". ", StringSplitOptions.RemoveEmptyEntries)
-                .Except(StopWords, StringComparer.OrdinalIgnoreCase)
+                .Except(stopWords, StringComparer.OrdinalIgnoreCase)
                 .AsEnumerable<string>();
             var newSentences = new List<string>();
 
