@@ -111,12 +111,14 @@ namespace nlp.data
         /// <summary>
         /// Populates an array with a specific value <see cref="{T}"/>
         /// </summary>
-        public static void Populate<T>(this T[] arr, T value)
+        public static T[] Populate<T>(this T[] arr, T value)
         {
             for (int i = 0; i < arr.Length; i++)
             {
                 arr[i] = value;
             }
+
+            return arr;
         }
     }
 }
