@@ -25,8 +25,6 @@ namespace nlp.services.text
             var sentences = ToSentences(Content, StopWords);
             var similarityMatrix = BuildSimilarityMatrix(sentences, StopWords);
             var scores = PageRank(similarityMatrix);
-
-            var k = 1;
         }
 
         public IEnumerable<string> ToSentences(string Content, IEnumerable<string> StopWords = null)
@@ -60,38 +58,20 @@ namespace nlp.services.text
         public IEnumerable<double> PageRank(double[,] Matrix, double eps = 0.0001, double d = 0.85)
         {
             var n = Matrix.GetLength(0);
-            var ones = new int[n].Populate(1);
-            var pp = new List<double>();
-            var tor = new List<List<double>>();
+            var nn = Matrix.GetLength(1);
+            var ones = new double[n].Populate(1.0);
+            var toR = new List<double>();
 
-            var m = Enumerable.Range(0, Matrix.GetLength(0))
-                .Select(x => Matrix[1, x])
-                .ToArray();
-
-            foreach (var o in ones)
+            for (int i = 0; i < n; i++)
             {
-                pp.Add(o / n);
+                var m = Enumerable.Range(0, Matrix.GetLength(1))
+                    .Select(x => Matrix[i, x])
+                    .ToArray();
+
+                toR.Add(0.15 + (d * (m.Zip(ones, (d1, d2) => d1 * d2).Sum())));
             }
 
-            while (true)
-            {
-                var newP = new List<double>();
-                var numerator = new List<double>();
-                var denominator = new List<double>();
-
-                foreach (var o in ones)
-                    numerator.Add(o * (1 - d));
-                foreach (var p in pp)
-                    denominator.Add(n + (d * m.ToArray().DotProduct(pp.ToArray())));
-                newP = numerator.Zip(denominator, (a, b) => a / b).ToList();
-
-                var delta = Math.Abs(newP.Minus(pp).Sum());
-
-                if (delta <= eps)
-                    return newP;
-
-                pp = newP;
-            }
+            return toR;
         }
 
         public double[,] BuildSimilarityMatrix(IEnumerable<string> Sentences, IEnumerable<string> StopWords = null)
