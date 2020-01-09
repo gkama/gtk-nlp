@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\nlp.data.text\nlp.data.text.csproj" />
     <ProjectReference Include="..\nlp.data\nlp.data.csproj" />
     <ProjectReference Include="..\nlp.services.text\nlp.services.text.csproj" />
     <ProjectReference Include="..\nlp.services\nlp.services.csproj" />
