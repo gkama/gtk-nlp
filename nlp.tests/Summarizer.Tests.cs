@@ -74,6 +74,7 @@ namespace nlp.tests
         }
 
         [Theory]
+        [InlineData("In an attempt to build an AI-ready workforce, Microsoft announced Intelligent Cloud Hub which has been launched to empower the next generation of students with AI-ready skills.", "Envisioned as a three-year collaborative program, Intelligent Cloud Hub will support around 100 institutions with AI infrastructure, course content and curriculum, developer support, development tools and give students access to cloud and AI services.")]
         [InlineData("Julie loves me more than Linda loves me", "Jane likes me more than Julie loves me")]
         [InlineData("This is another test", "Let's test another similarity")]
         public void SentenceSimilarity_Similar(string Sentence1, string Sentence2)
