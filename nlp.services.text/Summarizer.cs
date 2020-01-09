@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Numerics;
+using System.Text;
 using System.Text.RegularExpressions;
 
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,17 @@ namespace nlp.services.text
             var sentences = ToSentences(Content, StopWords);
             var similarityMatrix = BuildSimilarityMatrix(sentences, StopWords);
             var scores = PageRank(similarityMatrix);
+
+            var summText = new StringBuilder();
+            foreach (var s in scores.OrderBy(x => x).Take(N))
+            {
+                var sIdx = scores.ToList().IndexOf(s);
+
+                summText.Append(sentences.ToArray()[sIdx])
+                    .Append(". ");
+            }
+
+            var k = 0;
         }
 
         public IEnumerable<string> ToSentences(string Content, IEnumerable<string> StopWords = null)
@@ -38,6 +50,7 @@ namespace nlp.services.text
                 .AsEnumerable<string>();
 
             var nonWords = new Regex("[^a-zA-Z]");
+            var mSpaces = new Regex("[ ]{2,}");
             var newSentences = new List<string>();
 
             foreach (var s in sentences)
@@ -49,6 +62,8 @@ namespace nlp.services.text
                         newS = newS.Replace(ss, " ");
                 }
 
+                newS = mSpaces.Replace(newS, " ");
+
                 newSentences.Add(newS);
             }
 
@@ -58,9 +73,8 @@ namespace nlp.services.text
         public IEnumerable<double> PageRank(double[,] Matrix, double eps = 0.0001, double d = 0.85)
         {
             var n = Matrix.GetLength(0);
-            var nn = Matrix.GetLength(1);
             var ones = new double[n].Populate(1.0);
-            var toR = new List<double>();
+            var rank = new List<double>();
 
             for (int i = 0; i < n; i++)
             {
@@ -68,10 +82,10 @@ namespace nlp.services.text
                     .Select(x => Matrix[i, x])
                     .ToArray();
 
-                toR.Add(0.15 + (d * (m.Zip(ones, (d1, d2) => d1 * d2).Sum())));
+                rank.Add(0.15 + (d * (m.Zip(ones, (d1, d2) => d1 * d2).Sum())));
             }
 
-            return toR;
+            return rank.AsEnumerable();
         }
 
         public double[,] BuildSimilarityMatrix(IEnumerable<string> Sentences, IEnumerable<string> StopWords = null)
