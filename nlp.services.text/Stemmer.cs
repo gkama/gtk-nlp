@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Diagnostics;
 
 using Microsoft.Extensions.Logging;
 
@@ -65,6 +66,9 @@ namespace nlp.services.text
 
         public IStemmedWord Stem(string Word)
         {
+            _logger.LogInformation($"stem request received with word={Word}");
+
+            var sw = new Stopwatch();
             var original = Word;
             if (Word.Length <= 2)
             {
@@ -75,6 +79,7 @@ namespace nlp.services.text
                 };
             }
 
+            sw.Start();
             Word = TrimStartingApostrophe(Word.ToLowerInvariant());
 
             string excpt;
@@ -110,6 +115,9 @@ namespace nlp.services.text
             Word = Step3ReplaceSuffixes(Word, r1, r2);
             Word = Step4RemoveSomeSuffixesInR2(Word, r2);
             Word = Step5RemoveEorLSuffixes(Word, r1, r2);
+            sw.Stop();
+
+            _logger.LogInformation($"stem algorithm took {sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
 
             return new StemmedWord()
             {
