@@ -19,13 +19,13 @@ namespace nlp.services.text
             _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
         }
 
-        public char[] Alphabet => Enumerable
+        private char[] Alphabet => Enumerable
                 .Range('a', 'z' - 'a' + 1)
                 .Select(c => (char)c)
                 .Concat(new[] { '\'' }).ToArray();
-        public char[] Vowels => "aeiouy".ToArray();
-        public string[] Doubles => new string[] { "bb", "dd", "ff", "gg", "mm", "nn", "pp", "rr", "tt" };
-        public char[] LiEndings => "cdeghkmnrt".ToArray();
+        private char[] Vowels => "aeiouy".ToArray();
+        private string[] Doubles => new string[] { "bb", "dd", "ff", "gg", "mm", "nn", "pp", "rr", "tt" };
+        private char[] LiEndings => "cdeghkmnrt".ToArray();
         private char[] _nonShortConsonants => "wxY".ToArray();
         private Dictionary<string, string> _exceptions => 
             new Dictionary<string, string>
@@ -182,7 +182,7 @@ namespace nlp.services.text
         /// </summary>
         /// <param name="word"></param>
         /// <returns></returns>
-        public int GetRegion1(string word)
+        private int GetRegion1(string word)
         {
             // Exceptional forms
             foreach (var except in _exceptionsRegion1.Where(word.StartsWith))
@@ -197,7 +197,7 @@ namespace nlp.services.text
         /// </summary>
         /// <param name="word"></param>
         /// <returns></returns>
-        public int GetRegion2(string word)
+        private int GetRegion2(string word)
         {
             var r1 = GetRegion1(word);
             return GetRegion(word, r1);
@@ -229,7 +229,7 @@ namespace nlp.services.text
         /// </summary>
         /// <param name="word"></param>
         /// <returns></returns>
-        public bool EndsInShortSyllable(string word)
+        private bool EndsInShortSyllable(string word)
         {
             if (word.Length < 2)
             {
@@ -253,7 +253,7 @@ namespace nlp.services.text
         /// </summary>
         /// <param name="word"></param>
         /// <returns></returns>
-        public bool IsShortWord(string word)
+        private bool IsShortWord(string word)
         {
             return EndsInShortSyllable(word) && GetRegion1(word) == word.Length;
         }
@@ -263,7 +263,7 @@ namespace nlp.services.text
         /// </summary>
         /// <param name="word"></param>
         /// <returns></returns>
-        public string MarkYsAsConsonants(string word)
+        private string MarkYsAsConsonants(string word)
         {
             var chars = word.ToCharArray();
             for (var i = 0; i < chars.Length; i++)
@@ -283,7 +283,7 @@ namespace nlp.services.text
             return new string(chars);
         }
 
-        public string Step0RemoveSPluralSuffix(string word)
+        private string Step0RemoveSPluralSuffix(string word)
         {
             // Ordered from longest to shortest
             var suffixes = new[] {"'s'", "'s", "'"};
@@ -297,7 +297,7 @@ namespace nlp.services.text
             return word;
         }
 
-        public string Step1ARemoveOtherSPluralSuffixes(string word)
+        private string Step1ARemoveOtherSPluralSuffixes(string word)
         {
             if (word.EndsWith("sses"))
             {
@@ -335,7 +335,7 @@ namespace nlp.services.text
             return word;
         }
 
-        public string Step1BRemoveLySuffixes(string word, int r1)
+        private string Step1BRemoveLySuffixes(string word, int r1)
         {
             foreach (var suffix in new [] {"eedly", "eed"}.Where(word.EndsWith))
             {
@@ -371,7 +371,7 @@ namespace nlp.services.text
             return word;
         }
 
-        public string Step1CReplaceSuffixYWithIIfPreceededWithConsonant(string word)
+        private string Step1CReplaceSuffixYWithIIfPreceededWithConsonant(string word)
         {
             if ((word.EndsWith("y") || word.EndsWith("Y"))
                 && word.Length > 2
@@ -382,7 +382,7 @@ namespace nlp.services.text
             return word;
         }
 
-        public string Step2ReplaceSuffixes(string word, int r1)
+        private string Step2ReplaceSuffixes(string word, int r1)
         {
             var suffixes = new Dictionary<string, string>
                 {
@@ -441,7 +441,7 @@ namespace nlp.services.text
             return word;
         }
 
-        public string Step3ReplaceSuffixes(string word, int r1, int r2)
+        private string Step3ReplaceSuffixes(string word, int r1, int r2)
         {
             var suffixes = new Dictionary<string, string>
                 {
@@ -475,7 +475,7 @@ namespace nlp.services.text
             return word;
         }
 
-        public string Step4RemoveSomeSuffixesInR2(string word, int r2)
+        private string Step4RemoveSomeSuffixesInR2(string word, int r2)
         {
             foreach (var suffix in new[]
                 {
@@ -503,7 +503,7 @@ namespace nlp.services.text
             return word;
         }
 
-        public string Step5RemoveEorLSuffixes(string word, int r1, int r2)
+        private string Step5RemoveEorLSuffixes(string word, int r1, int r2)
         {
             if (word.EndsWith("e") &&
                 (SuffixInR2(word, r2, "e") ||
