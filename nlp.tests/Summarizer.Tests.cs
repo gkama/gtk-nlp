@@ -33,6 +33,8 @@ namespace nlp.tests
 
         [Theory]
         [InlineData("One sentence. Two sentences. And a 3.")]
+        [InlineData("I'm not afraid. I'm not surprised. I'm not entitled")]
+        [InlineData("The big. Bad. Wolf. Came for me")]
         public void ToSentences_Valid(string Content)
         {
             var sentences = _summarizer.ToSentences(Content)
@@ -44,6 +46,17 @@ namespace nlp.tests
                 Assert.Equal("Two sentences", sentences[1]);
                 Assert.Equal("And a  ", sentences[2]);
             }
+        }
+
+        [Theory]
+        [InlineData("Sentences with multiple   spaces. In  some    of them.")]
+        [InlineData("The big   space in this. Is very        big.")]
+        public void ToSentences_WithMultipleSpaces(string Content)
+        {
+            var sentences = _summarizer.ToSentences(Content).ToArray();
+
+            Assert.DoesNotContain("   ", sentences[0]);
+            Assert.DoesNotContain("  ", sentences[1]);
         }
 
         [Theory]
