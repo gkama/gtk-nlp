@@ -35,7 +35,7 @@ namespace nlp.services.text
             var scores = PageRank(similarityMatrix);
 
             var summText = new StringBuilder();
-            foreach (var s in scores.OrderBy(x => x).Take(N))
+            foreach (var s in scores.OrderByDescending(x => x).Take(N))
             {
                 var sIdx = scores.ToList().IndexOf(s);
 
@@ -82,7 +82,7 @@ namespace nlp.services.text
             return newSentences;
         }
 
-        public IEnumerable<double> PageRank(double[,] Matrix, double eps = 0.0001, double d = 0.85)
+        public IEnumerable<double> PageRank(double[,] Matrix)
         {
             var n = Matrix.GetLength(0);
             var ones = new double[n].Populate(1.0);
@@ -94,7 +94,7 @@ namespace nlp.services.text
                     .Select(x => Matrix[i, x])
                     .ToArray();
 
-                rank.Add(0.15 + (d * (m.Zip(ones, (d1, d2) => d1 * d2).Sum())));
+                rank.Add(0.15 + (0.85 * (m.Zip(ones, (d1, d2) => d1 * d2).Sum())));
             }
 
             return rank.AsEnumerable();
