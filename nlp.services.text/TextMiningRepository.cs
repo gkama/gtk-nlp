@@ -16,12 +16,14 @@ namespace nlp.services.text
     {
         private readonly ILogger<TextMiningRepository<T>> _logger;
         private readonly IStemmer _stemmer;
+        private readonly ISummarizer _summarizer;
         private readonly Models<T> _models;
 
-        public TextMiningRepository(ILogger<TextMiningRepository<T>> logger, IStemmer stemmer, Models<T> models)
+        public TextMiningRepository(ILogger<TextMiningRepository<T>> logger, IStemmer stemmer, ISummarizer summarizer, Models<T> models)
         {
             _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
             _stemmer = stemmer ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(stemmer));
+            _summarizer = summarizer ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(summarizer));
             _models = models ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(models));
         }
 
@@ -68,6 +70,11 @@ namespace nlp.services.text
             _logger.LogInformation($"stemming algorithm took {sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
 
             return stems.AsEnumerable();
+        }
+
+        public string Summarize(string Content, int N = 5, IEnumerable<string> StopWords = null)
+        {
+            return _summarizer.Summarize(Content, N, StopWords);
         }
     }
 }
