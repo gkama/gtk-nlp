@@ -32,5 +32,12 @@ namespace nlp.core.Controllers
         {
             return Ok(_repo.Stem(((JsonElement)Request).GetProperty("content").GetString()));
         }
+
+        [HttpPost]
+        [Route("summarize")]
+        public IActionResult Summarize([FromBody]dynamic Request)
+        {
+            return Ok(_repo.Summarize(((JsonElement)Request).GetProperty("content").GetString()));
+        }
     }
 }
