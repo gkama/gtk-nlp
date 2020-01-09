@@ -17,7 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nlp.services.text", "nlp.services.text\nlp.services.text.csproj", "{FEA488D3-8480-49FD-B96B-11041A654A15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nlp.services.text", "nlp.services.text\nlp.services.text.csproj", "{FEA488D3-8480-49FD-B96B-11041A654A15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nlp.data.text", "nlp.data.text\nlp.data.text.csproj", "{F11E3FBA-B75B-4F2D-9759-829DD0C59B4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{FEA488D3-8480-49FD-B96B-11041A654A15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEA488D3-8480-49FD-B96B-11041A654A15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEA488D3-8480-49FD-B96B-11041A654A15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F11E3FBA-B75B-4F2D-9759-829DD0C59B4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F11E3FBA-B75B-4F2D-9759-829DD0C59B4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F11E3FBA-B75B-4F2D-9759-829DD0C59B4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F11E3FBA-B75B-4F2D-9759-829DD0C59B4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
