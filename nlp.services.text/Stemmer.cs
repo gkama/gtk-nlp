@@ -6,6 +6,7 @@ using System.Net;
 using Microsoft.Extensions.Logging;
 
 using nlp.data;
+using nlp.data.text;
 
 namespace nlp.services.text
 {

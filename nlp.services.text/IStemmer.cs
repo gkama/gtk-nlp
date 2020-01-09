@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-using nlp.data;
+using nlp.data.text;
 
 namespace nlp.services.text
 {

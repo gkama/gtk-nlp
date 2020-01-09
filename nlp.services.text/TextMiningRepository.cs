@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 
 using nlp.data;
+using nlp.data.text;
 
 namespace nlp.services.text
 {

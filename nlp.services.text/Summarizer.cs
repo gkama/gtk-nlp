@@ -65,6 +65,7 @@ namespace nlp.services.text
             var mSpaces = new Regex("[ ]{2,}");
             var newSentences = new List<string>();
 
+            _sw.Restart();
             foreach (var s in sentences)
             {
                 var newS = s;
@@ -78,6 +79,9 @@ namespace nlp.services.text
 
                 newSentences.Add(newS);
             }
+            _sw.Stop();
+
+            _logger.LogInformation($"tosentences algorithm took {_sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
 
             return newSentences;
         }
