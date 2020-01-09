@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Numerics;
@@ -16,13 +17,19 @@ namespace nlp.services.text
     {
         private readonly ILogger<Summarizer> _logger;
 
+        private readonly Stopwatch _sw;
+
         public Summarizer(ILogger<Summarizer> logger)
         {
             _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
+            _sw = new Stopwatch();
         }
 
-        public void Summarize(string Content, int N = 5, IEnumerable<string> StopWords = null)
+        public string Summarize(string Content, int N = 5, IEnumerable<string> StopWords = null)
         {
+            _logger.LogInformation($"summarize request received with N={N}. StopWords={StopWords?.Count()}. content={Content}");
+
+            _sw.Start();
             var sentences = ToSentences(Content, StopWords);
             var similarityMatrix = BuildSimilarityMatrix(sentences, StopWords);
             var scores = PageRank(similarityMatrix);
@@ -32,11 +39,16 @@ namespace nlp.services.text
             {
                 var sIdx = scores.ToList().IndexOf(s);
 
-                summText.Append(sentences.ToArray()[sIdx])
+                summText.Append(sentences.ToArray()[sIdx]
+                        .TrimEnd(' '))
                     .Append(". ");
             }
+            _sw.Stop();
 
-            var k = 0;
+            _logger.LogInformation($"summarize algorithm took {_sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
+
+            return summText.ToString()
+                .TrimEnd(' ');
         }
 
         public IEnumerable<string> ToSentences(string Content, IEnumerable<string> StopWords = null)
