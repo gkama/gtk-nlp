@@ -9,6 +9,7 @@ using nlp.services;
 
 namespace nlp.core.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("nlp")]
     public class NlpController : ControllerBase
