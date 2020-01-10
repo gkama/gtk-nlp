@@ -56,12 +56,7 @@ namespace nlp.core
             app.UseHealthChecks("/ping");
 
             app.UseRouting();
-
-            if (env.IsProduction())
-            {
-                app.UseAuthorization();
-            }
-
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
