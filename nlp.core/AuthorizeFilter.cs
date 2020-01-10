@@ -38,20 +38,18 @@ namespace nlp.core
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            //if (_env.IsDevelopment())
-            //    return;
+            if (_env.IsDevelopment())
+                return;
 
             string authHeader = context.HttpContext.Request.Headers["Authorization"];
 
             if (authHeader != null
                 && authHeader.StartsWith("Basic "))
             {
-                // Get the encoded username and password
-                var encodedwriteKey = authHeader.Split(' ', StringSplitOptions.RemoveEmptyEntries)[1]?.Trim();
-                // Decode from Base64 to string
-                var writeKey = Encoding.UTF8.GetString(Convert.FromBase64String(encodedwriteKey));
+                var encodedwriteKey = authHeader.Substring("Basic ".Length).Trim();
+                var writeKey = Encoding.UTF8.GetString(Convert.FromBase64String(encodedwriteKey)).TrimEnd(':');
                 
-                if (writeKey == "123")
+                if (writeKey == _configuration["WriteKey"])
                     return;
             }
 
