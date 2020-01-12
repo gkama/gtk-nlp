@@ -9,7 +9,8 @@ using nlp.services.text;
 
 namespace nlp.core.Controllers
 {
-    [Route("nlp/mine")]
+    [Authorize]
+    [Route("nlp")]
     [ApiController]
     public class TextMiningController : ControllerBase
     {

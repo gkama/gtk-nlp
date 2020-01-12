@@ -8,6 +8,7 @@ using nlp.services;
 
 namespace nlp.core.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("nlp/bulgarian")]
     public class BulgarianController : ControllerBase
