@@ -22,6 +22,7 @@ namespace nlp.core.Controllers
         }
 
         [HttpPost]
+        [Route("mine")]
         public IActionResult Mine([FromBody]dynamic Request)
         {
             return Ok(_repo.Mine(((JsonElement)Request).GetProperty("content").GetString()));
