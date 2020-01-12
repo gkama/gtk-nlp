@@ -30,6 +30,7 @@ namespace nlp.core
             services.AddScoped<ISummarizer, Summarizer>();
             services.AddSingleton(typeof(Models<>));
 
+            services.AddAuthorization();
             services.AddLogging();
             services.AddHealthChecks();
             services.AddMemoryCache();
