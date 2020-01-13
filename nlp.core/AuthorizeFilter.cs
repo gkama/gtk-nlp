@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 
 using nlp.data;
 using nlp.data.text;
+
 namespace nlp.core
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
