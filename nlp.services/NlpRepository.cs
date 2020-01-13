@@ -20,17 +20,17 @@ namespace nlp.services
     {
         private readonly ILogger<NlpRepository<T>> _logger;
         private readonly IMemoryCache _cache;
+        private readonly ITextMiningRepository<T> _txtrepo;
         private readonly Models<T> _models;
-        private readonly ISummarizer _summarizer;
 
         private ICollection<ICategory> _categories { get; set; } = new List<ICategory>();
 
-        public NlpRepository(ILogger<NlpRepository<T>> logger, IMemoryCache cache, Models<T> models, ISummarizer summarizer)
+        public NlpRepository(ILogger<NlpRepository<T>> logger, IMemoryCache cache, ITextMiningRepository<T> txtrepo, Models<T> models)
         {
             _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
             _cache = cache ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(cache));
             _models = models ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(models));
-            _summarizer = summarizer ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(summarizer));
+            _txtrepo = txtrepo ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(txtrepo));
         }
 
         public IEnumerable<ICategory> Categorize(dynamic Request, string Id = null, bool Summarize = false)
@@ -41,7 +41,7 @@ namespace nlp.services
                 .GetString();
 
             var content = Summarize
-                ? _summarizer.Summarize(reqContent)
+                ? _txtrepo.Summarize(reqContent)
                 : reqContent;
 
             var models = new Stack<T>(new List<T>() { modelSettings.Model });
