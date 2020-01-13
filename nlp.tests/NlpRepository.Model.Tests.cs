@@ -17,15 +17,11 @@ namespace nlp.tests
 {
     public class NlpRepositoryModelTests
     {
-        private readonly ILogger<NlpRepository<Model>> _logger;
-        private readonly Models<Model> _models;
         private readonly INlpRepository<Model> _repo;
 
         public NlpRepositoryModelTests()
         {
-            _logger = Mock.Of<ILogger<NlpRepository<Model>>>();
-            _models = new Models<Model>();
-            _repo = new NlpRepository<Model>(_logger, GetServiceProvider().GetService<IMemoryCache>(), _models, new Summarizer(Mock.Of<ILogger<Summarizer>>()));
+            _repo = new Helper<NlpRepository<Model>>().GetService();
         }
 
         [Theory]
@@ -113,15 +109,6 @@ namespace nlp.tests
             var sample = _repo.CategorizeSample();
 
             Assert.NotNull(sample);
-        }
-
-        private IServiceProvider GetServiceProvider()
-        {
-            var services = new ServiceCollection();
-            services.AddMemoryCache();
-            var serviceProvider = services.BuildServiceProvider();
-
-            return serviceProvider;
         }
     }
 }

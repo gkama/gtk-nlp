@@ -14,13 +14,11 @@ namespace nlp.tests
 {
     public class StemmerTests
     {
-        private readonly ILogger<Stemmer> _logger;
         private readonly IStemmer _stemmer;
 
         public StemmerTests()
         {
-            _logger = Mock.Of<ILogger<Stemmer>>();
-            _stemmer = new Stemmer(_logger);
+            _stemmer = new Helper<IStemmer>().GetService();
         }
 
         [Theory]
