@@ -59,6 +59,18 @@ namespace nlp.tests
         [Theory]
         [InlineData("Julie loves me more than Linda loves me", "Jane likes me more than Julie loves me", "This is another test", "Let's test another similarity")]
         [InlineData("Test me", "Test me as well", "Test me as well please", "What about me?")]
+        public void PageRank_Valid(params string[] Sentences)
+        {
+            var matrix = _summarizer.BuildSimilarityMatrix(Sentences);
+            var pageRanks = _summarizer.PageRank(matrix);
+
+            Assert.NotEmpty(pageRanks);
+            Assert.True(pageRanks.First() > 0);
+        }
+
+        [Theory]
+        [InlineData("Julie loves me more than Linda loves me", "Jane likes me more than Julie loves me", "This is another test", "Let's test another similarity")]
+        [InlineData("Test me", "Test me as well", "Test me as well please", "What about me?")]
         public void BuildSimilarityMatrix_Similar(params string[] Sentences)
         {
             var matrix = _summarizer.BuildSimilarityMatrix(Sentences);
