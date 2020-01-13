@@ -58,9 +58,9 @@ namespace nlp.core
 
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(e =>
             {
-                endpoints.MapControllers();
+                e.MapControllers();
             });
         }
     }
