@@ -20,13 +20,9 @@ namespace nlp.services.text
             _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
         }
 
-        private char[] Alphabet => Enumerable
-                .Range('a', 'z' - 'a' + 1)
-                .Select(c => (char)c)
-                .Concat(new[] { '\'' }).ToArray();
-        private char[] Vowels => "aeiouy".ToArray();
-        private string[] Doubles => new string[] { "bb", "dd", "ff", "gg", "mm", "nn", "pp", "rr", "tt" };
-        private char[] LiEndings => "cdeghkmnrt".ToArray();
+        private char[] _vowels => "aeiouy".ToArray();
+        private string[] _doubles => new string[] { "bb", "dd", "ff", "gg", "mm", "nn", "pp", "rr", "tt" };
+        private char[] _liEndings => "cdeghkmnrt".ToArray();
         private char[] _nonShortConsonants => "wxY".ToArray();
         private Dictionary<string, string> _exceptions => 
             new Dictionary<string, string>
@@ -128,12 +124,12 @@ namespace nlp.services.text
 
         private bool IsVowel(char c)
         {
-            return Vowels.Contains(c);
+            return _vowels.Contains(c);
         }
 
         private bool IsConsonant(char c)
         {
-            return !Vowels.Contains(c);
+            return !_vowels.Contains(c);
         }
 
         private static bool SuffixInR1(string word, int r1, string suffix)
@@ -283,7 +279,7 @@ namespace nlp.services.text
                         chars[i] = 'Y';
                     }
                 }
-                else if(Vowels.Contains(chars[i - 1]) && chars[i] == 'y')
+                else if(_vowels.Contains(chars[i - 1]) && chars[i] == 'y')
                 {
                     chars[i] = 'Y';
                 }
@@ -363,7 +359,7 @@ namespace nlp.services.text
                     {
                         return trunc + "e";
                     }
-                    if (Doubles.Any(trunc.EndsWith))
+                    if (_doubles.Any(trunc.EndsWith))
                     {
                         return trunc.Substring(0, trunc.Length - 1);
                     }
@@ -381,7 +377,8 @@ namespace nlp.services.text
 
         private string Step1CReplaceSuffixYWithIIfPreceededWithConsonant(string word)
         {
-            if ((word.EndsWith("y") || word.EndsWith("Y"))
+            if ((word.EndsWith("y")
+                || word.EndsWith("Y"))
                 && word.Length > 2
                 && IsConsonant(word[word.Length - 2]))
             {
@@ -440,7 +437,7 @@ namespace nlp.services.text
 
             if (word.EndsWith("li") & SuffixInR1(word, r1, "li"))
             {
-                if (LiEndings.Contains(word[word.Length - 3]))
+                if (_liEndings.Contains(word[word.Length - 3]))
                 {
                     return ReplaceSuffix(word, "li");
                 }
@@ -502,9 +499,9 @@ namespace nlp.services.text
                 }
             }
 
-            if (word.EndsWith("ion") && 
-                SuffixInR2(word, r2, "ion") &&
-                new[] {'s', 't'}.Contains(word[word.Length - 4]))
+            if (word.EndsWith("ion")
+                && SuffixInR2(word, r2, "ion")
+                && new[] {'s', 't'}.Contains(word[word.Length - 4]))
             {
                 return ReplaceSuffix(word, "ion");
             }
@@ -513,18 +510,18 @@ namespace nlp.services.text
 
         private string Step5RemoveEorLSuffixes(string word, int r1, int r2)
         {
-            if (word.EndsWith("e") &&
-                (SuffixInR2(word, r2, "e") ||
-                    (SuffixInR1(word, r1, "e") && 
-                        !EndsInShortSyllable(ReplaceSuffix(word, "e")))))
+            if (word.EndsWith("e")
+                && (SuffixInR2(word, r2, "e")
+                || (SuffixInR1(word, r1, "e")
+                && !EndsInShortSyllable(ReplaceSuffix(word, "e")))))
             {
                 return ReplaceSuffix(word, "e");
             }
 
-            if (word.EndsWith("l") && 
-                SuffixInR2(word, r2, "l") && 
-                word.Length > 1 &&
-                word[word.Length - 2] == 'l')
+            if (word.EndsWith("l")
+                && SuffixInR2(word, r2, "l")
+                && word.Length > 1
+                && word[word.Length - 2] == 'l')
             {
                 return ReplaceSuffix(word, "l");
             }
