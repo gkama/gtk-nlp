@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Memory;
 
 using nlp.data;
+using nlp.data.text;
+using nlp.services.text;
 
 namespace nlp.services
 {
@@ -19,22 +21,28 @@ namespace nlp.services
         private readonly ILogger<NlpRepository<T>> _logger;
         private readonly IMemoryCache _cache;
         private readonly Models<T> _models;
+        private readonly ISummarizer _summarizer;
 
         private ICollection<ICategory> _categories { get; set; } = new List<ICategory>();
 
-        public NlpRepository(ILogger<NlpRepository<T>> logger, IMemoryCache cache, Models<T> models)
+        public NlpRepository(ILogger<NlpRepository<T>> logger, IMemoryCache cache, Models<T> models, ISummarizer summarizer)
         {
             _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
             _cache = cache ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(cache));
             _models = models ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(models));
+            _summarizer = summarizer ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(summarizer));
         }
 
-        public IEnumerable<ICategory> Categorize(dynamic Request, string Id = null)
+        public IEnumerable<ICategory> Categorize(dynamic Request, string Id = null, bool Summarize = false)
         {
             var modelSettings = (IModelSettings<T>)Parse(Request, Id);
-            var content = ((JsonElement)Request)
+            var reqContent = ((JsonElement)Request)
                 .GetProperty("content")
                 .GetString();
+
+            var content = Summarize
+                ? _summarizer.Summarize(reqContent)
+                : reqContent;
 
             var models = new Stack<T>(new List<T>() { modelSettings.Model });
             var delimiters = modelSettings.Delimiters
