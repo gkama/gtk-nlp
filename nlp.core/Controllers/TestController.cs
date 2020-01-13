@@ -8,6 +8,7 @@ using nlp.services;
 
 namespace nlp.core.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("nlp/test")]
     public class TestController : ControllerBase
@@ -20,9 +21,24 @@ namespace nlp.core.Controllers
         }
 
         [HttpGet]
+        [Route("models")]
         public IActionResult Get()
         {
             return Ok(_repo.GetModels());
+        }
+
+        [HttpGet]
+        [Route("exception/400")]
+        public IActionResult Throw400NlpException()
+        {
+            throw new NlpException(HttpStatusCode.BadRequest, $"just threw a bad request");
+        }
+
+        [HttpGet]
+        [Route("exception/500")]
+        public IActionResult Throw500NlpException()
+        {
+            throw new NlpException(HttpStatusCode.InternalServerError, $"just threw an internal server error");
         }
     }
 }
