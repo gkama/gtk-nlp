@@ -11,6 +11,7 @@ using Moq;
 
 using nlp.data;
 using nlp.services;
+using nlp.services.text;
 
 namespace nlp.tests
 {
@@ -24,7 +25,7 @@ namespace nlp.tests
         {
             _logger = Mock.Of<ILogger<NlpRepository<Model>>>();
             _models = new Models<Model>();
-            _repo = new NlpRepository<Model>(_logger, GetServiceProvider().GetService<IMemoryCache>(), _models);
+            _repo = new NlpRepository<Model>(_logger, GetServiceProvider().GetService<IMemoryCache>(), _models, new Summarizer(Mock.Of<ILogger<Summarizer>>()));
         }
 
         [Theory]
