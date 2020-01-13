@@ -16,7 +16,6 @@ namespace nlp.services.text
     public class Summarizer : ISummarizer
     {
         private readonly ILogger<Summarizer> _logger;
-
         private readonly Stopwatch _sw;
 
         public Summarizer(ILogger<Summarizer> logger)
