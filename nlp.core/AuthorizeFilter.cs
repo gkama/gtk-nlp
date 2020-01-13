@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Text;
+using System.Net;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -12,8 +13,6 @@ using Microsoft.Extensions.Hosting;
 
 using nlp.data;
 using nlp.data.text;
-using System.Text;
-
 namespace nlp.core
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
