@@ -125,12 +125,10 @@ namespace nlp.services.text
 
         public double SentenceSimilarity(string Sentence1, string Sentence2, IEnumerable<string> StopWords = null)
         {
-            if (string.IsNullOrWhiteSpace(Sentence1)
-                || Sentence1.Contains("."))
+            if (string.IsNullOrWhiteSpace(Sentence1))
                 throw new NlpException(HttpStatusCode.BadRequest, $"'sentence1' is not a sentence");
 
-            if (string.IsNullOrWhiteSpace(Sentence2)
-                || Sentence2.Contains("."))
+            if (string.IsNullOrWhiteSpace(Sentence2))
                 throw new NlpException(HttpStatusCode.BadRequest, $"'sentence2' is not a sentence");
 
             var s1Words = Sentence1.Split(" ")
