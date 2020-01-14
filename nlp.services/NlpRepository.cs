@@ -134,7 +134,7 @@ namespace nlp.services
                         Delimiters = delimiters.Select(char.Parse).ToArray(),
                         Model = _cache.GetOrCreate(modelId.GetString(), e =>
                             {
-                                e.SlidingExpiration = TimeSpan.FromSeconds(_models.DefaultCacheTimeSpan);
+                                e.SlidingExpiration = TimeSpan.FromSeconds(_models.TenMinutesCacheTimeSpan);
 
                                 return new T()
                                 {
