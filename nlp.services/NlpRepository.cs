@@ -132,12 +132,17 @@ namespace nlp.services
                         Id = Guid.NewGuid().ToString(),
                         StopWords = stopWords,
                         Delimiters = delimiters.Select(char.Parse).ToArray(),
-                        Model = new T()
-                        {
-                            Id = modelId.GetString(),
-                            Name = modelName.GetString(),
-                            Details = modelDetails.GetString()
-                        }
+                        Model = _cache.GetOrCreate(modelId.GetString(), e =>
+                            {
+                                e.SlidingExpiration = TimeSpan.FromSeconds(_models.DefaultCacheTimeSpan);
+
+                                return new T()
+                                {
+                                    Id = modelId.GetString(),
+                                    Name = modelName.GetString(),
+                                    Details = modelDetails.GetString()
+                                };
+                            })
                     };
                 }
                 else
