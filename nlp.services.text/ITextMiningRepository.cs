@@ -10,6 +10,7 @@ namespace nlp.services.text
     {
         public object Mine(string Content);
         public IEnumerable<IStemmedWord> Stem(ITextRequest Request);
+        public string Summarize(string Content);
         public string Summarize(ITextRequest Request);
     }
 }

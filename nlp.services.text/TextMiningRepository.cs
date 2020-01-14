@@ -84,5 +84,9 @@ namespace nlp.services.text
             else
                 return _summarizer.Summarize(Request.Content, Request.N, Request.StopWords);
         }
+        public string Summarize(string Content)
+        {
+            return _summarizer.Summarize(Content);
+        }
     }
 }
