@@ -151,7 +151,7 @@ namespace nlp.services
             }
             catch (KeyNotFoundException)
             {
-                throw new NlpException(HttpStatusCode.InternalServerError,
+                throw new NlpException(HttpStatusCode.BadRequest,
                     $"'content', 'stopWords' and 'delimiters' keys are required. please include them in your JSON payload");
             }
             catch (Exception e)
