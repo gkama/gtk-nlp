@@ -52,13 +52,13 @@ namespace nlp.services.text
             return wordCount;
         }
 
-        public IEnumerable<IStemmedWord> Stem(string Content)
+        public IEnumerable<IStemmedWord> Stem(ITextRequest Request)
         {
             var sw = new Stopwatch();
             var stems = new List<IStemmedWord>();
 
             sw.Start();
-            Content.Split(_models.DefaultDelimiters)
+            Request.Content.Split(_models.DefaultDelimiters)
                 .Where(x => !_models.DefaultStopWords.Contains(x) && !string.IsNullOrEmpty(x))
                 .ToList()
                 .ForEach(x =>

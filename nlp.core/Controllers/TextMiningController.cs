@@ -31,9 +31,9 @@ namespace nlp.core.Controllers
 
         [HttpPost]
         [Route("stem")]
-        public IActionResult Stem([FromBody]dynamic Request)
+        public IActionResult Stem([FromBody]TextRequest Request)
         {
-            return Ok(_repo.Stem(((JsonElement)Request).GetProperty("content").GetString()));
+            return Ok(_repo.Stem(Request));
         }
 
         [HttpPost]

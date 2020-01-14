@@ -9,7 +9,7 @@ namespace nlp.services.text
     public interface ITextMiningRepository<T>
     {
         public object Mine(string Content);
-        public IEnumerable<IStemmedWord> Stem(string Content);
+        public IEnumerable<IStemmedWord> Stem(ITextRequest Request);
         public string Summarize(ITextRequest Request);
     }
 }
