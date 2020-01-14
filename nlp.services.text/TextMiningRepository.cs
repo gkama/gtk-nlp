@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 using Microsoft.Extensions.Logging;
 
@@ -73,9 +74,15 @@ namespace nlp.services.text
             return stems.AsEnumerable();
         }
 
-        public string Summarize(string Content, int N = 5, IEnumerable<string> StopWords = null)
+        public string Summarize(ITextRequest Request)
         {
-            return _summarizer.Summarize(Content, N, StopWords);
+            if (Request.N == 0
+                && Request.StopWords == null)
+                return _summarizer.Summarize(Request.Content);
+            else if (Request.N == 0)
+                return _summarizer.Summarize(Request.Content, 5, Request.StopWords);
+            else
+                return _summarizer.Summarize(Request.Content, Request.N, Request.StopWords);
         }
     }
 }

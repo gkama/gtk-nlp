@@ -5,6 +5,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc;
 
 using nlp.data;
+using nlp.data.text;
 using nlp.services.text;
 
 namespace nlp.core.Controllers
@@ -37,9 +38,9 @@ namespace nlp.core.Controllers
 
         [HttpPost]
         [Route("summarize")]
-        public IActionResult Summarize([FromBody]dynamic Request)
+        public IActionResult Summarize([FromBody]TextRequest Request)
         {
-            return Ok(_repo.Summarize(((JsonElement)Request).GetProperty("content").GetString()));
+            return Ok(_repo.Summarize(Request));
         }
     }
 }
