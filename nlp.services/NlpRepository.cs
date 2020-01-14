@@ -108,15 +108,10 @@ namespace nlp.services
                     throw new NlpException(HttpStatusCode.BadRequest,
                         $"'content' length={content.Length} is too big. it must be less than 100,000 characters");
 
-                var model = new JsonElement();
-                var modelId = new JsonElement();
-                var modelName = new JsonElement();
-                var modelDetails = new JsonElement();
-
-                jRequest.TryGetProperty("model", out model);
-                jRequest.TryGetProperty("modelId", out modelId);
-                jRequest.TryGetProperty("modelName", out modelName);
-                jRequest.TryGetProperty("modelDetails", out modelDetails);
+                jRequest.TryGetProperty("model", out JsonElement model);
+                jRequest.TryGetProperty("modelId", out JsonElement modelId);
+                jRequest.TryGetProperty("modelName", out JsonElement modelName);
+                jRequest.TryGetProperty("modelDetails", out JsonElement modelDetails);
 
                 if (model.ValueKind != JsonValueKind.Undefined)
                 {
