@@ -194,6 +194,11 @@ namespace nlp.services
             }
         }
 
+        public void AddModel(IModel<T> Model)
+        {
+            _cache.Set(Model.Id, Model, DateTimeOffset.Now.AddMinutes(_models.TenMinutesCacheTimeSpan));
+        }
+
         public IEnumerable<T> GetModels()
         {
             return _cache.GetOrCreate(_models.All, e =>
