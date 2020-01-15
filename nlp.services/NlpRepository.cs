@@ -288,7 +288,7 @@ namespace nlp.services
             });
         }
 
-        public object AddModel(dynamic Request)
+        public T AddModel(dynamic Request)
         {
             var jsonRequest = (JsonElement)Request;
             var model = jsonRequest.GetProperty("model")
@@ -297,11 +297,13 @@ namespace nlp.services
 
             _cache.Set(model.PublicKey, model, DateTimeOffset.Now.AddSeconds(_models.DefaultCacheTimeSpan));
 
-            return new
-            {
-                id = model.PublicKey,
-                model = model
-            };
+            return model;
+        }
+        public T AddModel(T Model)
+        {
+            _cache.Set(Model.PublicKey, Model, DateTimeOffset.Now.AddSeconds(_models.DefaultCacheTimeSpan));
+
+            return Model;
         }
 
         public object CategorizeSample()

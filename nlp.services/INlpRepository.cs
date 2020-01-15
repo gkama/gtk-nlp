@@ -17,7 +17,8 @@ namespace nlp.services
         public IEnumerable<IModelSettings<T>> GetModelsSettings();
         public IModelSettings<T> GetModelSettings(string Id);
         public IModelSettings<T> GetModelSettingsByModelId(string Id);
-        public object AddModel(dynamic Request);
+        public T AddModel(dynamic Request);
+        public T AddModel(T Model);
         public object CategorizeSample();
     }
 }
