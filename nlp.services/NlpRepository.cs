@@ -120,7 +120,7 @@ namespace nlp.services
                         Id = Guid.NewGuid().ToString(),
                         StopWords = stopWords,
                         Delimiters = delimiters.Select(char.Parse).ToArray(),
-                        Model = model.ToModel<T>()
+                        Model = model.GetRawText().DeserializeSelfReferencing<T>()
                     };
                 }
                 else if (modelId.ValueKind != JsonValueKind.Undefined
