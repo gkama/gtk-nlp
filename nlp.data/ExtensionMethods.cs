@@ -17,6 +17,20 @@ namespace nlp.data
         }
 
         /// <summary>
+        /// Deserializes a <see cref="string"/> to a <see cref="{T}"/> by preserving self referencing loops
+        /// </summary>
+        public static T DeserializeSelfReferencing<T>(this string json)
+        {
+            var settings = new Newtonsoft.Json.JsonSerializerSettings
+            {
+                PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects,
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize
+            };
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json, settings);
+        }
+
+        /// <summary>
         /// Converts a <see cref="JsonElement"/> object to <see cref="IModel{T}"/>
         /// </summary>
         public static T ToModel<T>(this JsonElement Model)
