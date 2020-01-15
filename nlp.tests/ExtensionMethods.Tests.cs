@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Text.Json;
 
 using Microsoft.Extensions.Logging;
@@ -65,5 +65,29 @@ namespace nlp.tests
                 Assert.Equal(v, value);
             });
         }
+
+        [Theory]
+        [InlineData(0, 0)]
+        [InlineData(0, 1)]
+        [InlineData(1, 1)]
+        [InlineData(2, 3)]
+        [InlineData(2, 2)]
+        [InlineData(3, 3)]
+        public void DotProduct_Valid(int pos1, int pos2)
+        {
+            var dotProduct = ArrayTestData.ToArray()[pos1]
+                .DotProduct(ArrayTestData.ToArray()[pos2]);
+
+            Assert.True(dotProduct >= 1);
+        }
+
+        public static IEnumerable<double[]> ArrayTestData =>
+            new[]
+            {
+                new []{ 1.0, 1.0 },
+                new []{ 2.0, 2.0 },
+                new []{ 3.0, 2.0 },
+                new []{ 5.0, 0.0 }
+            };
     }
 }
