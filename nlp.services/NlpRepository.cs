@@ -300,7 +300,7 @@ namespace nlp.services
             };
             var model = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(modelJson, settings);
 
-            _cache.Set(model.PublicKey, model, DateTimeOffset.Now.AddMinutes(_models.TenMinutesCacheTimeSpan));
+            _cache.Set(model.PublicKey, model, DateTimeOffset.Now.AddSeconds(_models.DefaultCacheTimeSpan));
 
             return new
             {
