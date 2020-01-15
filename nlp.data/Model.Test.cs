@@ -11,7 +11,7 @@ namespace nlp.data
         public string Details { get; set; }
         public string TestMethod => "Test";
         [JsonIgnore] public string TestMethod2 => "Test 2";
-        public Guid PublicKey => Guid.NewGuid();
+        public Guid PublicKey { get; set; } = Guid.NewGuid();
         public ICollection<TestModel> Children { get; set; } = new List<TestModel>();
     }
 }

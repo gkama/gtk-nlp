@@ -9,7 +9,7 @@ namespace nlp.data
         public string Id { get; set; }
         public string Name { get; set; }
         public string Details { get; set; }
-        public Guid PublicKey => Guid.NewGuid();
+        public Guid PublicKey { get; set; } = Guid.NewGuid();
         public ICollection<Model> Children { get; set; } = new List<Model>();
     }
 }
