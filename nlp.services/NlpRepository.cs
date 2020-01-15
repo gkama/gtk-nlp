@@ -272,8 +272,14 @@ namespace nlp.services
         public object AddModel(dynamic Request)
         {
             var jsonRequest = (JsonElement)Request;
-            var modelJson = jsonRequest.GetProperty("model");
-            var model = modelJson.ToModel<T>();
+            var modelJson = jsonRequest.GetProperty("model").GetRawText();
+
+            var settings = new Newtonsoft.Json.JsonSerializerSettings
+            {
+                PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects,
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize
+            };
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(modelJson, settings);
 
             _cache.Set(model.PublicKey, model, DateTimeOffset.Now.AddMinutes(_models.TenMinutesCacheTimeSpan));
 
