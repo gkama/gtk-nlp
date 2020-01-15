@@ -205,12 +205,31 @@ namespace nlp.services
         }
         public IModel<T> GetModel(string Id)
         {
-            return _cache.GetOrCreate(Id, e =>
+            var model = _cache.GetOrCreate(Id, e =>
             {
                 e.SlidingExpiration = TimeSpan.FromSeconds(_models.DefaultCacheTimeSpan);
 
                 return _models.All
                     .FirstOrDefault(x => x.Id == Id);
+            });
+
+            if (model == null)
+            {
+                Guid.TryParse(Id, out Guid PublicKey);
+
+                return GetModel(PublicKey);
+            }
+
+            return model;
+        }
+        public IModel<T> GetModel(Guid PublicKey)
+        {
+            return _cache.GetOrCreate(PublicKey, e =>
+            {
+                e.SlidingExpiration = TimeSpan.FromSeconds(_models.DefaultCacheTimeSpan);
+
+                return _models.All
+                    .FirstOrDefault(x => x.PublicKey == PublicKey);
             });
         }
         public IModel<T> GetAnyModel(string Id)
