@@ -31,55 +31,6 @@ namespace nlp.data
         }
 
         /// <summary>
-        /// Converts a <see cref="JsonElement"/> object to <see cref="IModel{T}"/>
-        /// </summary>
-        public static T ToModel<T>(this JsonElement Model)
-            where T : IModel<T>, new()
-        {
-            var model = new T()
-            {
-                Id = Model.GetProperty("id").GetString(),
-                Name = Model.GetProperty("name").GetString(),
-                Details = Model.GetProperty("details").GetString(),
-            };
-
-            var baseModelChildren = Model.GetProperty("children");
-            var childrenList = new List<JsonElement>();
-            for (int i = 0; i < baseModelChildren.GetArrayLength(); i++)
-                childrenList.Add(baseModelChildren[i]);
-
-            var stack = new Stack<JsonElement>(childrenList);
-            var parentModel = model;
-            while (stack.Any())
-            {
-                var child = stack.Pop();
-                var childModel = new T()
-                {
-                    Id = child.GetProperty("id").GetString(),
-                    Name = child.GetProperty("name").GetString(),
-                    Details = child.GetProperty("details").GetString(),
-                };
-
-                parentModel.Children
-                    .Add(childModel);
-
-                var children = new JsonElement();
-                child.TryGetProperty("children", out children);
-
-                if (children.ValueKind != JsonValueKind.Undefined)
-                {
-                    var childModels = child.GetProperty("children");
-                    for (int i = 0; i < childModels.GetArrayLength(); i++)
-                        stack.Push(childModels[i]);
-                }
-
-                parentModel = childModel;
-            }
-
-            return model;
-        }
-
-        /// <summary>
         /// If a <see cref="ICategory"/> exists in the <paramref name="Categories"/> then it either adds the <paramref name="Value"/>
         /// to the <see cref="ICategory.Matched"/> list of it updates the <see cref="IMatched.Weight"/> and <seealso cref="ICategory.TotalWeight"/> accordingly.
         /// If a <see cref="ICategory"/> doesn't exist, then it simply adds it to the list. The majority of the work is done if a <see cref="ICategory"/>
