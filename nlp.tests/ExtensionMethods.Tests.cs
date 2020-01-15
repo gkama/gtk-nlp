@@ -48,5 +48,22 @@ namespace nlp.tests
 
             Assert.Equal(id, json.GetRawText().DeserializeSelfReferencing<Model>().Id);
         }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData("one")]
+        [InlineData("two")]
+        [InlineData("three")]
+        public void PopulateArray_Valid(object value)
+        {
+            var arr = new object[5].Populate(value);
+
+            Assert.All(arr, v =>
+            {
+                Assert.Equal(v, value);
+            });
+        }
     }
 }
