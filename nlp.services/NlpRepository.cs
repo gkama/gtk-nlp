@@ -194,11 +194,6 @@ namespace nlp.services
             }
         }
 
-        public void AddModel(IModel<T> Model)
-        {
-            _cache.Set(Model.Id, Model, DateTimeOffset.Now.AddMinutes(_models.TenMinutesCacheTimeSpan));
-        }
-
         public IEnumerable<T> GetModels()
         {
             return _cache.GetOrCreate(_models.All, e =>
@@ -272,6 +267,21 @@ namespace nlp.services
                 return _models.Settings
                     .FirstOrDefault(x => x.Model.Id == Id);
             });
+        }
+
+        public object AddModel(dynamic Request)
+        {
+            var jsonRequest = (JsonElement)Request;
+            var modelJson = jsonRequest.GetProperty("model");
+            var model = modelJson.ToModel<T>();
+
+            _cache.Set(model.PublicKey, model, DateTimeOffset.Now.AddMinutes(_models.TenMinutesCacheTimeSpan));
+
+            return new
+            {
+                id = model.PublicKey,
+                model = model
+            };
         }
 
         public object CategorizeSample()
