@@ -41,12 +41,12 @@ namespace nlp.tests
         [InlineData("3")]
         [InlineData("4")]
         [InlineData("5")]
-        public void ToModelT_Valid(string id)
+        public void DeserializeSelfReferencing_Valid(string id)
         {
             var jsonStr = "{ \"id\": \"{id}\", \"name\": \"test\", \"details\": \"test,1,2,3\", \"children\": [] }".Replace("{id}", id);
             var json = JsonDocument.Parse(jsonStr).RootElement;
 
-            Assert.Equal(id, json.ToModel<Model>().Id);
+            Assert.Equal(id, json.GetRawText().DeserializeSelfReferencing<Model>().Id);
         }
     }
 }
