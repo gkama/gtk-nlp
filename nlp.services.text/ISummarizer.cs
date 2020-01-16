@@ -11,6 +11,7 @@ namespace nlp.services.text
         public IEnumerable<double> PageRank(double[,] Matrix);
         public double[,] BuildSimilarityMatrix(IEnumerable<string> Sentences, IEnumerable<string> StopWords = null);
         public double SentenceSimilarity(string Sentence1, string Sentence2, IEnumerable<string> StopWords = null);
+        public double WordSimilarity(string Word1, string Word2, IEnumerable<string> StopWords = null);
         public double CosineDistance(int[] Vector1, int[] Vector2);
     }
 }
