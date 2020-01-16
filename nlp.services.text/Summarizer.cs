@@ -130,6 +130,8 @@ namespace nlp.services.text
             if (string.IsNullOrWhiteSpace(Sentence2))
                 throw new NlpException(HttpStatusCode.BadRequest, $"'sentence2' is not a sentence");
 
+            _sw.Restart();
+
             var s1Words = Sentence1.Split(" ")
                 .Select(x => x.ToLower());
 
@@ -157,6 +159,9 @@ namespace nlp.services.text
 
                 vector2[allWords.IndexOf(w)] += 1;
             }
+            _sw.Stop();
+
+            _logger.LogInformation($"sentence similarity algorithm took {_sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
 
             return 1 - CosineDistance(vector1, vector2);
         }
