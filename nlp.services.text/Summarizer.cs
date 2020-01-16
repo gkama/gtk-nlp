@@ -181,11 +181,11 @@ namespace nlp.services.text
             var allWords = s1Words.Concat(s2Words)
                 .ToList();
 
-            var v = new double[s1Words.Count()];
-
             var itWords = s1Words.Count() >= s2Words.Count()
                 ? s2Words
                 : s1Words;
+
+            var v = new double[itWords.Count()];
 
             for (int i = 0; i < itWords.Count(); i++)
             {
