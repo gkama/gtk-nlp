@@ -306,6 +306,14 @@ namespace nlp.services
             return Model;
         }
 
+        public void DeleteModel(string Id)
+        {
+            var model = GetModel(Id);
+
+            _cache.Remove(model?.Id);
+            _cache.Remove(model?.PublicKey);
+        }
+
         public object CategorizeSample()
         {
             var requestContent = "This is a sample content passed to the Categorize endpoint. What it'll try and match is the financial model. Specificall, the Vanguard index funds. Such index funds are VBMFX and VTSAX.";
