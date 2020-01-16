@@ -171,28 +171,32 @@ namespace nlp.services.text
             _sw.Restart();
 
             var s1Words = Sentence1.Split(" ")
-                .Select(x => x.ToLower());
+                .Select(x => x.ToLower())
+                .ToArray();
 
             var s2Words = Sentence2.Split(" ")
-                .Select(x => x.ToLower());
+                .Select(x => x.ToLower())
+                .ToArray();
 
             var allWords = s1Words.Concat(s2Words)
                 .ToList();
 
             var v = new double[s1Words.Count()];
 
-            foreach (var s1w in s1Words)
+            var itWords = s1Words.Count() >= s2Words.Count()
+                ? s2Words
+                : s1Words;
+
+            for (int i = 0; i < itWords.Count(); i++)
             {
-                if (StopWords?.Contains(s1w, StringComparer.OrdinalIgnoreCase) == true)
+                var s1w = s1Words[i];
+                var s2w = s2Words[i];
+
+                if (StopWords?.Contains(s1w, StringComparer.OrdinalIgnoreCase) == true
+                    || StopWords?.Contains(s2w, StringComparer.OrdinalIgnoreCase) == true)
                     continue;
 
-                foreach (var s2w in s2Words)
-                {
-                    if (StopWords?.Contains(s2w, StringComparer.OrdinalIgnoreCase) == true)
-                        continue;
-
-                    v[allWords.IndexOf(s1w)] = WordSimilarity(s1w, s2w);
-                }
+                v[allWords.IndexOf(s1w)] = WordSimilarity(s1w, s2w);
             }
             _sw.Stop();
 
