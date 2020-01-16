@@ -103,7 +103,7 @@ namespace nlp.tests
         }
 
         [Theory]
-        [InlineData("word1", "word2")]
+        [InlineData("this", "is")]
         [InlineData("dog", "similardog")]
         [InlineData("house", "household")]
         [InlineData("yard", "yardwork")]
