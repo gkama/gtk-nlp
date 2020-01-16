@@ -163,6 +163,8 @@ namespace nlp.services.text
 
         public double SentenceSimilarity2(string Sentence1, string Sentence2, IEnumerable<string> StopWords = null)
         {
+            _sw.Restart();
+
             var s1Words = Sentence1.Split(" ")
                 .Select(x => x.ToLower());
 
@@ -187,6 +189,9 @@ namespace nlp.services.text
                     v[allWords.IndexOf(s1w)] = WordSimilarity(s1w, s2w);
                 }
             }
+            _sw.Stop();
+
+            _logger.LogInformation($"sentence similarity 2 algorithm took {_sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
 
             return v.Average();
         }
