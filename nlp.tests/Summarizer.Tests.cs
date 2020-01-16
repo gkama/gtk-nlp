@@ -90,6 +90,19 @@ namespace nlp.tests
         }
 
         [Theory]
+        [InlineData("In an attempt to build an AI-ready workforce, Microsoft announced Intelligent Cloud Hub which has been launched to empower the next generation of students with AI-ready skills.", "Envisioned as a three-year collaborative program, Intelligent Cloud Hub will support around 100 institutions with AI infrastructure, course content and curriculum, developer support, development tools and give students access to cloud and AI services.")]
+        [InlineData("Julie loves me more than Linda loves me", "Jane likes me more than Julie loves me")]
+        [InlineData("This is another test", "Let's test another similarity")]
+        public void SentenceSimilarity2_Similar(string Sentence1, string Sentence2)
+        {
+            var sim1 = _summarizer.SentenceSimilarity(Sentence1, Sentence2);
+            var sim2 = _summarizer.SentenceSimilarity2(Sentence1, Sentence2);
+
+            Assert.True(sim1 > 0);
+            Assert.True(sim2 > 0);
+        }
+
+        [Theory]
         [InlineData("word1", "word2")]
         [InlineData("dog", "similardog")]
         [InlineData("house", "household")]
