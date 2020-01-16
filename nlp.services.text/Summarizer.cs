@@ -136,7 +136,8 @@ namespace nlp.services.text
             var s2Words = Sentence2.Split(" ")
                 .Select(x => x.ToLower());
 
-            var allWords = s1Words.Concat(s2Words);
+            var allWords = s1Words.Concat(s2Words)
+                .ToList();
 
             var vector1 = new int[allWords.Count()];
             var vector2 = new int[allWords.Count()];
@@ -146,7 +147,7 @@ namespace nlp.services.text
                 if (StopWords?.Contains(w) == true)
                     continue;
 
-                vector1[allWords.ToList().IndexOf(w)] += 1;
+                vector1[allWords.IndexOf(w)] += 1;
             }
 
             foreach (var w in s2Words)
@@ -154,10 +155,40 @@ namespace nlp.services.text
                 if (StopWords?.Contains(w) == true)
                     continue;
 
-                vector2[allWords.ToList().IndexOf(w)] += 1;
+                vector2[allWords.IndexOf(w)] += 1;
             }
 
             return 1 - CosineDistance(vector1, vector2);
+        }
+
+        public double SentenceSimilarity2(string Sentence1, string Sentence2, IEnumerable<string> StopWords = null)
+        {
+            var s1Words = Sentence1.Split(" ")
+                .Select(x => x.ToLower());
+
+            var s2Words = Sentence2.Split(" ")
+                .Select(x => x.ToLower());
+
+            var allWords = s1Words.Concat(s2Words)
+                .ToList();
+
+            var v = new double[s1Words.Count()];
+
+            foreach (var s1w in s1Words)
+            {
+                if (StopWords?.Contains(s1w, StringComparer.OrdinalIgnoreCase) == true)
+                    continue;
+
+                foreach (var s2w in s2Words)
+                {
+                    if (StopWords?.Contains(s2w, StringComparer.OrdinalIgnoreCase) == true)
+                        continue;
+
+                    v[allWords.IndexOf(s1w)] = WordSimilarity(s1w, s2w);
+                }
+            }
+
+            return v.Average();
         }
 
         public double WordSimilarity(string Word1, string Word2)
