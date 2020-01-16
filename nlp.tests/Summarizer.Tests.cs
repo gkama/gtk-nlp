@@ -90,6 +90,30 @@ namespace nlp.tests
         }
 
         [Theory]
+        [InlineData("word1", "word2")]
+        [InlineData("dog", "similardog")]
+        [InlineData("house", "household")]
+        [InlineData("yard", "yardwork")]
+        public void WordSimilarity_Similar(string Word1, string Word2)
+        {
+            var similairty = _summarizer.WordSimilarity(Word1, Word2);
+
+            Assert.True(similairty > 0);
+        }
+
+        [Theory]
+        [InlineData("test", "test")]
+        [InlineData("dog", "dog")]
+        [InlineData("house", "house")]
+        [InlineData("yard", "yard")]
+        public void WordSimilarity_Identical(string Word1, string Word2)
+        {
+            var similairty = _summarizer.WordSimilarity(Word1, Word2);
+
+            Assert.Equal(1.0, Math.Round(similairty, 0));
+        }
+
+        [Theory]
         [InlineData(1, 2, 0, 1, 0, 0)]
         [InlineData(1, 1, 1, 0, 0, 0, 0, 1)]
         [InlineData(1, 2, 3, 1, 2, 3)]
