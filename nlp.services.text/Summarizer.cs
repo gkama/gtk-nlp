@@ -160,12 +160,8 @@ namespace nlp.services.text
             return 1 - CosineDistance(vector1, vector2);
         }
 
-        public double WordSimilarity(string Word1, string Word2, IEnumerable<string> StopWords = null)
+        public double WordSimilarity(string Word1, string Word2)
         {
-            if (StopWords.Contains(Word1)
-                || StopWords.Contains(Word2))
-                return 0.0;
-
             var w1Chars = Word1.Contains(" ")
                 ? Word1.Trim().ToCharArray()
                 : Word1.ToCharArray();
