@@ -4,7 +4,6 @@ using System.Text.Json;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Memory;
@@ -316,6 +315,31 @@ namespace nlp.services
                     model = _models.Financial
                 };
             });
+        }
+
+        public object GetNlpRequestModel()
+        {
+            var requestProperties = new NlpRequest<T>().GetType()
+                .GetProperties()
+                .Select(x => new
+                {
+                    name = x.Name,
+                    type = x.PropertyType.Name
+                });
+
+            var modelProperties = typeof(T)
+                .GetProperties()
+                .Select(x => new
+                {
+                    name = x.Name,
+                    type = x.PropertyType.Name
+                });
+
+            return new
+            {
+                request = requestProperties,
+                model = modelProperties
+            };
         }
     }
 }
