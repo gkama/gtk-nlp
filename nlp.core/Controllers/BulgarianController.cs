@@ -22,7 +22,7 @@ namespace nlp.core.Controllers
 
         [HttpPost]
         [Route("categorize/{id}")]
-        public IActionResult CategorizeWithModelId([FromRoute]string id, [FromBody]dynamic request)
+        public IActionResult CategorizeWithModelId([FromRoute]string id, [FromBody]NlpRequest<BulgarianModel> request)
         {
             return Ok(_repo.Categorize(request, id));
         }
