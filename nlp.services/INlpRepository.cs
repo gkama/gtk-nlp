@@ -9,7 +9,7 @@ namespace nlp.services
     public interface INlpRepository<T>
     {
         public IEnumerable<ICategory> Categorize(INlpRequest<T> Request, string Id = null, bool Summarize = false);
-        public IModelSettings<T> Parse(dynamic Request, string Id = null);
+        public IModelSettings<T> Parse(INlpRequest<T> Request, string Id = null);
         public IEnumerable<T> GetModels();
         public IModel<T> GetModel(string Id);
         public IModel<T> GetModel(Guid PublicKey);
