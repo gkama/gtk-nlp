@@ -295,7 +295,10 @@ namespace nlp.services
         public object CategorizeSample()
         {
             var requestContent = "This is a sample content passed to the Categorize endpoint. What it'll try and match is the financial model. Specificall, the Vanguard index funds. Such index funds are VBMFX and VTSAX.";
-            var request = JsonDocument.Parse("{ \"content\": \"{content}\" }".Replace("{content}", requestContent)).RootElement;
+            var nlpRequest = new NlpRequest<T>()
+            {
+                Content = requestContent
+            };
 
             return _cache.GetOrCreate(requestContent, e =>
             {
@@ -304,7 +307,7 @@ namespace nlp.services
                 return new
                 {
                     content = requestContent,
-                    //categorization = Categorize(request, _models.Financial.Id),
+                    categorization = Categorize(nlpRequest, _models.Financial.Id),
                     model = _models.Financial
                 };
             });
