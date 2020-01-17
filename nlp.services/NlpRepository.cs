@@ -33,16 +33,13 @@ namespace nlp.services
             _txtrepo = txtrepo ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(txtrepo));
         }
 
-        public IEnumerable<ICategory> Categorize(dynamic Request, string Id = null, bool Summarize = false)
+        public IEnumerable<ICategory> Categorize(INlpRequest<T> Request, string Id = null, bool Summarize = false)
         {
-            var modelSettings = (IModelSettings<T>)Parse(Request, Id);
-            var reqContent = ((JsonElement)Request)
-                .GetProperty("content")
-                .GetString();
+            var modelSettings = Parse(Request, Id);
 
             var content = Summarize
-                ? _txtrepo.Summarize(reqContent)
-                : reqContent;
+                ? _txtrepo.Summarize(Request.Content)
+                : Request.Content;
 
             var models = new Stack<T>(new List<T>() { modelSettings.Model });
             var delimiters = modelSettings.Delimiters
@@ -378,7 +375,7 @@ namespace nlp.services
                 return new
                 {
                     content = requestContent,
-                    categorization = Categorize(request, _models.Financial.Id),
+                    //categorization = Categorize(request, _models.Financial.Id),
                     model = _models.Financial
                 };
             });
