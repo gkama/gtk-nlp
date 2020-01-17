@@ -109,7 +109,12 @@ namespace nlp.services
                     Id = Guid.NewGuid().ToString(),
                     StopWords = Request.StopWords,
                     Delimiters = Request.Delimiters.Select(char.Parse).ToArray(),
-                    Model = Request.Model
+                    Model = _cache.GetOrCreate(Request.Model.Id, e =>
+                        {
+                            e.SlidingExpiration = TimeSpan.FromSeconds(_models.TenMinutesCacheTimeSpan);
+
+                            return Request.Model;
+                        })
                 };
             }
             else if (Request.ModelId != null
@@ -122,16 +127,16 @@ namespace nlp.services
                     StopWords = Request.StopWords,
                     Delimiters = Request.Delimiters.Select(char.Parse).ToArray(),
                     Model = _cache.GetOrCreate(Request.ModelId, e =>
-                    {
-                        e.SlidingExpiration = TimeSpan.FromSeconds(_models.TenMinutesCacheTimeSpan);
-
-                        return new T()
                         {
-                            Id = Request.ModelId,
-                            Name = Request.ModelName,
-                            Details = Request.ModelDetails
-                        };
-                    })
+                            e.SlidingExpiration = TimeSpan.FromSeconds(_models.TenMinutesCacheTimeSpan);
+
+                            return new T()
+                            {
+                                Id = Request.ModelId,
+                                Name = Request.ModelName,
+                                Details = Request.ModelDetails
+                            };
+                        })
                 };
             }
             else
