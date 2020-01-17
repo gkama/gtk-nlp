@@ -21,7 +21,7 @@ namespace nlp.tests
 
         public NlpRepositoryModelTests()
         {
-            _repo = new Helper<NlpRepository<Model>>().GetService();
+            _repo = new Helper<INlpRepository<Model>>().GetService();
         }
 
         [Theory]
