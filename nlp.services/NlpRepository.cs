@@ -109,7 +109,7 @@ namespace nlp.services
                     Id = Guid.NewGuid().ToString(),
                     StopWords = Request.StopWords,
                     Delimiters = Request.Delimiters.Select(char.Parse).ToArray(),
-                    Model = _cache.GetOrCreate(Request.Model.Id, e =>
+                    Model = _cache.GetOrCreate(Request.Model.PublicKey, e =>
                         {
                             e.SlidingExpiration = TimeSpan.FromSeconds(_models.TenMinutesCacheTimeSpan);
 
