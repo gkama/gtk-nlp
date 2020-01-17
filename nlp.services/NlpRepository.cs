@@ -161,6 +161,58 @@ namespace nlp.services
             }
         }
 
+        public IModelSettings<T> Parse(INlpRequest<T> Request, string Id = null)
+        {
+            if (Id != null)
+                return GetModelSettingsByModelId(Id);
+
+            if (Request == null)
+                throw new NlpException(HttpStatusCode.BadRequest,
+                    $"request cannot be empty. please fix your JSON payload");
+            else if (Request.Content == null)
+                throw new NlpException(HttpStatusCode.BadRequest,
+                    $"'content' key is required. please include it in your JSON payload");
+            else if (Request.Content.Length > 100000)
+                throw new NlpException(HttpStatusCode.BadRequest,
+                    $"'content' length={Request?.Content?.Length} is too big. it must be less than 100,000 characters");
+
+            if (Request.Model != null)
+            {
+                return new ModelSettings<T>()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    StopWords = Request.StopWords,
+                    Delimiters = Request.Delimiters.Select(char.Parse).ToArray(),
+                    Model = Request.Model
+                };
+            }
+            else if (Request.ModelId != null
+                && Request.ModelName != null
+                && Request.ModelDetails != null)
+            {
+                return new ModelSettings<T>()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    StopWords = Request.StopWords,
+                    Delimiters = Request.Delimiters.Select(char.Parse).ToArray(),
+                    Model = _cache.GetOrCreate(Request.ModelId, e =>
+                    {
+                        e.SlidingExpiration = TimeSpan.FromSeconds(_models.TenMinutesCacheTimeSpan);
+
+                        return new T()
+                        {
+                            Id = Request.ModelId,
+                            Name = Request.ModelName,
+                            Details = Request.ModelDetails
+                        };
+                    })
+                };
+            }
+            else
+                throw new NlpException(HttpStatusCode.BadRequest,
+                    $"not enough information given to parse the JSON payload");
+        }
+
         public IEnumerable<string> Tokenize(string Content, char[] Delimiters, string[] StopWords)
         {
             if (string.IsNullOrWhiteSpace(Content)) return Enumerable.Empty<string>();
