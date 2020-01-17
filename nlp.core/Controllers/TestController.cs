@@ -27,6 +27,13 @@ namespace nlp.core.Controllers
             return Ok(_repo.GetModels());
         }
 
+        [HttpPost]
+        [Route("categorize")]
+        public IActionResult Categorize([FromBody]NlpRequest<Model> request)
+        {
+            return Ok("");
+        }
+
         [HttpGet]
         [Route("exception/400")]
         public IActionResult Throw400NlpException()
