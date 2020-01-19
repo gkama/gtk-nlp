@@ -25,7 +25,7 @@ namespace nlp.core.Controllers
         [Route("request/schema")]
         public IActionResult GetNlpRequestModel()
         {
-            return Ok(_repo.GetNlpRequestModel());
+            return Ok(_repo.GetNlpRequestSchema());
         }
 
         [HttpPost]

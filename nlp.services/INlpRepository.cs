@@ -20,6 +20,7 @@ namespace nlp.services
         public T AddModel(dynamic Request);
         public T AddModel(T Model);
         public object CategorizeSample();
-        public object GetNlpRequestModel();
+        public object GetNlpRequestSchema();
+        public object GetSchema(object Obj);
     }
 }

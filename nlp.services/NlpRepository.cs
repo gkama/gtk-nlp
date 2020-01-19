@@ -317,9 +317,9 @@ namespace nlp.services
             });
         }
 
-        public object GetNlpRequestModel()
+        public object GetNlpRequestSchema()
         {
-            var requestProperties = new NlpRequest<T>().GetType()
+            var requestProperties = typeof(NlpRequest<T>).GetType()
                 .GetProperties()
                 .Select(x => new
                 {
@@ -340,6 +340,16 @@ namespace nlp.services
                 request = requestProperties,
                 model = modelProperties
             };
+        }
+        public object GetSchema(object Obj)
+        {
+            return Obj.GetType()
+                .GetProperties()
+                .Select(x => new
+                {
+                    name = x.Name,
+                    type = x.PropertyType.Name
+                });
         }
     }
 }
