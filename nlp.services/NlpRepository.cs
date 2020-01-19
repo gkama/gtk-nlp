@@ -341,9 +341,9 @@ namespace nlp.services
                 model = modelProperties
             };
         }
-        public object GetSchema(object Obj)
+        public object GetSchema<TObj>()
         {
-            return Obj.GetType()
+            return typeof(TObj).GetType()
                 .GetProperties()
                 .Select(x => new
                 {
