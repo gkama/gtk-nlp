@@ -113,5 +113,19 @@ namespace nlp.data
 
             return dotProduct;
         }
+
+        /// <summary>
+        /// Get the schema of an <see cref="object"/>
+        /// </summary>
+        public static object Schema(this object obj)
+        {
+            return obj.GetType()
+                .GetProperties()
+                .Select(x => new
+                {
+                    name = x.Name,
+                    type = x.PropertyType.Name
+                });
+        }
     }
 }

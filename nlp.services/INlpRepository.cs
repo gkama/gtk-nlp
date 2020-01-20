@@ -21,6 +21,5 @@ namespace nlp.services
         public T AddModel(T Model);
         public object CategorizeSample();
         public object GetNlpRequestSchema();
-        public object GetSchema<TObj>();
     }
 }
