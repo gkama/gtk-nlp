@@ -32,7 +32,7 @@ namespace nlp.services
             _txtrepo = txtrepo ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(txtrepo));
         }
 
-        public IEnumerable<ICategory> Categorize(INlpRequest<T> Request, string Id = null, bool Summarize = false)
+        public INlpResponse Categorize(INlpRequest<T> Request, string Id = null, bool Summarize = false)
         {
             var modelSettings = Parse(Request, Id);
 
@@ -83,7 +83,13 @@ namespace nlp.services
 
             _logger.LogInformation($"categorization algorithm took {sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
 
-            return _categories;
+            return new NlpResponse()
+            {
+                Summarized = Summarize,
+                SummarizedLength = Summarize ? content.Length : null as int?,
+                Length = Request.Content.Length,
+                Categories = _categories
+            };
         }
 
         public IModelSettings<T> Parse(INlpRequest<T> Request, string Id = null)
