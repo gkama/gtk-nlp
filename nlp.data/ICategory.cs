@@ -8,6 +8,7 @@ namespace nlp.data
     {
         public string Name { get; set; }
         public int TotalWeight { get; }
+        public double TotalWeightPercentage { get; set; }
         public ICollection<IMatched> Matched { get; set; }
     }
 
@@ -15,5 +16,6 @@ namespace nlp.data
     {
         public string Value { get; set; }
         public int Weight { get; set; }
+        public double WeightPercentage { get; set; }
     }
 }

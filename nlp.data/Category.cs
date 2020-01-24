@@ -9,6 +9,7 @@ namespace nlp.data
     {
         public string Name { get; set; }
         public int TotalWeight => Matched.Sum(x => x.Weight);
+        public double TotalWeightPercentage { get; set; }
         public ICollection<IMatched> Matched { get; set; } = new List<IMatched>();
     }
 
@@ -16,5 +17,6 @@ namespace nlp.data
     {
         public string Value { get; set; }
         public int Weight { get; set; } = 1;
+        public double WeightPercentage { get; set; }
     }
 }
