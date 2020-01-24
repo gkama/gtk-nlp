@@ -83,12 +83,10 @@ namespace nlp.services
 
             _logger.LogInformation($"categorization algorithm took {sw.Elapsed.TotalMilliseconds * 1000} µs (microseconds)");
 
-            return new NlpResponse()
+            return new NlpResponse(_categories, Request.Content.Length)
             {
                 Summarized = Summarize,
-                SummarizedLength = Summarize ? content.Length : null as int?,
-                Length = Request.Content.Length,
-                Categories = _categories
+                SummarizedLength = Summarize ? content.Length : null as int?
             };
         }
 
