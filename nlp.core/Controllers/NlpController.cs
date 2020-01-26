@@ -66,7 +66,7 @@ namespace nlp.core.Controllers
 
         [HttpPost]
         [Route("model/add")]
-        public IActionResult AddModel([FromBody]dynamic request)
+        public IActionResult AddModel([FromBody]NlpRequest<Model> request)
         {
             return Ok(_repo.AddModel(request));
         }
