@@ -299,6 +299,11 @@ namespace nlp.services
             _cache.Remove(model?.Id);
             _cache.Remove(model?.PublicKey);
         }
+        public void DeleteModel(string Id, Guid PublicKey)
+        {
+            try { _cache.Remove(Id); } catch (Exception) { throw new NlpException(HttpStatusCode.BadRequest, $"couldn't delete model with id={Id}"); }
+            try { _cache.Remove(PublicKey); } catch (Exception) { throw new NlpException(HttpStatusCode.BadRequest, $"couldn't delete model with public key={PublicKey}"); }
+        }
 
         public object CategorizeSample()
         {
