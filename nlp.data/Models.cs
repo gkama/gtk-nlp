@@ -158,6 +158,21 @@ namespace nlp.data
                                 Details = "vwo"
                             }
                         }
+                    },
+                    new T()
+                    {
+                        Id = "2db984dc-779d-43a4-984b-a4d3c367aa63",
+                        Name = "Sector & specialty ETFs (Exchange-traded funds)",
+                        Details = "sector & specialty etf|sector & specialty etfs|sector & specialty exchange-traded fund|sector & specialty exchange-traded funds|sector & specialty exchange traded fund|sector & specialty exchange traded funds",
+                        Children =
+                        {
+                            new T()
+                            {
+                                Id = "107ee6a4-b9d6-4691-bc54-9125187132ec",
+                                Name = "Sector & specialty ETFs (Exchange-traded funds)",
+                                Details = "vox|vcr|vdc|vde|vfh|vht|vis|vgt|vaw|vnq|vpu"
+                            }
+                        }
                     }
                 }
             };
