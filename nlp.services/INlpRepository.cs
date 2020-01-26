@@ -18,6 +18,7 @@ namespace nlp.services
         public IModelSettings<T> GetModelSettings(string Id);
         public IModelSettings<T> GetModelSettingsByModelId(string Id);
         public T AddModel(dynamic Request);
+        public T AddModel(INlpRequest<T> Request);
         public T AddModel(T Model);
         public object CategorizeSample();
         public object GetNlpRequestSchema();

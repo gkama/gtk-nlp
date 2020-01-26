@@ -285,6 +285,12 @@ namespace nlp.services
 
             return model;
         }
+        public T AddModel(INlpRequest<T> Request)
+        {
+            _cache.Set(Request.Model.PublicKey, Request.Model, DateTimeOffset.Now.AddSeconds(_models.DefaultCacheTimeSpan));
+
+            return Request.Model;
+        }
         public T AddModel(T Model)
         {
             _cache.Set(Model.PublicKey, Model, DateTimeOffset.Now.AddSeconds(_models.DefaultCacheTimeSpan));
