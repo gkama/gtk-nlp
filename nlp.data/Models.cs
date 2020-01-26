@@ -50,6 +50,114 @@ namespace nlp.data
                         Id = "5ec6957d-4de7-4199-9373-d4a7fb59d6e1",
                         Name = "Index Funds",
                         Details = "vbiix|vbinx|vbisx|vbltx|vbmfx|vdaix|vdvix|veiex|veurx|vexmx|vfinx|vfsvx|vftsx|vfwix|vgovx|vgtsx|vhdyx|viaix|vigrx|vihix|vimsx|visgx|visvx|vivax|vlacx|vmgix|vmvix|vpacx|vtebx|vtibx|vtipx|vtsax|vtsmx|vtws"
+                    },
+                    new T()
+                    {
+                        Id = "ec884a1b-d640-4e0b-835c-4bd6c93c32c7",
+                        Name = "U.S. bond ETFs (Exchange-traded funds)",
+                        Details = "u.s. bond etf|u.s. bond etfs|u.s. bond exchange-traded fund|u.s. bond exchange-traded funds|u.s. bond exchange traded fund|u.s. bond exchange traded funds",
+                        Children =
+                        {
+                            new T()
+                            {
+                                Id = "dd3c4213-8e8b-449d-b136-6957e8c53c8e",
+                                Name = "Treasury/Agency",
+                                Details = "edv|biv|vgit|blv|vglt|wmbs|bsv|vtip|vgsh|bnd"
+                            },
+                            new T()
+                            {
+                                Id = "9548e95b-b47f-414e-a3d5-5a1419755de0",
+                                Name = "Investment-grade",
+                                Details = "vcit|vclt|vcsh|vtc"
+                            },
+                            new T()
+                            {
+                                Id = "b0f0c6b8-6fce-472e-9a52-623b7663ed0c",
+                                Name = "Tax-exempt",
+                                Details = "vteb"
+                            }
+                        }
+                    },
+                    new T()
+                    {
+                        Id = "a3897931-e20c-47a8-905f-53f72c20e9b5",
+                        Name = "U.S. stock ETFs (Exchange-traded funds)",
+                        Details = "u.s. stock etf|u.s. stock etfs|u.s. stock exchange-traded fund|u.s. stock exchange-traded funds|u.s. stock exchange traded fund|u.s. stock exchange traded funds",
+                        Children =
+                        {
+                            new T()
+                            {
+                                Id = "0c24bb1a-7a64-4c37-a0d9-08645922e5fe",
+                                Name = "Large-cap",
+                                Details = "vig|esgv|vug|vym|vv|mgc|mgk|mgv|vone|vong|vonv|vthr|voo|voog|voov|vti|vtv"
+                            },
+                            new T()
+                            {
+                                Id = "55adc388-6339-462d-a0cc-cd984f585c1e",
+                                Name = "Mid-cap",
+                                Details = "vxf|vo|vot|voe|ivoo|ivog|ivov"
+                            },
+                            new T()
+                            {
+                                Id = "7a581f82-1c59-4363-a7a7-bcacec32e171",
+                                Name = "Small-cap",
+                                Details = "vtwo|vtwg|vtwv|vioo|viog|viov|vb|vbk|vbr"
+                            }
+                        }
+                    },
+                    new T()
+                    {
+                        Id = "87c7e5da-b9dc-48e2-86f5-82805d2cd4fe",
+                        Name = "International bond ETFs (Exchange-traded funds)",
+                        Details = "international bond etf|international bond etfs|international bond exchange-traded fund|international bond exchange-traded funds|international bond exchange traded fund|international bond exchange traded funds",
+                        Children =
+                        {
+                            new T()
+                            {
+                                Id = "cb047942-7f45-40c2-895b-4e40a9142c6f",
+                                Name = "Global",
+                                Details = "bndw"
+                            },
+                            new T()
+                            {
+                                Id = "4892ea95-5fc0-420d-a52e-7aa6e59f99d0",
+                                Name = "International",
+                                Details =  "bndx"
+                            },
+                            new T()
+                            {
+                                Id = "f0af7518-4305-44ea-8b7d-c95ad5a3add2",
+                                Name = "Emerging markets",
+                                Details = "vwob"
+                            }
+                        }
+                    },
+                    new T()
+                    {
+                        Id = "17d77d72-efe5-4b80-b811-418b4c76f3c6",
+                        Name = "International stock ETFs (Exchange-traded funds)",
+                        Details = "international stock etf|international stock etfs|international stock exchange-traded fund|international stock exchange-traded funds|international stock exchange traded fund|international stock exchange traded funds",
+                        Children =
+                        {
+                            new T()
+                            {
+                                Id = "fb4b74be-c3e0-4457-8c27-9383749a31d9",
+                                Name = "Global",
+                                Details = "vt"
+                            },
+                            new T()
+                            {
+                                Id = "d3ff00f8-48be-4984-a7e8-8d31e2787c20",
+                                Name = "International",
+                                Details =  "vgsx|veu|vss|vea|vgk|vpl|vnqi|vigi|vymi|vxus"
+                            },
+                            new T()
+                            {
+                                Id = "901ea0b9-5b48-45a4-bfa3-7bd7afed255f",
+                                Name = "Emerging markets",
+                                Details = "vwo"
+                            }
+                        }
                     }
                 }
             };
