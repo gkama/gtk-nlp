@@ -14,7 +14,7 @@ variables:
 docker build and push:
   stage: docker build and push
   script:
-    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
     - docker build -t $DOCKER_USER/$DOCKER_IMAGE .
     - docker push $DOCKER_USER/$DOCKER_IMAGE
   only:
@@ -23,7 +23,7 @@ docker build and push:
 azure build and push:
   stage: azure build and push
   script:
-    - docker login $DOCKER_AZURE_SERVER -u $DOCKER_AZURE_USER -p $DOCKER_AZURE_PASSWORD
+    - echo $DOCKER_AZURE_PASSWORD | docker login $DOCKER_AZURE_SERVER -u $DOCKER_AZURE_USER --password-stdin
     - docker build -t $DOCKER_AZURE_SERVER/$DOCKER_IMAGE .
     - docker push $DOCKER_AZURE_SERVER/$DOCKER_IMAGE
   only:
