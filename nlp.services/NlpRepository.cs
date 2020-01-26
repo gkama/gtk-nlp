@@ -28,8 +28,8 @@ namespace nlp.services
         {
             _logger = logger ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(logger));
             _cache = cache ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(cache));
-            _models = models ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(models));
             _txtrepo = txtrepo ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(txtrepo));
+            _models = models ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(models));
         }
 
         public INlpResponse Categorize(INlpRequest<T> Request, string Id = null, bool Summarize = false)
