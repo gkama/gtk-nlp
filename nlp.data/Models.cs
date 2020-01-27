@@ -260,7 +260,7 @@ namespace nlp.data
                 Id = "b5a6138c-c36c-448a-ba01-5f1fb1dd3694",
                 StopWords = new string[]
                 {
-
+                    "да", "не"
                 },
                 Delimiters = new char[]
                 {
