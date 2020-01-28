@@ -14,6 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9838E973-8070-4B3C-B277-212EE7CA5763}"
 	ProjectSection(SolutionItems) = preProject
 		.gitlab-ci.yml = .gitlab-ci.yml
+		azure-pipelines.yaml = azure-pipelines.yaml
 		Dockerfile = Dockerfile
 		LICENSE = LICENSE
 		README.md = README.md
@@ -21,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nlp.services.text", "nlp.services.text\nlp.services.text.csproj", "{FEA488D3-8480-49FD-B96B-11041A654A15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nlp.data.text", "nlp.data.text\nlp.data.text.csproj", "{F11E3FBA-B75B-4F2D-9759-829DD0C59B4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nlp.data.text", "nlp.data.text\nlp.data.text.csproj", "{F11E3FBA-B75B-4F2D-9759-829DD0C59B4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
