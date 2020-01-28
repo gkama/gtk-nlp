@@ -59,7 +59,10 @@ namespace nlp.services
                         .ToList()
                         .ForEach(x =>
                         {
-                            BinarySearchDetails(x, detailsArray, model);
+                            if (detailsArray.Count() >= 3)
+                                BinarySearchDetails(x, detailsArray, model.Name);
+                            else
+                                SearchDetails(x, detailsArray, model.Name);
                         });
 
                     detailsArray.Where(x => x.Contains(' '))
@@ -156,7 +159,7 @@ namespace nlp.services
                 .AsEnumerable();
         }
 
-        private void BinarySearchDetails(string Value, string[] DetailsArray, IModel<T> Model)
+        private void BinarySearchDetails(string Value, string[] DetailsArray, string ModelName)
         {
             DetailsArray.OrderBy(x => x);
 
@@ -174,19 +177,19 @@ namespace nlp.services
                     low = mid + 1;
                 else
                 {
-                    _categories.AddCategory(Model.Name, Value);
+                    _categories.AddCategory(ModelName, Value);
                     break;
                 }
             }
         }
 
-        private void SearchDetails(string Value, string[] DetailsArray, IModel<T> Model)
+        private void SearchDetails(string Value, string[] DetailsArray, string ModelName)
         {
             foreach (var d in DetailsArray)
             {
                 if (string.Compare(Value, d, StringComparison.OrdinalIgnoreCase) == 0)
                 {
-                    _categories.AddCategory(Model.Name, Value);
+                    _categories.AddCategory(ModelName, Value);
                     break;
                 }
             }
