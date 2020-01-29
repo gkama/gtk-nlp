@@ -54,15 +54,16 @@ stages:
         Dockerfile: '**/Dockerfile'
         tags: 'latest'
 - stage: Azure Docker
+  displayName: Azure Docker
   jobs:
-- job: BuildAndPush
-  displayName: Build and push
-  steps:
-  - task: Docker@2
+  - job: BuildAndPush
     displayName: Build and push
-    inputs:
-      containerRegistry: 'gkama-azure-cr'
-      repository: 'dev/gtk-nlp'
-      command: 'buildAndPush'
-      Dockerfile: '**/Dockerfile'
-      tags: 'latest'
+    steps:
+    - task: Docker@2
+      displayName: Build and push
+      inputs:
+        containerRegistry: 'gkama-azure-cr'
+        repository: 'dev/gtk-nlp'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: 'latest'
