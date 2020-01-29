@@ -52,7 +52,7 @@ stages:
         repository: 'gkama/gtk-nlp'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
-        tags: 'latest'
+        tags: 'dev'
 - stage: AzureDocker
   displayName: Azure Docker
   jobs:
