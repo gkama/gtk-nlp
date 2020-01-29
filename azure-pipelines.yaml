@@ -39,3 +39,16 @@ stages:
       inputs:
         pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
         artifactName: 'gkamanlp'
+- stage: Docker
+  displayName: Docker
+  jobs:
+  - job: BuildAndPush
+    displayName: Build and push
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'gkama-docker-cr'
+        repository: 'dev/gtk-nlp'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+      
