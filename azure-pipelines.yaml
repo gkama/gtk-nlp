@@ -7,29 +7,63 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-steps:
-  - task: UseDotNet@2 
-    displayName: .net core 3.1
-    inputs:
-      version: '3.1.x'
-      packageType: sdk
-  - script: dotnet build --configuration $(buildConfiguration)
-    displayName: dotnet build $(buildConfiguration)
-  - task: DotNetCoreCLI@2
-    displayName: test
-    inputs:
-      command: test
-      projects: '**/*tests/*.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: publish
-    inputs:
-      command: 'publish'
-      publishWebProjects: true
-      arguments: '-r linux-x64 --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-      zipAfterPublish: true
-  - task: PublishBuildArtifacts@1
-    displayName: upload artifacts
-    inputs:
-      pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-      artifactName: 'gkamanlp'
+stages:
+- stage: Build
+  displayName: Build
+  jobs:
+  - job: Build
+    displayName: Build
+    steps:
+    - task: UseDotNet@2 
+      displayName: .net core 3.1
+      inputs:
+        version: '3.1.x'
+        packageType: sdk
+    - script: dotnet build --configuration $(buildConfiguration)
+      displayName: build
+    - task: DotNetCoreCLI@2
+      displayName: test
+      inputs:
+        command: test
+        projects: '**/*tests/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+    - task: DotNetCoreCLI@2
+      displayName: publish
+      inputs:
+        command: 'publish'
+        publishWebProjects: true
+        arguments: '-r linux-x64 --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        zipAfterPublish: true
+    - task: PublishBuildArtifacts@1
+      displayName: upload artifacts
+      inputs:
+        pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+        artifactName: 'gkamanlp'
+- stage: Docker
+  displayName: Docker
+  jobs:
+  - job: BuildAndPush
+    displayName: Build and push
+    steps:
+    - task: Docker@2
+      displayName: Build and push
+      inputs:
+        containerRegistry: 'gkama-docker-cr'
+        repository: 'gkama/gtk-nlp'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: 'latest'
+- stage: AzureDocker
+  displayName: Azure Docker
+  jobs:
+  - job: BuildAndPush
+    displayName: Build and push
+    steps:
+    - task: Docker@2
+      displayName: Build and push
+      inputs:
+        containerRegistry: 'gkama-azure-cr'
+        repository: 'dev/gtk-nlp'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: 'latest'
