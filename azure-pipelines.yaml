@@ -44,9 +44,10 @@ stages:
   jobs:
   - job: BuildAndPush
     displayName: Build and push
-    steps:
     - task: Docker@2
       inputs:
-        command: 'build'
-        Dockerfile: '**/Dockerfile'
-      
+        containerRegistry: 'gkama-docker-cr'
+          repository: 'gtk-nlp'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: 'latest'
