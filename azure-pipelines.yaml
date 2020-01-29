@@ -53,7 +53,7 @@ stages:
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: 'latest'
-- stage: Azure Docker
+- stage: AzureDocker
   displayName: Azure Docker
   jobs:
   - job: BuildAndPush
