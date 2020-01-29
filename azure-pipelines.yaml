@@ -49,7 +49,7 @@ stages:
       displayName: Build and push
       inputs:
         containerRegistry: 'gkama-docker-cr'
-          repository: 'gtk-nlp'
-          command: 'buildAndPush'
-          Dockerfile: '**/Dockerfile'
-          tags: 'latest'
+        repository: 'gkama/gtk-nlp'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: 'latest'
