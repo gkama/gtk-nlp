@@ -47,8 +47,6 @@ stages:
     steps:
     - task: Docker@2
       inputs:
-        containerRegistry: 'gkama-docker-cr'
-        repository: 'gtk-nlp'
-        command: 'buildAndPush'
+        command: 'build'
         Dockerfile: '**/Dockerfile'
       
