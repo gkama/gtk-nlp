@@ -20,7 +20,7 @@ stages:
         version: '3.1.x'
         packageType: sdk
     - script: dotnet build --configuration $(buildConfiguration)
-      displayName: dotnet build $(buildConfiguration)
+      displayName: build
     - task: DotNetCoreCLI@2
       displayName: test
       inputs:
@@ -48,7 +48,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'gkama-docker-cr'
-        repository: 'dev/gtk-nlp'
+        repository: 'gtk-nlp'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
       
