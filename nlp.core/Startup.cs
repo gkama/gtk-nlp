@@ -42,6 +42,28 @@ namespace nlp.core
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("dev", new OpenApiInfo { Title = "gtk-nlp", Version = "dev" });
+                c.AddSecurityDefinition("Basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Basic"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Basic"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
             });
 
             services.AddControllers();
