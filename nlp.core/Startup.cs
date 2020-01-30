@@ -9,8 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Swashbuckle.AspNetCore;
-
 using nlp.data;
 using nlp.services;
 using nlp.services.text;
