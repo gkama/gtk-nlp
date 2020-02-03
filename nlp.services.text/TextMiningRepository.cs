@@ -76,13 +76,13 @@ namespace nlp.services.text
 
         public string Summarize(ITextRequest Request)
         {
-            if (Request.N == 0
+            if (Request.NumberOfSentences == 0
                 && Request.StopWords == null)
                 return _summarizer.Summarize(Request.Content);
-            else if (Request.N == 0)
+            else if (Request.NumberOfSentences == 0)
                 return _summarizer.Summarize(Request.Content, 5, Request.StopWords);
             else
-                return _summarizer.Summarize(Request.Content, Request.N, Request.StopWords);
+                return _summarizer.Summarize(Request.Content, Request.NumberOfSentences, Request.StopWords);
         }
         public string Summarize(string Content)
         {

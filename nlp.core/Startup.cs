@@ -1,5 +1,7 @@
+using System;
 using System.Text.Json;
 
+using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +17,11 @@ namespace nlp.core
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration _configuration { get; }
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -34,6 +36,11 @@ namespace nlp.core
             services.AddLogging();
             services.AddHealthChecks();
             services.AddMemoryCache();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("dev", new OpenApiInfo { Title = "gtk-nlp", Version = "dev" });
+            });
 
             services.AddControllers();
             services.AddMvcCore()
@@ -55,6 +62,13 @@ namespace nlp.core
 
             app.UseNlpException();
             app.UseHealthChecks("/ping");
+
+            app.UseSwagger();
+            app.UseSwaggerUI(e =>
+            {
+                e.SwaggerEndpoint("/swagger/dev/swagger.json", "gtk-nlp dev");
+                e.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
             app.UseAuthorization();

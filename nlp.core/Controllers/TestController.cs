@@ -8,6 +8,7 @@ using nlp.services;
 
 namespace nlp.core.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize]
     [ApiController]
     [Route("nlp/test")]
