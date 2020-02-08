@@ -33,5 +33,12 @@ namespace nlp.core.Controllers
         {
             return Ok(_repo.GetModel(id));
         }
+
+        [HttpPost]
+        [Route("model/add")]
+        public IActionResult AddModel([FromBody]NlpRequest<BulgarianModel> request)
+        {
+            return Ok(_repo.AddModel(request));
+        }
     }
 }
