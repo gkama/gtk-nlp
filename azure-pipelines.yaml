@@ -27,10 +27,10 @@ stages:
         command: test
         projects: '**/*tests/*.csproj'
         arguments: '--configuration $(buildConfiguration)'
-	- task: CopyFiles@2
-	  displayName: copy dockerfile
-	  inputs:
-	    contents: '$(Build.SourcesDirectory)/Dockerfile'
+	  - task: CopyFiles@2
+	    displayName: copy dockerfile
+	    inputs:
+	      contents: '$(Build.SourcesDirectory)/Dockerfile'
         targetFolder: $(Build.ArtifactStagingDirectory)
     - task: DotNetCoreCLI@2
       displayName: publish
