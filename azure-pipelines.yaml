@@ -28,6 +28,7 @@ stages:
         projects: '**/*tests/*.csproj'
         arguments: '--configuration $(buildConfiguration)'
     - task: CopyFiles@2
+	  displayName: copy dockerfile
       inputs:
         SourceFolder: '$(Build.SourcesDirectory)'
         Contents: 'Dockerfile'
