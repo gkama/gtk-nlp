@@ -27,6 +27,12 @@ stages:
         command: test
         projects: '**/*tests/*.csproj'
         arguments: '--configuration $(buildConfiguration)'
+    - task: CopyFiles@2
+      displayName: copy dockerfile
+      inputs:
+        sourceFolder: '$(Build.SourcesDirectory)'
+        contents: 'Dockerfile'
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
     - task: DotNetCoreCLI@2
       displayName: publish
       inputs:
@@ -39,31 +45,31 @@ stages:
       inputs:
         pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
         artifactName: 'gkamanlp'
-- stage: Docker
-  displayName: Docker
-  jobs:
-  - job: BuildAndPush
-    displayName: Build and push
-    steps:
-    - task: Docker@2
-      displayName: Build and push
-      inputs:
-        containerRegistry: 'gkama-docker-cr'
-        repository: 'gkama/gtk-nlp'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: 'latest'
-- stage: AzureDocker
-  displayName: Azure Docker
-  jobs:
-  - job: BuildAndPush
-    displayName: Build and push
-    steps:
-    - task: Docker@2
-      displayName: Build and push
-      inputs:
-        containerRegistry: 'gkama-azure-cr'
-        repository: 'gtk-nlp'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: 'latest'
+#- stage: Docker
+#  displayName: Docker
+#  jobs:
+#  - job: BuildAndPush
+#    displayName: Build and push
+#    steps:
+#    - task: Docker@2
+#      displayName: Build and push
+#      inputs:
+#        containerRegistry: 'gkama-docker-cr'
+#        repository: 'gkama/gtk-nlp'
+#        command: 'buildAndPush'
+#        Dockerfile: '**/Dockerfile'
+#        tags: 'latest'
+#- stage: AzureDocker
+#  displayName: Azure Docker
+#  jobs:
+#  - job: BuildAndPush
+#    displayName: Build and push
+#    steps:
+#    - task: Docker@2
+#      displayName: Build and push
+#      inputs:
+#        containerRegistry: 'gkama-azure-cr'
+#        repository: 'gtk-nlp'
+#        command: 'buildAndPush'
+#        Dockerfile: '**/Dockerfile'
+#        tags: 'latest'
