@@ -15,13 +15,13 @@ using nlp.services.text;
 
 namespace nlp.tests
 {
-    public class NlpRepositoryModelTests
+    public class ModelRepositoryModelTests
     {
-        private readonly INlpRepository<Model> _repo;
+        private readonly IModelRepository<Model> _repo;
 
-        public NlpRepositoryModelTests()
+        public ModelRepositoryModelTests()
         {
-            _repo = new Helper<INlpRepository<Model>>().GetService();
+            _repo = new Helper<IModelRepository<Model>>().GetService();
         }
 
         [Theory]
@@ -101,14 +101,6 @@ namespace nlp.tests
             var models = _repo.GetModels();
 
             Assert.True(models.Count() > 0);
-        }
-
-        [Fact]
-        public void CategorizeSample_Valid()
-        {
-            var sample = _repo.CategorizeSample();
-
-            Assert.NotNull(sample);
         }
     }
 }
