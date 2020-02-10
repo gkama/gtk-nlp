@@ -15,10 +15,12 @@ namespace nlp.core.Controllers
     public class NlpController : ControllerBase
     {
         private readonly INlpRepository<Model> _repo;
+        private readonly IModelRepository<Model> _modelrepo;
 
-        public NlpController(INlpRepository<Model> repo)
+        public NlpController(INlpRepository<Model> repo, IModelRepository<Model> modelrepo)
         {
             _repo = repo ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(repo));
+            _modelrepo = modelrepo ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(modelrepo));
         }
 
         [HttpGet]
@@ -54,35 +56,35 @@ namespace nlp.core.Controllers
         [Route("models")]
         public IActionResult GetModels()
         {
-            return Ok(_repo.GetModels());
+            return Ok(_modelrepo.GetModels());
         }
 
         [HttpGet]
         [Route("model/{id}")]
         public IActionResult GetModel([FromRoute]string id)
         {
-            return Ok(_repo.GetModel(id));
+            return Ok(_modelrepo.GetModel(id));
         }
 
         [HttpPost]
         [Route("model/add")]
         public IActionResult AddModel([FromBody]NlpRequest<Model> request)
         {
-            return Ok(_repo.AddModel(request));
+            return Ok(_modelrepo.AddModel(request));
         }
 
         [HttpGet]
         [Route("models/settings")]
         public IActionResult GetModelsSettings()
         {
-            return Ok(_repo.GetModelsSettings());
+            return Ok(_modelrepo.GetModelsSettings());
         }
 
         [HttpGet]
         [Route("model/settings/{id}")]
         public IActionResult GetModelSettings([FromRoute]string id)
         {
-            return Ok(_repo.GetModelSettings(id));
+            return Ok(_modelrepo.GetModelSettings(id));
         }
     }
 }

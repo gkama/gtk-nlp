@@ -21,13 +21,6 @@ namespace nlp.core.Controllers
             _repo = repo ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(repo));
         }
 
-        [HttpGet]
-        [Route("models")]
-        public IActionResult Get()
-        {
-            return Ok(_repo.GetModels());
-        }
-
         [HttpPost]
         [Route("categorize")]
         public IActionResult Categorize([FromBody]NlpRequest<Model> request)
