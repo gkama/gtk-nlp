@@ -35,40 +35,40 @@ Additionally, there are 2 endpoints that take the categorization request. One fo
 
 ```json
 {
-	"model": {
-		"id": "test model 1",
-		"name": "test model",
-		"details": "find, me, please",
-		"children": [
-			{
-				"id": "child model 1",
-				"name": "child model 1",
-				"details": "1, 2, 3",
-				"children": [
-					{
-						"id": "child model of child model 1",
-						"name": "child's child model",
-						"details": "fascinating|me|pls",
-						"children": [
-							{
-								"id": "testing another level",
-								"name": "yep",
-								"details": ""
-							}
-						]
-					}
-				]
-			}
-		]
-	},
-	"delimiters": [
-		","
-	],
-	"stopWords": [
-		"test",
-		"test1"
-	],
-	"content": "this is to test the categorization with find me and me but not this really and 1 and fascinating"
+    "model": {
+        "id": "test model 1",
+        "name": "test model",
+        "details": "find, me, please",
+        "children": [
+            {
+                "id": "child model 1",
+                "name": "child model 1",
+                "details": "1, 2, 3",
+                "children": [
+                    {
+                        "id": "child model of child model 1",
+                        "name": "child's child model",
+                        "details": "fascinating|me|pls",
+                        "children": [
+                            {
+                                "id": "testing another level",
+                                "name": "yep",
+                                "details": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "delimiters": [
+        ","
+    ],
+    "stopWords": [
+        "test",
+        "test1"
+    ],
+    "content": "this is to test the categorization with find me and me but not this really and 1 and fascinating"
 }
 ```
 
