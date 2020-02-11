@@ -10,6 +10,11 @@ This API is designed to take text as input and perform a categorization algorith
 - Compile the categorization response
 - Return the categorization response to the end user
 
+#### CI/CD
+The CI/CD is setup with Azure DevOps leveraging `azure-pipelines.yaml` file
+- Build: https://gkamacharov.visualstudio.com/gkama-cicd/_build?definitionId=11&_a=summary
+- Release: https://gkamacharov.visualstudio.com/gkama-cicd/_release?_a=releases&view=mine&definitionId=1
+
 ##### Input
 The API can take multiple combinations of input from end users. They are represented in the form of a `NlpRequest<T>` object where not all fields are required
 
