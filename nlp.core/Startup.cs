@@ -1,7 +1,6 @@
 using System;
 using System.Text.Json;
 
-using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -39,37 +38,6 @@ namespace nlp.core
             services.AddHealthChecks();
             services.AddMemoryCache();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "gtk-nlp", Version = "v1" });
-                c.AddSecurityDefinition("Basic", new OpenApiSecurityScheme
-                {
-                    Description = @"Basic Authorization header. Enter 'Basic' [space] and then your token in the text input below. Example: 'Basic 12345abcdef'",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Basic"
-                });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Basic"
-                            },
-                            Scheme = "Basic",
-                            Name = "Basic",
-                            In = ParameterLocation.Header,
-                        },
-                        new List<string>()
-                    }
-                });
-            });
-
             services.AddControllers();
             services.AddMvcCore()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
@@ -90,13 +58,6 @@ namespace nlp.core
 
             app.UseNlpException();
             app.UseHealthChecks("/ping");
-
-            app.UseSwagger();
-            app.UseSwaggerUI(e =>
-            {
-                e.SwaggerEndpoint("/swagger/v1/swagger.json", "gtk-nlp v1");
-                e.RoutePrefix = string.Empty;
-            });
 
             app.UseRouting();
             app.UseAuthorization();
