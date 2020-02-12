@@ -44,14 +44,6 @@ namespace nlp.core.Controllers
             return Ok(_repo.Categorize(request, id));
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("categorize/sample")]
-        public IActionResult CategorizeSample()
-        {
-            return Ok(_repo.CategorizeSample());
-        }
-
         [HttpGet]
         [Route("models")]
         public IActionResult GetModels()
