@@ -47,6 +47,7 @@ stages:
       inputs:
         pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
         artifactName: 'gkamanlp'
+
 - stage: Docker
   displayName: Docker
   jobs:
@@ -63,6 +64,7 @@ stages:
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: 'latest'
+        
 - stage: AzureDocker
   displayName: Azure Docker
   jobs:
