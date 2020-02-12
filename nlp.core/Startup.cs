@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using nlp.data;
 using nlp.services;
 using nlp.services.text;
+using System.Collections.Generic;
 
 namespace nlp.core
 {
@@ -40,7 +41,33 @@ namespace nlp.core
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("dev", new OpenApiInfo { Title = "gtk-nlp", Version = "dev" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "gtk-nlp", Version = "v1" });
+                c.AddSecurityDefinition("Basic", new OpenApiSecurityScheme
+                {
+                    Description = @"Basic Authorization header. Enter 'Basic' [space] and then your token in the text input below. Example: 'Basic 12345abcdef'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Basic"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Basic"
+                            },
+                            Scheme = "Basic",
+                            Name = "Basic",
+                            In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                    }
+                });
             });
 
             services.AddControllers();
@@ -67,7 +94,7 @@ namespace nlp.core
             app.UseSwagger();
             app.UseSwaggerUI(e =>
             {
-                e.SwaggerEndpoint("/swagger/dev/swagger.json", "gtk-nlp dev");
+                e.SwaggerEndpoint("/swagger/v1/swagger.json", "gtk-nlp v1");
                 e.RoutePrefix = string.Empty;
             });
 
