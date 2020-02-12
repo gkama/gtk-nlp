@@ -47,6 +47,10 @@ namespace nlp.core
                 && authHeader.StartsWith("Basic "))
             {
                 var encodedwriteKey = authHeader.Substring("Basic ".Length).Trim();
+
+                if (encodedwriteKey == _configuration["WriteKey"])
+                    return;
+
                 var writeKey = Encoding.UTF8.GetString(Convert.FromBase64String(encodedwriteKey)).TrimEnd(':');
                 
                 if (writeKey == _configuration["WriteKey"])
