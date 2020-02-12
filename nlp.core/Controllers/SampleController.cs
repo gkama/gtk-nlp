@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using nlp.data;
 using nlp.services;
+using nlp.services.text;
 
 namespace nlp.core.Controllers
 {
@@ -17,10 +18,12 @@ namespace nlp.core.Controllers
     public class SampleController : ControllerBase
     {
         private readonly INlpRepository<Model> _repo;
+        private readonly ISummarizer _summarizer;
 
-        public SampleController(INlpRepository<Model> repo)
+        public SampleController(INlpRepository<Model> repo, ISummarizer summarizer)
         {
             _repo = repo;
+            _summarizer = summarizer;
         }
 
         [AllowAnonymous]
@@ -29,6 +32,14 @@ namespace nlp.core.Controllers
         public IActionResult CategorizeSample()
         {
             return Ok(_repo.CategorizeSample());
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("summarizer")]
+        public IActionResult SummarizerSample()
+        {
+            return Ok(_summarizer.Sample());
         }
     }
 }
