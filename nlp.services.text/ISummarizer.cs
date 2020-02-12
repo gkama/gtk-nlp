@@ -14,5 +14,6 @@ namespace nlp.services.text
         public double SentenceSimilarity2(string Sentence1, string Sentence2, IEnumerable<string> StopWords = null);
         public double WordSimilarity(string Word1, string Word2);
         public double CosineDistance(int[] Vector1, int[] Vector2);
+        public object Sample();
     }
 }
