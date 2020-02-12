@@ -210,8 +210,8 @@ namespace nlp.services
                 return new
                 {
                     content = requestContent,
-                    categorization = Categorize(nlpRequest, _modelrepo._models.Financial.Id),
-                    model = _modelrepo._models.Financial
+                    categorization = Categorize(nlpRequest, Id: _modelrepo._models.Vanguard.Id) as NlpResponse,
+                    model = _modelrepo._models.Vanguard
                 };
             });
         }
