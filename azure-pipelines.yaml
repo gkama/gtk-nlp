@@ -50,6 +50,8 @@ stages:
   jobs:
   - job: BuildAndPush
     displayName: Build and push
+    pool:
+      vmImage: 'ubuntu-latest'
     steps:
     - task: Docker@2
       displayName: Build and push
@@ -64,6 +66,8 @@ stages:
   jobs:
   - job: BuildAndPush
     displayName: Build and push
+    pool:
+      vmImage: 'ubuntu-latest'
     steps:
     - task: Docker@2
       displayName: Build and push
