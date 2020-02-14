@@ -528,5 +528,20 @@ namespace nlp.services.text
 
             return word;
         }
+
+        public object Sample()
+        {
+            var words = new string[] { "categorization", "minimize", "road" };
+            var stemmedWords = new List<IStemmedWord>();
+
+            foreach (var w in words)
+                stemmedWords.Add(this.Stem(w));
+
+            return new
+            {
+                originalWords = words,
+                stemmedWords = stemmedWords
+            };
+        }
     }
 }

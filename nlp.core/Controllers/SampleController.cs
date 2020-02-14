@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
@@ -19,11 +19,13 @@ namespace nlp.core.Controllers
     {
         private readonly INlpRepository<Model> _repo;
         private readonly ISummarizer _summarizer;
+        private readonly IStemmer _stemmer;
 
-        public SampleController(INlpRepository<Model> repo, ISummarizer summarizer)
+        public SampleController(INlpRepository<Model> repo, ISummarizer summarizer, IStemmer stemmer)
         {
-            _repo = repo;
-            _summarizer = summarizer;
+            _repo = repo ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(repo));
+            _summarizer = summarizer ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(summarizer));
+            _stemmer = stemmer ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(stemmer));
         }
 
         [AllowAnonymous]
@@ -36,10 +38,18 @@ namespace nlp.core.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("summarizer")]
+        [Route("summary")]
         public IActionResult SummarizerSample()
         {
             return Ok(_summarizer.Sample());
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("stem")]
+        public IActionResult StemSample()
+        {
+            return Ok(_stemmer.Sample());
         }
     }
 }

@@ -9,5 +9,6 @@ namespace nlp.services.text
     public interface IStemmer
     {
         public IStemmedWord Stem(string Word);
+        public object Sample();
     }
 }
