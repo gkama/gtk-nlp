@@ -10,7 +10,7 @@ namespace nlp.services
     {
         public INlpResponse Categorize(INlpRequest<T> Request, string Id = null, bool Summarize = false);
         public IModelSettings<T> Parse(INlpRequest<T> Request, string Id = null);
-        public object CategorizeSample();
         public object GetNlpRequestSchema();
+        public object Sample();
     }
 }

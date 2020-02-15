@@ -33,7 +33,7 @@ namespace nlp.core.Controllers
         [Route("nlp/categorize")]
         public IActionResult CategorizeSample()
         {
-            return Ok(_repo.CategorizeSample());
+            return Ok(_repo.Sample());
         }
 
         [AllowAnonymous]

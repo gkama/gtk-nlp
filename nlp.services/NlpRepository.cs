@@ -195,27 +195,6 @@ namespace nlp.services
             }
         }      
 
-        public object CategorizeSample()
-        {
-            var requestContent = "This is a sample content passed to the Categorize endpoint. What it'll try and match is the financial model. Specificall, the Vanguard index funds. Such index funds are VBMFX and VTSAX.";
-            var nlpRequest = new NlpRequest<T>()
-            {
-                Content = requestContent
-            };
-
-            return _cache.GetOrCreate(requestContent, e =>
-            {
-                e.SlidingExpiration = TimeSpan.FromSeconds(_modelrepo._models.DefaultCacheTimeSpan);
-
-                return new
-                {
-                    content = requestContent,
-                    categorization = Categorize(nlpRequest, Id: _modelrepo._models.Vanguard.Id) as NlpResponse,
-                    model = _modelrepo._models.Vanguard
-                };
-            });
-        }
-
         public object GetNlpRequestSchema()
         {
             var requestProperties = typeof(NlpRequest<T>).GetType()
@@ -239,6 +218,27 @@ namespace nlp.services
                 request = requestProperties,
                 model = modelProperties
             };
+        }
+
+        public object Sample()
+        {
+            var requestContent = "This is a sample content passed to the Categorize endpoint. What it'll try and match is the financial model. Specificall, the Vanguard index funds. Such index funds are VBMFX and VTSAX.";
+            var nlpRequest = new NlpRequest<T>()
+            {
+                Content = requestContent
+            };
+
+            return _cache.GetOrCreate(requestContent, e =>
+            {
+                e.SlidingExpiration = TimeSpan.FromSeconds(_modelrepo._models.DefaultCacheTimeSpan);
+
+                return new
+                {
+                    content = requestContent,
+                    categorization = Categorize(nlpRequest, Id: _modelrepo._models.Vanguard.Id) as NlpResponse,
+                    model = _modelrepo._models.Vanguard
+                };
+            });
         }
     }
 }
