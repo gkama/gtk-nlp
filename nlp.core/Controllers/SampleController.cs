@@ -43,7 +43,7 @@ namespace nlp.core.Controllers
         [Route("model")]
         public IActionResult ModelSample()
         {
-            return Ok(_modelrepo.Sampple());
+            return Ok(_modelrepo.Sample());
         }
 
         [AllowAnonymous]
