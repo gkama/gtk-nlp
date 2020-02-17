@@ -156,5 +156,10 @@ namespace nlp.services
             try { _cache.Remove(Id); } catch (Exception) { throw new NlpException(HttpStatusCode.BadRequest, $"couldn't delete model with id={Id}"); }
             try { _cache.Remove(PublicKey); } catch (Exception) { throw new NlpException(HttpStatusCode.BadRequest, $"couldn't delete model with public key={PublicKey}"); }
         }
+
+        public T Sampple()
+        {
+            return _models.Vanguard;
+        }
     }
 }

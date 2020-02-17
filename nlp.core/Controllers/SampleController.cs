@@ -18,12 +18,14 @@ namespace nlp.core.Controllers
     public class SampleController : ControllerBase
     {
         private readonly INlpRepository<Model> _repo;
+        private readonly IModelRepository<Model> _modelrepo;
         private readonly ISummarizer _summarizer;
         private readonly IStemmer _stemmer;
 
-        public SampleController(INlpRepository<Model> repo, ISummarizer summarizer, IStemmer stemmer)
+        public SampleController(INlpRepository<Model> repo, IModelRepository<Model> modelrepo, ISummarizer summarizer, IStemmer stemmer)
         {
             _repo = repo ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(repo));
+            _modelrepo = modelrepo ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(modelrepo));
             _summarizer = summarizer ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(summarizer));
             _stemmer = stemmer ?? throw new NlpException(HttpStatusCode.InternalServerError, nameof(stemmer));
         }
@@ -34,6 +36,14 @@ namespace nlp.core.Controllers
         public IActionResult CategorizeSample()
         {
             return Ok(_repo.Sample());
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("model")]
+        public IActionResult ModelSample()
+        {
+            return Ok(_modelrepo.Sampple());
         }
 
         [AllowAnonymous]
