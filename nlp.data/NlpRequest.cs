@@ -13,5 +13,6 @@ namespace nlp.data
         public string ModelId { get; set; }
         public string ModelName { get; set; }
         public string ModelDetails { get; set; }
+        public bool Summarize { get; set; } = false;
     }
 }
