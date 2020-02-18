@@ -8,7 +8,7 @@ namespace nlp.services
 {
     public interface INlpRepository<T>
     {
-        public INlpResponse Categorize(INlpRequest<T> Request, string Id = null, bool Summarize = false);
+        public INlpResponse Categorize(INlpRequest<T> Request, string Id = null);
         public IModelSettings<T> Parse(INlpRequest<T> Request, string Id = null);
         public object GetNlpRequestSchema();
         public object Sample();
