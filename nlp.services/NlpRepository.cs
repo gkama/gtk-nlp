@@ -166,6 +166,13 @@ namespace nlp.services
                 .Except(StopWords, StringComparer.OrdinalIgnoreCase)
                 .AsEnumerable();
         }
+        public IEnumerable<IEnumerable<string>> Tokenize(IEnumerable<string> Contents, char[] Delimiters, string[] StopWords)
+        {
+            foreach (var content in Contents)
+            {
+                yield return this.Tokenize(content, Delimiters, StopWords);
+            }
+        }
 
         private void BinarySearchDetails(string Value, string[] DetailsArray, string ModelName)
         {
