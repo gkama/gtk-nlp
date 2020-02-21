@@ -88,5 +88,9 @@ namespace nlp.services.text
         {
             return _summarizer.Summarize(Content);
         }
+        public IEnumerable<string> ToSentences(string Content, IEnumerable<string> StopWords = null)
+        {
+            return _summarizer.ToSentences(Content, StopWords);
+        }
     }
 }
