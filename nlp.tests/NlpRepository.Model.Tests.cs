@@ -29,7 +29,15 @@ namespace nlp.tests
         {
             var schema = _repo.GetNlpRequestSchema();
 
-            Assert.True(schema != null);
+            Assert.NotNull(schema);
+        }
+
+        [Fact]
+        public void Sample_Valid()
+        {
+            var sample = _repo.Sample();
+
+            Assert.NotNull(sample);
         }
     }
 }
