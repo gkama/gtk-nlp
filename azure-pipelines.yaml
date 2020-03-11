@@ -24,7 +24,7 @@ stages:
       inputs:
         projects: '$(projectFile)'
         command: build
-        arguments: '--configuration $(buildConfiguration)' --framework=$(targetFramework)'
+        arguments: '--configuration $(buildConfiguration) --framework=$(targetFramework)'
     - task: DotNetCoreCLI@2
       displayName: test
       inputs:
