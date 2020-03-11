@@ -26,12 +26,6 @@ stages:
       command: test
       projects: '$(projectFileTest)'
       arguments: '--configuration $(buildConfiguration)'
-  - task: CopyFiles@2
-    displayName: copy dockerfile
-    inputs:
-      sourceFolder: '$(Build.SourcesDirectory)'
-      contents: 'Dockerfile'
-      targetFolder: '$(Build.ArtifactStagingDirectory)'
   - task: DotNetCoreCLI@2
     displayName: publish
     inputs:
@@ -48,14 +42,12 @@ stages:
 - stage: Docker
   displayName: Docker
   steps:
-  - task: Docker@2
-    displayName: Build and push
+  - task: Docker@0
+    displayName: build
     inputs:
-      containerRegistry: 'gkama-docker-cr'
-      repository: 'gkama/gtk-nlp'
-      command: 'buildAndPush'
-      dockerfile: '**/Dockerfile'
-      tags: 'latest'
+      containerRegistryType: 'Container Registry'
+      dockerRegistryConnection: 'gkama-docker-cr'
+      imageName: 'gkama/gtk-nlp:latest'
         
 - stage: AzureDocker
   displayName: Azure Docker
