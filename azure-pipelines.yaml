@@ -13,73 +13,58 @@ variables:
 stages:
 - stage: Build
   displayName: Build
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - task: DotNetCoreCLI@2
-      displayName: build
-      inputs:
-        projects: '$(projectFile)'
-        command: build
-        arguments: '--configuration $(buildConfiguration) --framework=$(targetFramework)'
-    - task: DotNetCoreCLI@2
-      displayName: test
-      inputs:
-        command: test
-        projects: '$(projectFileTest)'
-        arguments: '--configuration $(buildConfiguration)'
-    - task: CopyFiles@2
-      displayName: copy dockerfile
-      inputs:
-        sourceFolder: '$(Build.SourcesDirectory)'
-        contents: 'Dockerfile'
-        targetFolder: '$(Build.ArtifactStagingDirectory)'
-    - task: DotNetCoreCLI@2
-      displayName: publish
-      inputs:
-        command: publish
-        publishWebProjects: true
-        arguments: '--configuration $(BuildConfiguration) -o $(System.DefaultWorkingDirectory)/app/publish --framework=$(targetFramework)'
-        zipAfterPublish: true
-    - task: PublishBuildArtifacts@1
-      displayName: upload artifacts
-      inputs:
-        pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-        artifactName: 'gkamanlp'
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: build
+    inputs:
+      projects: '$(projectFile)'
+      command: build
+      arguments: '--configuration $(buildConfiguration) --framework=$(targetFramework)'
+  - task: DotNetCoreCLI@2
+    displayName: test
+    inputs:
+      command: test
+      projects: '$(projectFileTest)'
+      arguments: '--configuration $(buildConfiguration)'
+  - task: CopyFiles@2
+    displayName: copy dockerfile
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)'
+      contents: 'Dockerfile'
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
+  - task: DotNetCoreCLI@2
+    displayName: publish
+    inputs:
+      command: publish
+      publishWebProjects: true
+      arguments: '--configuration $(BuildConfiguration) -o $(System.DefaultWorkingDirectory)/app/publish --framework=$(targetFramework)'
+      zipAfterPublish: true
+  - task: PublishBuildArtifacts@1
+    displayName: upload artifacts
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+      artifactName: 'gkamanlp'
 
 - stage: Docker
   displayName: Docker
-  jobs:
-  - job: BuildAndPush
+  steps:
+  - task: Docker@2
     displayName: Build and push
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - task: Docker@2
-      displayName: Build and push
-      inputs:
-        containerRegistry: 'gkama-docker-cr'
-        repository: 'gkama/gtk-nlp'
-        command: 'buildAndPush'
-        dockerfile: '**/Dockerfile'
-        tags: 'latest'
+    inputs:
+      containerRegistry: 'gkama-docker-cr'
+      repository: 'gkama/gtk-nlp'
+      command: 'buildAndPush'
+      dockerfile: '**/Dockerfile'
+      tags: 'latest'
         
 - stage: AzureDocker
   displayName: Azure Docker
-  jobs:
-  - job: BuildAndPush
+  steps:
+  - task: Docker@2
     displayName: Build and push
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - task: Docker@2
-      displayName: Build and push
-      inputs:
-        containerRegistry: 'gkama-azure-cr'
-        repository: 'gtk-nlp'
-        command: 'buildAndPush'
-        dockerfile: '**/Dockerfile'
-        tags: 'latest'
+    inputs:
+      containerRegistry: 'gkama-azure-cr'
+      repository: 'gtk-nlp'
+      command: 'buildAndPush'
+      dockerfile: '**/Dockerfile'
+      tags: 'latest'
