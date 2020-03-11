@@ -33,14 +33,14 @@ stages:
       displayName: publish
       inputs:
         command: publish
-        publishWebProjects: false
+        publishWebProjects: true
         arguments: '--configuration $(BuildConfiguration) -o $(System.DefaultWorkingDirectory)/app/publish --framework=$(targetFramework)'
-        zipAfterPublish: false
-    #- task: PublishBuildArtifacts@1
-    #  displayName: upload artifacts
-    #  inputs:
-    #    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-    #    artifactName: 'gkamanlp'
+        zipAfterPublish: true
+    - task: PublishBuildArtifacts@1
+      displayName: upload artifacts
+      inputs:
+        pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+        artifactName: 'gkamanlp'
 
 - stage: Docker
   displayName: Docker
