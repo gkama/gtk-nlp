@@ -34,7 +34,7 @@ stages:
       inputs:
         command: publish
         publishWebProjects: true
-        arguments: '--configuration $(BuildConfiguration) -o $(System.DefaultWorkingDirectory)/app/publish --framework=$(targetFramework)'
+        arguments: '--configuration $(BuildConfiguration) -o $(Build.ArtifactStagingDirectory) --framework=$(targetFramework)'
         zipAfterPublish: true
     - task: PublishBuildArtifacts@1
       displayName: upload artifacts
