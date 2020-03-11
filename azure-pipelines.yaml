@@ -5,6 +5,9 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
+  targetFramework: 'netcoreapp3.1'
+  projectFile: nlp.core/nlp.core.csproj
+  projectFileTest: nlp.tests/nlp.tests.csproj
   buildConfiguration: 'Release'
 
 stages:
@@ -16,18 +19,17 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - task: UseDotNet@2 
-      displayName: .net core 3.1
-      inputs:
-        version: '3.1.x'
-        packageType: sdk
-    - script: dotnet build --configuration $(buildConfiguration)
+    - task: DotNetCoreCLI@2
       displayName: build
+      inputs:
+        projects: '$(projectFile)'
+        command: build
+        arguments: '--configuration $(buildConfiguration)' --framework=$(targetFramework)'
     - task: DotNetCoreCLI@2
       displayName: test
       inputs:
         command: test
-        projects: '**/*tests/*.csproj'
+        projects: '$(projectFileTest)'
         arguments: '--configuration $(buildConfiguration)'
     - task: CopyFiles@2
       displayName: copy dockerfile
@@ -38,9 +40,9 @@ stages:
     - task: DotNetCoreCLI@2
       displayName: publish
       inputs:
-        command: 'publish'
+        command: publish
         publishWebProjects: true
-        arguments: '-r linux-x64 --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        arguments: '--configuration $(BuildConfiguration) -o $(System.DefaultWorkingDirectory)/app/publish --framework=$(targetFramework)'
         zipAfterPublish: true
     - task: PublishBuildArtifacts@1
       displayName: upload artifacts
@@ -62,7 +64,7 @@ stages:
         containerRegistry: 'gkama-docker-cr'
         repository: 'gkama/gtk-nlp'
         command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
+        dockerfile: '**/Dockerfile'
         tags: 'latest'
         
 - stage: AzureDocker
@@ -79,5 +81,5 @@ stages:
         containerRegistry: 'gkama-azure-cr'
         repository: 'gtk-nlp'
         command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
+        dockerfile: '**/Dockerfile'
         tags: 'latest'
