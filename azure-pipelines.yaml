@@ -42,12 +42,14 @@ stages:
 - stage: Docker
   displayName: Docker
   steps:
-  - task: Docker@0
-    displayName: build
+  - task: Docker@2
+    displayName: Build and push
     inputs:
-      containerRegistryType: 'Container Registry'
-      dockerRegistryConnection: 'gkama-docker-cr'
-      imageName: 'gkama/gtk-nlp:latest'
+      containerRegistry: 'gkama-docker-cr'
+      repository: 'gkama/gtk-nlp'
+      command: 'buildAndPush'
+      dockerfile: '**/Dockerfile'
+      tags: 'latest'
         
 - stage: AzureDocker
   displayName: Azure Docker
