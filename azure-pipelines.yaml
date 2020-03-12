@@ -39,7 +39,7 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: upload artifacts
       inputs:
-        pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+        pathtoPublish: '$(System.DefaultWorkingDirectory)' 
         artifactName: 'gkamanlp'
 
 - stage: Docker
