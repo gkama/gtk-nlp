@@ -33,14 +33,14 @@ stages:
       displayName: publish
       inputs:
         command: publish
-        publishWebProjects: true
-        arguments: '--configuration $(BuildConfiguration) -o $(System.DefaultWorkingDirectory) --framework=$(targetFramework)'
-        zipAfterPublish: true
-    - task: PublishBuildArtifacts@1
-      displayName: upload artifacts
-      inputs:
-        pathtoPublish: '$(System.DefaultWorkingDirectory)' 
-        artifactName: 'gkamanlp'
+        publishWebProjects: false
+        arguments: '--configuration $(BuildConfiguration) -o app/publish --framework=$(targetFramework)'
+        zipAfterPublish: false
+    #- task: PublishBuildArtifacts@1
+    #  displayName: upload artifacts
+    #  inputs:
+    #    pathtoPublish: '$(System.DefaultWorkingDirectory)' 
+    #    artifactName: 'gkamanlp'
 
 - stage: Docker
   displayName: Docker
@@ -54,8 +54,10 @@ stages:
         containerRegistry: 'gkama-docker-cr'
         repository: 'gkama/gtk-nlp'
         command: 'buildAndPush'
-        dockerfile: '**/Dockerfile'
-        tags: 'latest'
+        #dockerfile: '**/Dockerfile'
+        tags: |
+          $(Build.BuildId)
+          'latest'
         
 - stage: AzureDocker
   displayName: Azure Docker
@@ -69,5 +71,5 @@ stages:
         containerRegistry: 'gkama-azure-cr'
         repository: 'gtk-nlp'
         command: 'buildAndPush'
-        dockerfile: '**/Dockerfile'
+        #dockerfile: '**/Dockerfile'
         tags: 'latest'
