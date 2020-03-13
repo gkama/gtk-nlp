@@ -55,9 +55,7 @@ stages:
         repository: 'gkama/gtk-nlp'
         command: 'buildAndPush'
         #dockerfile: '**/Dockerfile'
-        tags: |
-          $(Build.BuildId)
-          'latest'
+        tags: 'latest'
         
 - stage: AzureDocker
   displayName: Azure Docker
