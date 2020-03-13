@@ -36,6 +36,13 @@ stages:
         publishWebProjects: false
         arguments: '--configuration $(BuildConfiguration) -o $(System.DefaultWorkingDirectory)/app/publish --framework=$(targetFramework)'
         zipAfterPublish: false
+    - task: Docker@2
+      displayName: Build and push
+      inputs:
+        containerRegistry: 'gkama-docker-cr'
+        repository: 'gkama/gtk-nlp'
+        command: 'buildAndPush'
+        tags: 'latest'
     #- task: PublishBuildArtifacts@1
     #  displayName: upload artifacts
     #  inputs:
