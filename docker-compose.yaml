@@ -14,4 +14,4 @@ services:
             MYSQL_USER: user
             MYSQL_PASSWORD: pass
         ports:
-            - "3306"
+            - "33061:3306"
