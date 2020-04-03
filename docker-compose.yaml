@@ -10,7 +10,8 @@ services:
         image: "mysql:latest"
         environment:
             MYSQL_DATABASE: "nlp"
-            MYSQL_USER: root
-            MYSQL_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: user
+            MYSQL_PASSWORD: pass
         ports:
             - "3306"
